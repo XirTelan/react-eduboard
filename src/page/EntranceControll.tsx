@@ -1,3 +1,8 @@
+import GenControll from "../components/BaseControll";
+import Filter from "../components/Filter";
+
 export default function EntranceControll() {
-    return <h1>Входной контроль</h1>
+    return <>
+    <Filter />
+    <GenControll /></>
 }

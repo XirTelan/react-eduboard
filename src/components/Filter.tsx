@@ -1,10 +1,28 @@
-interface IFilterTimeline {
-    isVisible?: boolean
+import { Field, Form, Formik } from 'formik'
+import Button from './UI/Button'
+interface groupDTO {
+  id: number
+  name: string
 }
-export default function Filter({isVisible}: IFilterTimeline) {
+interface IFilterTimeline {
+  isVisible?: boolean
+}
+interface FiterGroupForm {
+  title: string
+  groupId: number
+}
+
+export default function Filter({ isVisible }: IFilterTimeline) {
+  const initialValue: FiterGroupForm = {
+    title: '',
+    groupId: 0,
+  }
+  const groups: groupDTO[] = [
+    { id: 1, name: '001' },
+    { id: 2, name: '002' },
+  ]
   return (
     <>
-
       <div className="d-flex">
         <div className="mb-2 fs-8">Курс</div>
         <div className="d-flex  gap-3">
@@ -16,10 +34,54 @@ export default function Filter({isVisible}: IFilterTimeline) {
         <label htmlFor="">Группа</label>
         <input type="text" name="" id="" />
 
-      
+        <Formik
+          initialValues={initialValue}
+          onSubmit={(value) => console.log(value)}
+        >
+          {(formikProps) => (
+            <Form>
+              <div className="row gx-3 align-items-center">
+                <div className="col-auto">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="title"
+                    {...formikProps.getFieldProps('title')}
+                  />
+                </div>
+                <div className="col-auto">
+                  <select
+                    className="form-select"
+                    {...formikProps.getFieldProps('groupId')}
+                  >
+                    <option value="0">--Choose a group---</option>
+                    {groups.map((group) => (
+                      <option key={group.id} value={group.id}>
+                        {group.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="col-auto">
+                  <Button
+                    className="btn btn-primary"
+                    onClick={() => formikProps.submitForm()}
+                  >
+                    Filter
+                  </Button>
+                  <Button
+                    className="btn btn-danger ms-3"
+                    onClick={() => formikProps.setValues(initialValue)}
+                  >
+                    Clear
+                  </Button>
+                </div>
+              </div>
+            </Form>
+          )}
+        </Formik>
       </div>
-      {isVisible && <div className="w-100">
-            asd</div>}
+      {isVisible && <div className="w-100">asd</div>}
     </>
   )
 }

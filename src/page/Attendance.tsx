@@ -2,6 +2,7 @@ export default function Attendance() {
   const days = [...Array(31).keys()].map((e) => e + 1)
   return (
     <>
+      
       <div className="d-flex gap-3">
         <button className="btn btn-secondary">Январь</button>
         <button className="btn btn-primary">Февраль</button>

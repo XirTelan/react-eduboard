@@ -22,7 +22,6 @@ export default function GenControll() {
   console.log(nameController)
   return (
     <>
-      <Filter />
       <h2 className="d-flex justify-content-center">{nameController.name}</h2>
       <table className="table table-hover mt-2 bg-white rounded shadow-sm ">
         <thead>
