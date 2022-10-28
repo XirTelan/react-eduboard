@@ -10,27 +10,39 @@ import GenControll from './components/BaseControll'
 import Attendance from './page/Attendance'
 import EntranceControll from './page/EntranceControll'
 import CreateUser from './page/CreateUser'
+import Login from './page/Login'
 
 function App() {
+  const isAuthoraized = false
   return (
     <>
       <BrowserRouter>
-        <div className="container-fluid">
-          <div className="row flex-nowrap">
-            <Sidebar />
-            <div className="col p-0 bg-light ">
-              <Nav />
-              <div className="container mt-2">
-                <Routes>
-                  <Route path="/entrance-controll" element={<EntranceControll />} />
-                  <Route path="/users" element={<UserList />} />
-                  <Route path="/users/create" element={<CreateUser />} />
-                  <Route path="/attendance" element={<Attendance />} />
-                </Routes>
+        {!isAuthoraized && (
+          <Routes>
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        )}
+        {isAuthoraized && (
+          <div className="container-fluid">
+            <div className="row flex-nowrap">
+              <Sidebar />
+              <div className="col p-0 bg-light ">
+                <Nav />
+                <div className="container mt-2">
+                  <Routes>
+                    <Route
+                      path="/entrance-controll"
+                      element={<EntranceControll />}
+                    />
+                    <Route path="/users" element={<UserList />} />
+                    <Route path="/users/create" element={<CreateUser />} />
+                    <Route path="/attendance" element={<Attendance />} />
+                  </Routes>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </BrowserRouter>
     </>
   )

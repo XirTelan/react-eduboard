@@ -23,16 +23,8 @@ export default function Filter({ isVisible }: IFilterTimeline) {
   ]
   return (
     <>
-      <div className="d-flex">
-        <div className="mb-2 fs-8">Курс</div>
-        <div className="d-flex  gap-3">
-          <button className="btn btn-secondary">1</button>
-          <button className="btn btn-secondary">2</button>
-          <button className="btn btn-secondary">3</button>
-          <button className="btn btn-secondary">4</button>
-        </div>
-        <label htmlFor="">Группа</label>
-        <input type="text" name="" id="" />
+      <div className="d-flex m-3">
+        <div className="d-flex  gap-3  align-items-center"></div>
 
         <Formik
           initialValues={initialValue}
@@ -40,14 +32,13 @@ export default function Filter({ isVisible }: IFilterTimeline) {
         >
           {(formikProps) => (
             <Form>
-              <div className="row gx-3 align-items-center">
-                <div className="col-auto">
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="title"
-                    {...formikProps.getFieldProps('title')}
-                  />
+              <div className="row gx-3 ">
+                <div className="col-auto d-flex gap-3 align-items-center">
+                  <label className="mb-2 ">Курс</label>
+                  <button className="btn btn-secondary">1</button>
+                  <button className="btn btn-secondary">2</button>
+                  <button className="btn btn-secondary">3</button>
+                  <button className="btn btn-secondary">4</button>
                 </div>
                 <div className="col-auto">
                   <select

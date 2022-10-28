@@ -19,12 +19,6 @@ export default function Nav() {
         id="navbarNavAltMarkup"
       >
         <div className="navbar-nav">
-          <Link className="nav-item nav-link" to="#">
-            Список специальностей{' '}
-          </Link>
-          <a className="nav-item nav-link" href="#">
-            Список групп
-          </a>
           <Link className="nav-item nav-link" to="users">
             Список пользователей
           </Link>
