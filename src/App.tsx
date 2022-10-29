@@ -1,19 +1,19 @@
-import React from 'react'
-import logo from './logo.svg'
-import './App.css'
-import Nav from './components/Nav'
-import Button from './components/UI/Button'
-import Sidebar from './components/Sidebar'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import UserList from './page/UserList'
-import GenControll from './components/BaseControll'
-import Attendance from './page/Attendance'
-import EntranceControll from './page/EntranceControll'
-import CreateUser from './page/CreateUser'
-import Login from './page/Login'
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import Nav from './components/Nav';
+import Button from './components/UI/Button';
+import Sidebar from './components/Sidebar';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import UserList from './page/UserList';
+import GenControll from './components/BaseControll';
+import Attendance from './page/Attendance';
+import EntranceControll from './page/EntranceControll';
+import CreateUser from './page/CreateUser';
+import Login from './page/Login';
 
 function App() {
-  const isAuthoraized = false
+  const isAuthoraized = true;
   return (
     <>
       <BrowserRouter>
@@ -30,10 +30,8 @@ function App() {
                 <Nav />
                 <div className="container mt-2">
                   <Routes>
-                    <Route
-                      path="/entrance-controll"
-                      element={<EntranceControll />}
-                    />
+                    <Route path="/" element={<UserList />} />
+                    <Route path="/entrance-controll" element={<EntranceControll />} />
                     <Route path="/users" element={<UserList />} />
                     <Route path="/users/create" element={<CreateUser />} />
                     <Route path="/attendance" element={<Attendance />} />
@@ -45,7 +43,7 @@ function App() {
         )}
       </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
