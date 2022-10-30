@@ -11,36 +11,33 @@ import Attendance from './page/Attendance';
 import EntranceControll from './page/EntranceControll';
 import CreateUser from './page/CreateUser';
 import Login from './page/Login';
+import DiscplinesList from './page/DisciplinesList';
 
 function App() {
-  const isAuthoraized = true;
+  const isAuthoraized = false;
   return (
     <>
       <BrowserRouter>
-        {!isAuthoraized && (
-          <Routes>
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        )}
-        {isAuthoraized && (
-          <div className="container-fluid">
-            <div className="row flex-nowrap">
-              <Sidebar />
-              <div className="col p-0 bg-light ">
-                <Nav />
-                <div className="container mt-2">
-                  <Routes>
-                    <Route path="/" element={<UserList />} />
-                    <Route path="/entrance-controll" element={<EntranceControll />} />
-                    <Route path="/users" element={<UserList />} />
-                    <Route path="/users/create" element={<CreateUser />} />
-                    <Route path="/attendance" element={<Attendance />} />
-                  </Routes>
-                </div>
+        <div className="container-fluid">
+          <div className="row flex-nowrap">
+            <Sidebar />
+            <div className="col p-0 bg-light ">
+              <Nav />
+              <div className="container mt-2">
+                <Routes>
+                  <Route path="/" element={<UserList />} />
+                  <Route path="/entrance-controll" element={<EntranceControll />} />
+                  <Route path="/discipline" element={<DiscplinesList />} />
+                  <Route path="/users" element={<UserList />} />
+                  <Route path="/users/create" element={<CreateUser />} />
+                  <Route path="/attendance" element={<Attendance />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="*" element={<Attendance />} />
+                </Routes>
               </div>
             </div>
           </div>
-        )}
+        </div>
       </BrowserRouter>
     </>
   );

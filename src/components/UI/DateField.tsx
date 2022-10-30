@@ -12,7 +12,7 @@ export default function DateField(props: DateFieldProps) {
         name={props.field}
         defaultValue={values[props.field]?.toLocaleDateString('ru')}
         onChange={(e) => {
-          const date = new Date(e.target.value + 'T00:00:00');
+          const date = new Date(e.currentTarget.value + 'T00:00:00');
           values[props.field] = date;
           validateForm();
         }}
