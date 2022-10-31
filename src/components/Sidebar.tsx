@@ -21,8 +21,8 @@ export default function Sidebar() {
           <NavListItem to="/cur-controll" title="Текущий контроль" />
           <NavListItem to="/attendance" title="Посещяемость" />
           <label>Настройки</label>
-          <NavListItem to="/specialties" title="Группы" />
-          <NavListItem to="/specialties" title="Специальности" />
+          <NavListItem to="/groups" title="Группы" />
+          <NavListItem to="/specialities" title="Специальности" />
           <NavListItem to="/discipline" title="Дисциплины" />
           <hr className="w-100 text-secondary" />
         </ul>

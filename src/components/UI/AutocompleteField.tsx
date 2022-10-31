@@ -1,18 +1,18 @@
-import { Typeahead } from 'react-bootstrap-typeahead';
+import { Autocomplete, TextField } from '@mui/material';
 
-export default function TypeaheadDiscipline(props: TypeaheadDisciplineProps) {
+export default function AutocompleteField(props: TypeaheadDisciplineProps) {
   const disciplines: disciplineDTO[] = [
     { id: 1, name: 'asdasd' },
     { id: 2, name: 'asd' }
   ];
   return (
     <>
-      <Typeahead
+      <Autocomplete
         id="typeahead"
-        onChange={(disc) => console.log(disc)}
         options={disciplines}
-        filterBy={['name']}
+        getOptionLabel={(disciplines) => disciplines.name}
         placeholder="asd"
+        renderInput={(params) => <TextField {...params} label="Дисциплины" />}
       />
     </>
   );

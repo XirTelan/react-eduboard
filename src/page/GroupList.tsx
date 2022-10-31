@@ -1,7 +1,7 @@
 import AutocompleteField from '../components/UI/AutocompleteField';
-import { DataGrid } from '@mui/x-data-grid';
+import TextField from '../components/UI/TextField';
 
-export default function DiscplinesList() {
+export default function GroupList() {
   return (
     <>
     </>
