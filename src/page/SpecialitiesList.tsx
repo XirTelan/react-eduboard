@@ -1,20 +1,9 @@
 import {
   Box,
   Button,
-  Collapse,
-  Divider,
-  IconButton,
-  ListItemButton,
-  ListItemText,
-  TextField,
   Typography
 } from '@mui/material';
 
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import { Formik, useFormik } from 'formik';
-import { purple, red } from '@mui/material/colors';
-import { useState } from 'react';
 import CollapseListItem from '../components/UI/CollapseListItem';
 
 export default function SpecialitiesList() {

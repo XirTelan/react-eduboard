@@ -1,4 +1,5 @@
 import { Field, Form, Formik } from 'formik'
+import { idText } from 'typescript'
 import Button from './UI/Button'
 interface groupDTO {
   id: number
@@ -26,7 +27,7 @@ export default function Filter({ isVisible }: IFilterTimeline) {
       <div className="d-flex m-3">
         <div className="d-flex  gap-3  align-items-center"></div>
 
-        <Formik
+        <Formik         
           initialValues={initialValue}
           onSubmit={(value) => console.log(value)}
         >
