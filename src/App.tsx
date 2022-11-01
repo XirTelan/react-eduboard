@@ -25,20 +25,18 @@ function App() {
             <Sidebar />
             <div className="col p-0 bg-light ">
               <Nav />
-              <div className="container mt-2">
-                <Routes>
-                  <Route path="/" element={<UserList />} />
-                  <Route path="/entrance-controll" element={<EntranceControll />} />
-                  <Route path="/discipline" element={<DiscplinesList />} />
-                  <Route path="/groups" element={<GroupList />} />
-                  <Route path="/specialities" element={<SpecialitiesList />} />
-                  <Route path="/users" element={<UserList />} />
-                  <Route path="/users/create" element={<CreateUser />} />
-                  <Route path="/attendance" element={<Attendance />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="*" element={<Attendance />} />
-                </Routes>
-              </div>
+              <Routes>
+                <Route path="/" element={<UserList />} />
+                <Route path="/entrance-controll" element={<EntranceControll />} />
+                <Route path="/discipline" element={<DiscplinesList />} />
+                <Route path="/groups" element={<GroupList />} />
+                <Route path="/specialities" element={<SpecialitiesList />} />
+                <Route path="/users" element={<UserList />} />
+                <Route path="/users/create" element={<CreateUser />} />
+                <Route path="/attendance" element={<Attendance />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="*" element={<Attendance />} />
+              </Routes>
             </div>
           </div>
         </div>
