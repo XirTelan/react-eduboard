@@ -14,6 +14,7 @@ import Login from './page/Login';
 import DiscplinesList from './page/DisciplinesList';
 import SpecialitiesList from './page/SpecialitiesList';
 import GroupList from './page/GroupList';
+import CreateSpeciality from './page/CreateSpeciality';
 
 function App() {
   const isAuthoraized = false;
@@ -31,6 +32,7 @@ function App() {
                 <Route path="/discipline" element={<DiscplinesList />} />
                 <Route path="/groups" element={<GroupList />} />
                 <Route path="/specialities" element={<SpecialitiesList />} />
+                <Route path="/specialities/create" element={<CreateSpeciality />} />
                 <Route path="/users" element={<UserList />} />
                 <Route path="/users/create" element={<CreateUser />} />
                 <Route path="/attendance" element={<Attendance />} />

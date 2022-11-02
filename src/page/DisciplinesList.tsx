@@ -10,19 +10,19 @@ export default function DiscplinesList() {
   return (
     <>
       <Box className="bg-white p-3 m-3 rounded">
-        <Typography variant="h3" color="primary.main" className="mb-3 rounded  ">
+        <Typography variant="h3" color="primary.main">
           Дисциплины
         </Typography>
         <Formik initialValues={{ speciality: '1' }} onSubmit={(e) => console.log(e)}>
           <form className="my-3">
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-center">
               <TextField
                 id="filled-basic"
-                label="Добавить специальность"
+                label="Добавить дисциплину"
                 variant="filled"
                 className="col-9"
               />
-              <Button className="col-2 me-5" variant="contained">
+              <Button className="col-2 ms-3" variant="contained">
                 Добавить
               </Button>
             </div>

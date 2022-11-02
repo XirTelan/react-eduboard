@@ -1,26 +1,52 @@
-import { Box, MenuItem, Select } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  SelectChangeEvent,
+  Typography
+} from '@mui/material';
+import { useState } from 'react';
 import Filter from '../components/Filter';
+import { months } from '../data/data';
 
 export default function Attendance() {
+  const [month, setMonth] = useState('Сентябрь');
+
+  const handleChangeMonth = (event: SelectChangeEvent) => {
+    console.log(`month ${month}`);
+    setMonth(event.target.value);
+  };
   const days = [...Array(31).keys()].map((e) => e + 1);
   return (
     <>
-      <Box>
-        <Filter />
-        <div className="d-flex gap-3">
-          <button className="btn btn-secondary">Январь</button>
-          <button className="btn btn-primary">Февраль</button>
-          <button className="btn btn-primary">Март</button>
-          <button className="btn btn-primary">Апрель</button>
-          <button className="btn btn-primary">Май</button>
-          <button className="btn btn-primary">Сентябрь</button>
-          <button className="btn btn-primary">Октябрь</button>
-          <button className="btn btn-primary">Ноябрь</button>
-          <button className="btn btn-primary">Декабрь</button>
+      <Box className="bg-white p-3 m-3 rounded">
+        <Typography variant="h3" color="primary.main">
+          Посещяемость
+        </Typography>
+        <Divider className="my-3" />
+        <Filter yearFilter />
+        <div className="d-flex justify-content-center">
+          <div className="d-flex me-3 gap-3">
+            <RadioGroup
+              row
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue="female"
+              value={month}
+              onChange={handleChangeMonth}
+              name="radio-buttons-group">
+              {months.map((elem, index) => (
+                <FormControlLabel key={index} value={elem} control={<Radio />} label={elem} />
+              ))}
+            </RadioGroup>
+          </div>
         </div>
-        <Select label="Year">
-          <MenuItem value={1}>1</MenuItem>
-        </Select>
 
         <table className="table table-hover mt-2 bg-white rounded shadow-sm ">
           <thead>
@@ -32,7 +58,7 @@ export default function Attendance() {
                 ФИО Студента
               </th>
               <th colSpan={days.length - 1} scope="col" className="text-center">
-                Дни месяца
+                Дни месяца ({month})
               </th>
             </tr>
             <tr>

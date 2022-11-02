@@ -12,7 +12,7 @@ export default function AutocompleteField(props: TypeaheadDisciplineProps) {
         options={disciplines}
         getOptionLabel={(disciplines) => disciplines.name}
         placeholder="asd"
-        renderInput={(params) => <TextField {...params} label="Дисциплины" />}
+        renderInput={(params) => <TextField {...params} label={props.displayName} />}
       />
     </>
   );
