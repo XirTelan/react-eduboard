@@ -10,7 +10,7 @@ export default function DiscplinesList() {
   return (
     <>
       <Box className="bg-white p-3 m-3 rounded">
-        <Typography variant="h3" color="primary.main">
+        <Typography variant="h4" color="primary.main">
           Дисциплины
         </Typography>
         <Formik initialValues={{ speciality: '1' }} onSubmit={(e) => console.log(e)}>

@@ -12,88 +12,92 @@ import {
   SelectChangeEvent,
   Typography
 } from '@mui/material';
+import {
+  DataGrid,
+  GridColDef,
+  GridColumnGroupingModel,
+  GridRowsProp,
+  ruRU
+} from '@mui/x-data-grid';
 import { useState } from 'react';
 import Filter from '../components/Filter';
 import { months } from '../data/data';
 
-export default function Attendance() {
-  const [month, setMonth] = useState('Сентябрь');
+const rows: GridRowsProp = [
+  { id: 1, indx: 1, fio: 'Ivanonv Ivan Ivanovich', col2: 'World' },
+  { id: 2, indx: 2, fio: 'Ivanonv Ivan Ivanovich', col2: 'is Awesome' },
+  { id: 3, indx: 3, fio: 'Ivanonv Ivan Ivanovich', d: 'is Amazing' }
+];
+const columnGroupingModel: GridColumnGroupingModel = [
+  {
+    groupId: 'Дни месяца',
+    headerAlign: 'center',
+    children: [
+      { field: 'd1' },
+      { field: 'd2' },
+      { field: 'd3' },
+      { field: 'd4' },
+      { field: 'd5' },
+      { field: 'd6' },
+      { field: 'd7' },
+      { field: 'd8' },
+      { field: 'd9' },
+      { field: 'd10' },
+      { field: 'd11' },
+      { field: 'd12' },
+      { field: 'd13' },
+      { field: 'd14' },
+      { field: 'd15' },
+      { field: 'd16' },
+      { field: 'd17' },
+      { field: 'd18' },
+      { field: 'd19' },
+      { field: 'd20' },
+      { field: 'd21' },
+      { field: 'd22' },
+      { field: 'd23' },
+      { field: 'd24' },
+      { field: 'd25' },
+      { field: 'd26' },
+      { field: 'd27' },
+      { field: 'd28' },
+      { field: 'd29' },
+      { field: 'd30' },
+      { field: 'd31' }
+    ]
+  }
+];
 
-  const handleChangeMonth = (event: SelectChangeEvent) => {
-    console.log(`month ${month}`);
-    setMonth(event.target.value);
-  };
-  const days = [...Array(31).keys()].map((e) => e + 1);
+const columnsDefault: GridColDef[] = [
+  { field: 'indx', headerName: '№', flex: 1, maxWidth: 50 },
+  { field: 'fio', headerName: 'ФИО', flex: 1, minWidth: 100 }
+];
+
+export default function Attendance() {
+  const days: string[] = [...Array(31).keys()].map((e) => '' + (e + 1));
+  const daysColumn: GridColDef[] = days.map((elem, index) => ({
+    field: `d${index + 1}`,
+    headerName: elem,
+    width: 20,
+    editable: true
+  }));
+  const columns: GridColDef[] = [...columnsDefault, ...daysColumn];
   return (
     <>
       <Box className="bg-white p-3 m-3 rounded">
-        <Typography variant="h3" color="primary.main">
+        <Typography variant="h4" color="primary.main">
           Посещяемость
         </Typography>
         <Divider className="my-3" />
-        <Filter yearFilter />
-        <div className="d-flex justify-content-center">
-          <div className="d-flex me-3 gap-3">
-            <RadioGroup
-              row
-              aria-labelledby="demo-radio-buttons-group-label"
-              defaultValue="female"
-              value={month}
-              onChange={handleChangeMonth}
-              name="radio-buttons-group">
-              {months.map((elem, index) => (
-                <FormControlLabel key={index} value={elem} control={<Radio />} label={elem} />
-              ))}
-            </RadioGroup>
-          </div>
-        </div>
-
-        <table className="table table-hover mt-2 bg-white rounded shadow-sm ">
-          <thead>
-            <tr>
-              <th rowSpan={2} scope="col">
-                №
-              </th>
-              <th rowSpan={2} scope="col">
-                ФИО Студента
-              </th>
-              <th colSpan={days.length - 1} scope="col" className="text-center">
-                Дни месяца ({month})
-              </th>
-            </tr>
-            <tr>
-              {days.map((e) => {
-                return (
-                  <th key={e} scope="col">
-                    {e}
-                  </th>
-                );
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-              <td>1</td>
-            </tr>
-          </tbody>
-        </table>
+        <Filter isYearSelectable periodicity="monthly" />
+        <DataGrid
+          autoHeight
+          experimentalFeatures={{ columnGrouping: true }}
+          columnGroupingModel={columnGroupingModel}
+          localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+          rows={rows}
+          columns={columns}
+        />
       </Box>
     </>
   );

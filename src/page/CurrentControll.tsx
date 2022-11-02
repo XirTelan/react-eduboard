@@ -2,13 +2,13 @@ import { Box, Typography } from '@mui/material';
 import BaseControll from '../components/BaseControll';
 import Filter from '../components/Filter';
 
-export default function EntranceControll() {
+export default function CurrentControll() {
   return (
     <Box className="bg-white p-3 m-3 rounded">
       <Typography variant="h4" color="primary.main">
-        Входной контроль
+        Текущий контроль
       </Typography>
-      <Filter periodicity="none" />
+      <Filter isYearSelectable periodicity="monthly" />
       <BaseControll
         disc={[
           'Русский язык',

@@ -15,6 +15,9 @@ import DiscplinesList from './page/DisciplinesList';
 import SpecialitiesList from './page/SpecialitiesList';
 import GroupList from './page/GroupList';
 import CreateSpeciality from './page/CreateSpeciality';
+import IntersessionalControll from './page/IntersessionalControll';
+import IntermediateControll from './page/IntermediateControll';
+import CurrentControll from './page/CurrentControll';
 
 function App() {
   const isAuthoraized = false;
@@ -29,6 +32,9 @@ function App() {
               <Routes>
                 <Route path="/" element={<UserList />} />
                 <Route path="/entrance-controll" element={<EntranceControll />} />
+                <Route path="/intersessional-controll" element={<IntersessionalControll />} />
+                <Route path="/intermediate-controll" element={<IntermediateControll />} />
+                <Route path="/current-controll" element={<CurrentControll />} />
                 <Route path="/discipline" element={<DiscplinesList />} />
                 <Route path="/groups" element={<GroupList />} />
                 <Route path="/specialities" element={<SpecialitiesList />} />
@@ -37,7 +43,7 @@ function App() {
                 <Route path="/users/create" element={<CreateUser />} />
                 <Route path="/attendance" element={<Attendance />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="*" element={<Attendance />} />
+                <Route path="*" element={<h1>Not Found</h1>} />
               </Routes>
             </div>
           </div>

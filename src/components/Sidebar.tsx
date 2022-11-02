@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import NavListItem from './UI/NavListItem';
 
@@ -14,12 +15,12 @@ export default function Sidebar() {
         <ul
           className="nav nav-pills w-100 flex-column mb-sm-auto mb-0 align-text-center align-items-center align-items-sm-start"
           id="menu">
-          <label>Основное</label>
-          <NavListItem to="/entrance-controll" title="Входной контроль" />
-          <NavListItem to="/sessional-controll" title="Межсессионный контроль" />
-          <NavListItem to="/attestation" title="Промежуточная аттестация" />
-          <NavListItem to="/cur-controll" title="Текущий контроль" />
+          <Typography variant='subtitle1'>Основное</Typography>
           <NavListItem to="/attendance" title="Посещяемость" />
+          <NavListItem to="/current-controll" title="Текущий контроль" />
+          <NavListItem to="/intersessional-controll" title="Межсессионный контроль" />
+          <NavListItem to="/intermediate-controll" title="Промежуточная аттестация" />
+          <NavListItem to="/entrance-controll" title="Входной контроль" />
           <label>Настройки</label>
           <NavListItem to="/groups" title="Группы" />
           <NavListItem to="/specialities" title="Специальности" />

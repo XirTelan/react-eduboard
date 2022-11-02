@@ -16,48 +16,46 @@ export default function SpecialitiesList() {
   ];
 
   return (
-    <>
-      <Box
-        maxHeight="89vh"
-        sx={{ overflow: 'hidden', overflowY: 'auto' }}
-        className="bg-white m-3 p-3 rounded">
-        <Typography variant="h3" color="primary.main">
-          Специальности
-        </Typography>
-        <Button href="specialities/create" className="my-3" variant="contained" size="large">
-          Создать специальность
-        </Button>
-        <ul className="list-group">
-          <CollapseListItem
-            name="347 Очень длинное название специальности"
-            specialities={specialities}
-          />
-          <CollapseListItem
-            name="0125 Очень длинное название специальности 2"
-            specialities={specialities3}
-          />
-          <CollapseListItem
-            name="1654 Очень длинное название специальности 3"
-            specialities={specialities2}
-          />
-          <CollapseListItem
-            name="274 Очень длинное название специальности 4"
-            specialities={specialities}
-          />
-          <CollapseListItem
-            name="718 Очень длинное название специальности 5"
-            specialities={specialities}
-          />
-          <CollapseListItem
-            name="0125 Очень длинное название специальности 6"
-            specialities={specialities2}
-          />
-          <CollapseListItem
-            name="2754 Очень длинное название специальности 7"
-            specialities={specialities3}
-          />
-        </ul>
-      </Box>
-    </>
+    <Box
+      maxHeight="89vh"
+      sx={{ overflow: 'hidden', overflowY: 'auto' }}
+      className="bg-white m-3 p-3 rounded">
+      <Typography variant="h4" color="primary.main">
+        Специальности
+      </Typography>
+      <Button href="specialities/create" className="my-3" variant="contained" size="large">
+        Создать специальность
+      </Button>
+      <ul className="list-group">
+        <CollapseListItem
+          name="347 Очень длинное название специальности"
+          specialities={specialities}
+        />
+        <CollapseListItem
+          name="0125 Очень длинное название специальности 2"
+          specialities={specialities3}
+        />
+        <CollapseListItem
+          name="1654 Очень длинное название специальности 3"
+          specialities={specialities2}
+        />
+        <CollapseListItem
+          name="274 Очень длинное название специальности 4"
+          specialities={specialities}
+        />
+        <CollapseListItem
+          name="718 Очень длинное название специальности 5"
+          specialities={specialities}
+        />
+        <CollapseListItem
+          name="0125 Очень длинное название специальности 6"
+          specialities={specialities2}
+        />
+        <CollapseListItem
+          name="2754 Очень длинное название специальности 7"
+          specialities={specialities3}
+        />
+      </ul>
+    </Box>
   );
 }
