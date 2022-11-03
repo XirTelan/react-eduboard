@@ -6,7 +6,7 @@ import Button from './components/UI/Button';
 import Sidebar from './components/Sidebar';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import UserList from './page/UserList';
-import GenControll from './components/BaseControll';
+
 import Attendance from './page/Attendance';
 import EntranceControll from './page/EntranceControll';
 import CreateUser from './page/CreateUser';
@@ -18,17 +18,26 @@ import CreateSpeciality from './page/CreateSpeciality';
 import IntersessionalControll from './page/IntersessionalControll';
 import IntermediateControll from './page/IntermediateControll';
 import CurrentControll from './page/CurrentControll';
+import { Box, CssBaseline } from '@mui/material';
+const drawerWidth = 240;
 
 function App() {
+  const [open, setOpen] = React.useState(true);
+
+  const handleSidebar = () => {
+    setOpen(!open);
+  };
+
   const isAuthoraized = false;
   return (
     <>
       <BrowserRouter>
-        <div className="container-fluid">
-          <div className="row flex-nowrap">
-            <Sidebar />
-            <div className="col p-0 bg-light ">
-              <Nav />
+        <Box sx={{ display: 'flex' }}>
+          <CssBaseline />
+          <Sidebar isOpen={open} handleSidebar={handleSidebar} />
+          <Box sx={{ flexGrow: 1, backgroundColor: 'grey.100' }}>
+            <Nav />
+            <Box component="main">
               <Routes>
                 <Route path="/" element={<UserList />} />
                 <Route path="/entrance-controll" element={<EntranceControll />} />
@@ -45,9 +54,18 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="*" element={<h1>Not Found</h1>} />
               </Routes>
+            </Box>
+          </Box>
+        </Box>
+        {/* <div className="container-fluid">
+          <div className="row flex-nowrap">
+            <Sidebar />
+            <div className="col p-0 bg-light ">
+              <Nav />
+              
             </div>
           </div>
-        </div>
+        </div> */}
       </BrowserRouter>
     </>
   );

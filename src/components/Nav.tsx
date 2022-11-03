@@ -1,8 +1,16 @@
+import { AppBar, Divider, Toolbar } from '@mui/material';
+import { color } from '@mui/system';
 import { Link } from 'react-router-dom';
-
-export default function Nav() {
+interface NavProps {
+  position?: string;
+  open?: boolean;
+  children?: React.ReactNode;
+}
+export default function Nav({ children }: NavProps) {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white">
+    <Toolbar
+      sx={{ backgroundColor: 'primary.main' }}
+      className="navbar navbar-expand-lg mb-3 navbar-light text-white">
       <button
         className="navbar-toggler"
         type="button"
@@ -15,15 +23,19 @@ export default function Nav() {
       </button>
       <div className="collapse navbar-collapse p-1 justify-content-end" id="navbarNavAltMarkup">
         <div className="navbar-nav">
-          <Link className="nav-item nav-link" to="users">
+          <Link className="nav-item nav-link text-white" to="users">
             Список пользователей
           </Link>
-          <Link className="nav-item nav-link" to="login">
+          <Link className="nav-item nav-link text-white" to="login">
             Вход
           </Link>
         </div>
-        <div className="fs-5 ps-3 border-start border-dark">Welcome, User</div>
+        <Divider
+          orientation="vertical"
+          flexItem
+        />
+        <div className="fs-5 ps-3">Welcome, User</div>
       </div>
-    </nav>
+    </Toolbar>
   );
 }
