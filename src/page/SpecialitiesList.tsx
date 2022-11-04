@@ -29,31 +29,31 @@ export default function SpecialitiesList() {
       <ul className="list-group">
         <CollapseListItem
           name="347 Очень длинное название специальности"
-          specialities={specialities}
+          items={specialities}
         />
         <CollapseListItem
           name="0125 Очень длинное название специальности 2"
-          specialities={specialities3}
+          items={specialities3}
         />
         <CollapseListItem
           name="1654 Очень длинное название специальности 3"
-          specialities={specialities2}
+          items={specialities2}
         />
         <CollapseListItem
           name="274 Очень длинное название специальности 4"
-          specialities={specialities}
+          items={specialities}
         />
         <CollapseListItem
           name="718 Очень длинное название специальности 5"
-          specialities={specialities}
+          items={specialities}
         />
         <CollapseListItem
           name="0125 Очень длинное название специальности 6"
-          specialities={specialities2}
+          items={specialities2}
         />
         <CollapseListItem
           name="2754 Очень длинное название специальности 7"
-          specialities={specialities3}
+          items={specialities3}
         />
       </ul>
     </Box>

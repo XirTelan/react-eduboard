@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material';
-import BaseControll from '../components/BaseControll';
+import BaseControll from '../components/Form/BaseControll';
 import Filter from '../components/Filter';
 
 export default function IntersessionalControll() {

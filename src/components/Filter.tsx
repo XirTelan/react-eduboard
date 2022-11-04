@@ -15,6 +15,7 @@ import { Field, Form, Formik } from 'formik';
 import { useState } from 'react';
 import { idText } from 'typescript';
 import { months } from '../data/data';
+import AutocompleteField from './UI/AutocompleteField';
 import Button from './UI/Button';
 interface groupDTO {
   id: number;
@@ -88,17 +89,8 @@ export default function Filter({ isYearSelectable, periodicity }: FilterProps) {
                 </div>
                 <div className="col-auto">
                   <FormControl sx={{ minWidth: 220 }}>
-                    <InputLabel id="group-select-label">Группа</InputLabel>
-                    <Select
-                      labelId="group-select-label"
-                      label="Group"
-                      {...formikProps.getFieldProps('groupId')}>
-                      {groups.map((group) => (
-                        <MenuItem key={group.id} value={group.id}>
-                          {group.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                    <AutocompleteField displayName='Группа' />
+                 
                   </FormControl>
                 </div>
                 {isYearSelectable && (

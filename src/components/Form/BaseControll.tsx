@@ -1,6 +1,16 @@
 import { useParams, useSearchParams } from 'react-router-dom';
-import { DataGrid, GridColDef, GridRowsProp, GridToolbar, GridToolbarColumnsButton, GridToolbarContainer, GridToolbarDensitySelector, GridToolbarFilterButton, ruRU } from '@mui/x-data-grid';
-import Filter from './Filter';
+import {
+  DataGrid,
+  GridColDef,
+  GridRowsProp,
+  GridToolbar,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarFilterButton,
+  ruRU
+} from '@mui/x-data-grid';
+import Filter from '../Filter';
 import { Button } from '@mui/material';
 
 interface ControllerProps {

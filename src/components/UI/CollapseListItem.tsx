@@ -1,4 +1,4 @@
-import { IconButton, Collapse, Divider } from '@mui/material';
+import { IconButton, Collapse, Divider, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -13,7 +13,10 @@ export default function CollapseListItem(props: CollapleListItemProps) {
   return (
     <li className="list-group-item">
       <div className="d-flex justify-content-between">
-        <h3> {props.name} </h3>
+        <Typography fontSize="24px" alignSelf="center" variant="caption">
+          {' '}
+          {props.name}{' '}
+        </Typography>
         <div>
           <IconButton color="success" onClick={() => setIsChecked(!isChecked)}>
             {isChecked ? <VisibilityOffIcon /> : <VisibilityIcon />}
@@ -27,10 +30,11 @@ export default function CollapseListItem(props: CollapleListItemProps) {
         </div>
       </div>
       <Collapse in={isChecked}>
+        {props.children}
         <Divider />
-        <h5>Дисциплины:</h5>
+
         <ul className="list-group">
-          {props.specialities.map((elem, indx) => (
+          {props.items.map((elem, indx) => (
             <li className="list-group-item" key={indx}>
               {elem}
             </li>
@@ -43,5 +47,6 @@ export default function CollapseListItem(props: CollapleListItemProps) {
 
 interface CollapleListItemProps {
   name: string;
-  specialities: string[];
+  items: string[];
+  children?: React.ReactNode;
 }

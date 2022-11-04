@@ -14,11 +14,12 @@ import Login from './page/Login';
 import DiscplinesList from './page/DisciplinesList';
 import SpecialitiesList from './page/SpecialitiesList';
 import GroupList from './page/GroupList';
-import CreateSpeciality from './page/CreateSpeciality';
 import IntersessionalControll from './page/IntersessionalControll';
 import IntermediateControll from './page/IntermediateControll';
 import CurrentControll from './page/CurrentControll';
 import { Box, CssBaseline } from '@mui/material';
+import SpecialityCreate from './page/SpecialityCreate';
+import GroupCreate from './page/GroupCreate';
 const drawerWidth = 240;
 
 function App() {
@@ -46,8 +47,9 @@ function App() {
                 <Route path="/current-controll" element={<CurrentControll />} />
                 <Route path="/discipline" element={<DiscplinesList />} />
                 <Route path="/groups" element={<GroupList />} />
+                <Route path="/group/create" element={<GroupCreate />} />
                 <Route path="/specialities" element={<SpecialitiesList />} />
-                <Route path="/specialities/create" element={<CreateSpeciality />} />
+                <Route path="/specialities/create" element={<SpecialityCreate />} />
                 <Route path="/users" element={<UserList />} />
                 <Route path="/users/create" element={<CreateUser />} />
                 <Route path="/attendance" element={<Attendance />} />
