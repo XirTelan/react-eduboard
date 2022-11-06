@@ -8,6 +8,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
   TableRow,
   Typography
@@ -15,6 +16,7 @@ import {
 import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import { Link } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
+import Header from '../components/UI/Header';
 
 function createData(
   login: string,
@@ -39,25 +41,38 @@ export default function UserList() {
   return (
     <>
       <Box className="bg-white p-3 m-3 rounded">
-        <Typography sx={{ fontWeight: 'bold' }} variant="h4" color="primary.main">
-          Список Пользователей
-        </Typography>
-        <Button href="/users/create" className="my-3" variant="contained" size="large">
-          Создать пользователя
-        </Button>
+        <Header
+          title="Список Пользователей"
+          buttonText="Cоздать пользователя"
+          buttonLink="/users/create"
+        />
 
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
-              <TableRow>
-                <TableCell width="50px" align="center">
+              <TableRow sx={{ width: 200, backgroundColor: 'primary.light' }}>
+                <TableCell
+                  sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
+                  width="50px"
+                  align="center">
                   №
                 </TableCell>
-                <TableCell variant="head" align="center">
+                <TableCell
+                  sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
+                  variant="head"
+                  align="center">
                   Login
                 </TableCell>
-                <TableCell align="left">FIO</TableCell>
-                <TableCell align="center">Роль</TableCell>
+                <TableCell
+                  sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
+                  align="left">
+                  FIO
+                </TableCell>
+                <TableCell
+                  sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
+                  align="center">
+                  Роль
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -69,15 +84,34 @@ export default function UserList() {
                   </TableCell>
                   <TableCell align="left">{row.name}</TableCell>
                   <TableCell align="center">
-                    <Select  sx={{width: 200}} value={row.role}>
-                      <MenuItem value={1}><span className='fw-700'>ADMIN</span></MenuItem>
-                      <MenuItem value={2}>Куратор</MenuItem>
-                      <MenuItem value={3}>Пользователь</MenuItem>
+                    <Select sx={{ width: 200 }} value={row.role}>
+                      <MenuItem value={1}>
+                        <span className="fw-bold">ADMIN</span>
+                      </MenuItem>
+                      <MenuItem value={2}>
+                        <span className="fw-bold">КУРАТОР</span>
+                      </MenuItem>
+                      <MenuItem value={3}>
+                        <span className="fw-bold">ПОЛЬЗОВАТЕЛЬ</span>
+                      </MenuItem>
                     </Select>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
+            <TableFooter sx={{ backgroundColor: 'primary.light' }}>
+              <TableRow >
+                <TableCell
+                  sx={{
+                    height: '3rem',
+                    color: 'common.white',
+                    fontWeight: 'bold',
+                    fontSize: '1.125rem'
+                  }}
+                  colSpan={4}
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
         </TableContainer>
       </Box>

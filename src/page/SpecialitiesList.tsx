@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 
 import CollapseListItem from '../components/UI/CollapseListItem';
+import Header from '../components/UI/Header';
 
 export default function SpecialitiesList() {
   const specialities2 = ['Русский язык', 'Математика', 'Английский', 'Физика', 'Электротехника'];
@@ -20,17 +21,13 @@ export default function SpecialitiesList() {
       maxHeight="89vh"
       sx={{ overflow: 'hidden', overflowY: 'auto' }}
       className="bg-white m-3 p-3 rounded">
-      <Typography variant="h4" color="primary.main">
-        Специальности
-      </Typography>
-      <Button href="specialities/create" className="my-3" variant="contained" size="large">
-        Создать специальность
-      </Button>
-      <ul className="list-group">
-        <CollapseListItem
-          name="347 Очень длинное название специальности"
-          items={specialities}
-        />
+      <Header
+        title="Специальности"
+        buttonLink="specialities/create"
+        buttonText="Создать специальность"
+      />
+      <ul >
+        <CollapseListItem name="347 Очень длинное название специальности" items={specialities} />
         <CollapseListItem
           name="0125 Очень длинное название специальности 2"
           items={specialities3}
@@ -39,14 +36,8 @@ export default function SpecialitiesList() {
           name="1654 Очень длинное название специальности 3"
           items={specialities2}
         />
-        <CollapseListItem
-          name="274 Очень длинное название специальности 4"
-          items={specialities}
-        />
-        <CollapseListItem
-          name="718 Очень длинное название специальности 5"
-          items={specialities}
-        />
+        <CollapseListItem name="274 Очень длинное название специальности 4" items={specialities} />
+        <CollapseListItem name="718 Очень длинное название специальности 5" items={specialities} />
         <CollapseListItem
           name="0125 Очень длинное название специальности 6"
           items={specialities2}

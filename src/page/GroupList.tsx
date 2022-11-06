@@ -3,36 +3,70 @@ import { Box, Button, Typography } from '@mui/material';
 import { group } from 'console';
 import AutocompleteField from '../components/UI/AutocompleteField';
 import CollapseListItem from '../components/UI/CollapseListItem';
+import Header from '../components/UI/Header';
 import TextField from '../components/UI/TextField';
 
 export default function GroupList() {
   const students: StudentDTO[] = [
-    { id: 1, name: 'Max' },
+    { id: 1, name: 'Иванов иван иванович' },
     { id: 2, name: 'Alex' }
   ];
-  const groups: GroupDTO[] = [{ id: 1, name: 'asd', students }];
+  const groups: GroupDTO[] = [
+    { id: 1, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
+    { id: 1, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
+    { id: 1, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
+    { id: 1, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
+    { id: 1, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
+    { id: 1, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
+    { id: 1, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
+    { id: 1, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
+    { id: 1, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students }
+  ];
 
   return (
     <>
       <Box className="bg-white p-3 m-3 rounded">
-        <Typography variant="h4" color="primary.main">
-          Группы
-        </Typography>
-        <Button href="group/create" className="my-3" variant="contained" size="large">
-          Создать группу
-        </Button>
-        <ul className="list-group">
-          <CollapseListItem
-            name="ЭО-113"
-            items={groups[0].students.map((elem) => {
-              return elem.name;
-            })}>
-            <Typography variant="h5">Специальность:</Typography>
-            <Typography variant="body1">01321 Раз два Три Четыре</Typography>
-            <Typography variant="h5">Куратор:</Typography>
-            <Typography variant="body1">Фамилия Имя Отчество</Typography>
-            <Typography variant="h5">Список студентов группы:</Typography>
-          </CollapseListItem>
+        <Header title="Группы" buttonText="Создать группу" buttonLink="group/create" />
+
+        <ul>
+          {groups.map((group, indx) => {
+            return (
+              <CollapseListItem
+                key={indx}
+                name={group.name}
+                items={group.students.map((elem) => {
+                  return elem.name;
+                })}>
+                <div className='d-flex flex-column m-3 gap-2'>
+                  <Typography
+                    sx={{
+                      width: '100%',
+                    }}
+                    className="shadow-sm"
+                    variant="body1">
+                    {group.speciality}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      width: '100%',
+                      backgroundColor: 'primary.main',
+                      color: 'common.white',
+                    }}
+                    variant="h5">
+                    Куратор:
+                  </Typography>
+                  <Typography
+                    sx={{
+                      width: '100%',
+                    }}
+                    variant="body1">
+                    Фамилия Имя Отчество
+                  </Typography>
+                  <Typography variant="h5">Список студентов группы:</Typography>
+                </div>
+              </CollapseListItem>
+            );
+          })}
         </ul>
       </Box>
     </>
@@ -45,5 +79,6 @@ interface StudentDTO {
 interface GroupDTO {
   id: number;
   name: string;
+  speciality: string;
   students: StudentDTO[];
 }

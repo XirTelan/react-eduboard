@@ -22,7 +22,7 @@ export default function DiscplinesList() {
                 variant="filled"
                 className="col-9"
               />
-              <Button className="col-2 ms-3" variant="contained">
+              <Button type="submit" className="col-2 ms-3" variant="contained">
                 Добавить
               </Button>
             </div>

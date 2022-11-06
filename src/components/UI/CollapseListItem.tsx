@@ -1,4 +1,4 @@
-import { IconButton, Collapse, Divider, Typography } from '@mui/material';
+import { IconButton, Collapse, Divider, Typography, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -11,17 +11,28 @@ export default function CollapseListItem(props: CollapleListItemProps) {
   const navigate = useNavigate();
   console.log(isChecked);
   return (
-    <li className="list-group-item">
-      <div className="d-flex justify-content-between">
-        <Typography fontSize="24px" alignSelf="center" variant="caption">
-          {' '}
-          {props.name}{' '}
+    <li className="list-group-item shadow-sm rounded m-1">
+      <div className="d-flex justify-content-between ">
+        <Typography
+          sx={{
+            backgroundColor: 'primary.main',
+            color: 'common.white'
+          }}
+          width="30%"
+          maxWidth="50%"
+          textAlign="center"
+          borderRadius={1}
+          padding={1}
+          fontSize="24px"
+          alignSelf="center"
+          variant="caption">
+          {props.name}
         </Typography>
-        <div>
-          <IconButton color="success" onClick={() => setIsChecked(!isChecked)}>
+        <div className="align-self-center">
+          <IconButton color="primary" onClick={() => setIsChecked(!isChecked)}>
             {isChecked ? <VisibilityOffIcon /> : <VisibilityIcon />}
           </IconButton>
-          <IconButton color="primary" onClick={() => navigate(`specialities/${1}`)}>
+          <IconButton color="success" onClick={() => navigate(`specialities/${1}`)}>
             <EditIcon />
           </IconButton>
           <IconButton color="error">
@@ -30,10 +41,9 @@ export default function CollapseListItem(props: CollapleListItemProps) {
         </div>
       </div>
       <Collapse in={isChecked}>
-        {props.children}
-        <Divider />
+        <div className="my-2">{props.children}</div>
 
-        <ul className="list-group">
+        <ul className="list-group m-3">
           {props.items.map((elem, indx) => (
             <li className="list-group-item" key={indx}>
               {elem}
