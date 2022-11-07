@@ -26,23 +26,39 @@ export default function SpecialitiesList() {
         buttonLink="specialities/create"
         buttonText="Создать специальность"
       />
-      <ul >
-        <CollapseListItem name="347 Очень длинное название специальности" items={specialities} />
+      <ul>
         <CollapseListItem
+          customWidth="50%"
+          name="347 Очень длинное название специальности"
+          items={specialities}
+        />
+        <CollapseListItem
+          customWidth="50%"
           name="0125 Очень длинное название специальности 2"
           items={specialities3}
         />
         <CollapseListItem
+          customWidth="50%"
           name="1654 Очень длинное название специальности 3"
           items={specialities2}
         />
-        <CollapseListItem name="274 Очень длинное название специальности 4" items={specialities} />
-        <CollapseListItem name="718 Очень длинное название специальности 5" items={specialities} />
         <CollapseListItem
+          customWidth="50%"
+          name="274 Очень длинное название специальности 4"
+          items={specialities}
+        />
+        <CollapseListItem
+          customWidth="50%"
+          name="718 Очень длинное название специальности 5"
+          items={specialities}
+        />
+        <CollapseListItem
+          customWidth="50%"
           name="0125 Очень длинное название специальности 6"
           items={specialities2}
         />
         <CollapseListItem
+          customWidth="50%"
           name="2754 Очень длинное название специальности 7"
           items={specialities3}
         />

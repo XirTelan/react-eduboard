@@ -9,7 +9,6 @@ import { Navigate, useNavigate } from 'react-router-dom';
 export default function CollapseListItem(props: CollapleListItemProps) {
   const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
-  console.log(isChecked);
   return (
     <li className="list-group-item shadow-sm rounded m-1">
       <div className="d-flex justify-content-between ">
@@ -18,7 +17,7 @@ export default function CollapseListItem(props: CollapleListItemProps) {
             backgroundColor: 'primary.main',
             color: 'common.white'
           }}
-          width="30%"
+          width={props.customWidth === undefined ? '30%' : '100%'}
           maxWidth="50%"
           textAlign="center"
           borderRadius={1}
@@ -59,4 +58,5 @@ interface CollapleListItemProps {
   name: string;
   items: string[];
   children?: React.ReactNode;
+  customWidth?: string;
 }

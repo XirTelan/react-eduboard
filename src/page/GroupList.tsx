@@ -42,15 +42,12 @@ export default function GroupList() {
                     sx={{
                       width: '100%',
                     }}
-                    className="shadow-sm"
-                    variant="body1">
+                    variant="subtitle1">
                     {group.speciality}
                   </Typography>
                   <Typography
                     sx={{
                       width: '100%',
-                      backgroundColor: 'primary.main',
-                      color: 'common.white',
                     }}
                     variant="h5">
                     Куратор:

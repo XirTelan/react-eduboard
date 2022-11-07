@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   FormControl,
   FormControlLabel,
@@ -9,6 +10,7 @@ import {
   Select,
   SelectChangeEvent,
   Switch,
+  TextField,
   Typography
 } from '@mui/material';
 import { Field, Form, Formik } from 'formik';
@@ -89,8 +91,14 @@ export default function Filter({ isYearSelectable, periodicity }: FilterProps) {
                 </div>
                 <div className="col-auto">
                   <FormControl sx={{ minWidth: 220 }}>
-                    <AutocompleteField displayName='Группа' />
-                 
+                    <Autocomplete
+                      id="typeahead"
+                      options={['ЭО-312', 'АА-312', 'ФМ-412']}
+                      // getOptionLabel={(elem) => elem.name}
+                      placeholder="asd"
+                      renderInput={(params) => <TextField {...params} label="Выбрать группу" />}
+                    />
+                    {/* <AutocompleteField displayName='Группа' /> */}
                   </FormControl>
                 </div>
                 {isYearSelectable && (
