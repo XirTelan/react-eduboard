@@ -5,8 +5,14 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { disciplineDTO, groupDTO, specialityDTO, StudentDTO } from '../../types';
 
-export default function CollapseListItem(props: CollapleListItemProps) {
+export default function CollapseListItem({
+  displayName,
+  customWidth,
+  items,
+  children
+}: CollapleListItemProps) {
   const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
   return (
@@ -17,21 +23,21 @@ export default function CollapseListItem(props: CollapleListItemProps) {
             backgroundColor: 'primary.main',
             color: 'common.white'
           }}
-          width={props.customWidth === undefined ? '30%' : '100%'}
-          maxWidth="50%"
+          width={customWidth === undefined ? '30%' : customWidth}
+          maxWidth="100%"
           textAlign="center"
           borderRadius={1}
           padding={1}
           fontSize="24px"
           alignSelf="center"
           variant="caption">
-          {props.name}
+          {displayName}
         </Typography>
         <div className="align-self-center">
           <IconButton color="primary" onClick={() => setIsChecked(!isChecked)}>
             {isChecked ? <VisibilityOffIcon /> : <VisibilityIcon />}
           </IconButton>
-          <IconButton color="success" onClick={() => navigate(`specialities/${1}`)}>
+          <IconButton color="success" onClick={() => navigate(`edit/${1}`)}>
             <EditIcon />
           </IconButton>
           <IconButton color="error">
@@ -40,12 +46,12 @@ export default function CollapseListItem(props: CollapleListItemProps) {
         </div>
       </div>
       <Collapse in={isChecked}>
-        <div className="my-2">{props.children}</div>
+        <div className="my-2">{children}</div>
 
         <ul className="list-group m-3">
-          {props.items.map((elem, indx) => (
-            <li className="list-group-item" key={indx}>
-              {elem}
+          {items.map((elem) => (
+            <li className="list-group-item" key={elem.id}>
+              {elem.name}
             </li>
           ))}
         </ul>
@@ -55,8 +61,8 @@ export default function CollapseListItem(props: CollapleListItemProps) {
 }
 
 interface CollapleListItemProps {
-  name: string;
-  items: string[];
+  displayName: string;
+  items: StudentDTO[] | disciplineDTO[];
   children?: React.ReactNode;
   customWidth?: string;
 }

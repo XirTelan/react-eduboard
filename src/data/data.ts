@@ -1,3 +1,5 @@
+import { disciplineDTO, specialityDTO } from '../types';
+
 export const months: string[] = [
   'Сентябрь',
   'Октябрь',
@@ -9,3 +11,11 @@ export const months: string[] = [
   'Апрель',
   'Май'
 ];
+
+export const disciplines: disciplineDTO[] = [
+  { id: 1, name: 'Русский язык' },
+  { id: 2, name: 'Математика язык' },
+  { id: 3, name: 'Информатика язык' },
+  { id: 4, name: 'Английский язык' }
+];
+export const specialities: specialityDTO[] = [{ id: 1, name: 'asdasd', items: disciplines }];

@@ -2,20 +2,10 @@ import { Box, Button, Typography } from '@mui/material';
 
 import CollapseListItem from '../components/UI/CollapseListItem';
 import Header from '../components/UI/Header';
+import { disciplines, specialities } from '../data/data';
+import { disciplineDTO, specialityDTO } from '../types';
 
 export default function SpecialitiesList() {
-  const specialities2 = ['Русский язык', 'Математика', 'Английский', 'Физика', 'Электротехника'];
-  const specialities = ['Русский язык', 'Математика', 'Информатика', 'Физика'];
-  const specialities3 = [
-    'Русский язык',
-    'Математика',
-    'Информатика',
-    'Физика',
-    'Английский',
-    'Физика',
-    'Электротехника'
-  ];
-
   return (
     <Box
       maxHeight="89vh"
@@ -27,41 +17,16 @@ export default function SpecialitiesList() {
         buttonText="Создать специальность"
       />
       <ul>
-        <CollapseListItem
-          customWidth="50%"
-          name="347 Очень длинное название специальности"
-          items={specialities}
-        />
-        <CollapseListItem
-          customWidth="50%"
-          name="0125 Очень длинное название специальности 2"
-          items={specialities3}
-        />
-        <CollapseListItem
-          customWidth="50%"
-          name="1654 Очень длинное название специальности 3"
-          items={specialities2}
-        />
-        <CollapseListItem
-          customWidth="50%"
-          name="274 Очень длинное название специальности 4"
-          items={specialities}
-        />
-        <CollapseListItem
-          customWidth="50%"
-          name="718 Очень длинное название специальности 5"
-          items={specialities}
-        />
-        <CollapseListItem
-          customWidth="50%"
-          name="0125 Очень длинное название специальности 6"
-          items={specialities2}
-        />
-        <CollapseListItem
-          customWidth="50%"
-          name="2754 Очень длинное название специальности 7"
-          items={specialities3}
-        />
+        {specialities.map((elem) => {
+          return (
+            <CollapseListItem
+              key={elem.id}
+              customWidth="50%"
+              displayName={elem.name}
+              items={disciplines}
+            />
+          );
+        })}
       </ul>
     </Box>
   );

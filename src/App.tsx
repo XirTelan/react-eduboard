@@ -20,6 +20,7 @@ import CurrentControll from './page/CurrentControll';
 import { Box, CssBaseline } from '@mui/material';
 import SpecialityCreate from './page/SpecialityCreate';
 import GroupCreate from './page/GroupCreate';
+import SpecialityEdit from './page/SpecialityEdit';
 const drawerWidth = 240;
 
 function App() {
@@ -33,10 +34,10 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', width: 'fil-available' }}>
           <CssBaseline />
           <Sidebar isOpen={open} handleSidebar={handleSidebar} />
-          <Box sx={{ flexGrow: 1, backgroundColor: 'grey.100' }}>
+          <Box sx={{ flex: '1 1 0', backgroundColor: 'grey.100' }}>
             <Nav />
             <Box component="main">
               <Routes>
@@ -50,6 +51,7 @@ function App() {
                 <Route path="/group/create" element={<GroupCreate />} />
                 <Route path="/specialities" element={<SpecialitiesList />} />
                 <Route path="/specialities/create" element={<SpecialityCreate />} />
+                <Route path="/specialities/edit/:id" element={<SpecialityEdit />} />
                 <Route path="/users" element={<UserList />} />
                 <Route path="/users/create" element={<CreateUser />} />
                 <Route path="/attendance" element={<Attendance />} />
