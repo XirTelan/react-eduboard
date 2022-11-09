@@ -1,8 +1,13 @@
 export interface specialityDTO {
   id: number;
   name: string;
-  items: disciplineDTO[];
+  disciplinesId: number[];
 }
+export interface specialityCreationDTO {
+  name: string;
+  disciplinesId: number[];
+}
+
 
 export interface disciplineDTO {
   id: number;

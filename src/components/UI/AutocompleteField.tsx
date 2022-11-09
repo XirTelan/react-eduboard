@@ -7,52 +7,64 @@ import { Box } from '@mui/system';
 import { AnyARecord } from 'dns';
 import { useField } from 'formik';
 
-export default function AutocompleteField(props: any) {
-  const [fieldInput, fieldMeta, fieldHelpers] = useField('students');
+export default function AutocompleteField(props: autocompleteFieldProps) {
+  const [inputValue, setInputValue] = useState('');
+
+  function select(item: autocompleteFieldModel) {
+    const selected = [...props.selected, item];
+    const nonSelected = props.nonSelected.filter((elem) => elem !== item);
+    props.onChange(selected, nonSelected);
+    setInputValue('');
+  }
+  function deselect(item: autocompleteFieldModel) {
+    const nonSelected = [...props.nonSelected, item];
+    const selected = props.selected.filter((elem) => elem !== item);
+    props.onChange(selected, nonSelected);
+  }
 
   return (
     <>
-      <Typography marginBottom="1rem" variant="h4">
+      {/* <Typography marginBottom="1rem" variant="h4">
         {props.title}
-      </Typography>
+      </Typography> */}
       <Autocomplete
         id="typeahead"
-        disabled={props.commonItems.length === 0}
-        options={props.commonItems}
+        disabled={props.nonSelected.length === 0}
+        options={props.nonSelected}
         getOptionLabel={(elem) => elem.name}
         placeholder="asd"
         isOptionEqualToValue={(val, val2) => {
-          return val.id === val2.id;
+          return val.key === val2.key;
         }}
-        inputValue={props.inputValue}
-        value={props.value || null}
+        inputValue={inputValue}
+        value={null}
         onChange={(e, newValue) => {
-          props.setSelectedItems((prevValue: any) => props.handleChange(prevValue!, newValue!));
+          if (newValue) select(newValue);
         }}
         onInputChange={(event, value) => {
-          props.setInputValue(value);
+          setInputValue(value);
         }}
         renderOption={(props, option) => {
           return (
-            <li {...props} key={option.id}>
+            <li {...props} key={option.key}>
               {option.name}
             </li>
           );
         }}
         renderInput={(params) => <TextField {...params} label="Добавить дисциплину" />}
       />
-      <Typography margin="1rem 0" variant="h5">
+      {/* <Typography margin="1rem 0" variant="h5">
         {props.selectedLabel}
-      </Typography>
-      {props.selectedItems?.length === 0 ? (
-        <div className="text-center">
+      </Typography> */}
+      {props.selected?.length === 0 ? (
+        <div className="text-center m-5">
           <VisibilityOffIcon />
-          <span className="text-secondary" style={{ margin: '0 2rem' }}>
+          <span className="text-secondary " style={{ margin: '0 2rem' }}>
             Список пуст
           </span>
         </div>
       ) : (
-        <div className="w-100">
+        <div className="w-100 ">
           <List
             sx={{
               justifyContent: 'left',
@@ -62,10 +74,10 @@ export default function AutocompleteField(props: any) {
               width: '100%',
               maxWidth: '100%'
             }}>
-            {props.selectedItems?.map((elem: any) => {
+            {props.selected?.map((elem: autocompleteFieldModel) => {
               return (
                 <ListItem
-                  key={elem.id}
+                  key={elem.key}
                   sx={{
                     border: '1px solid lightgrey',
                     borderRadius: '2rem',
@@ -79,7 +91,7 @@ export default function AutocompleteField(props: any) {
                     <IconButton
                       sx={{ width: '10px', height: '10px' }}
                       color="error"
-                      onClick={() => props.removeSelectedItem(elem.id)}>
+                      onClick={() => deselect(elem)}>
                       <ClearIcon />
                     </IconButton>
                   </div>
@@ -91,4 +103,15 @@ export default function AutocompleteField(props: any) {
       )}
     </>
   );
+}
+
+interface autocompleteFieldProps {
+  selected: autocompleteFieldModel[];
+  nonSelected: autocompleteFieldModel[];
+  onChange(selected: autocompleteFieldModel[], nonSelected: autocompleteFieldModel[]): void;
+}
+
+export interface autocompleteFieldModel {
+  key: number;
+  name: string;
 }

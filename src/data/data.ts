@@ -18,4 +18,4 @@ export const disciplines: disciplineDTO[] = [
   { id: 3, name: 'Информатика язык' },
   { id: 4, name: 'Английский язык' }
 ];
-export const specialities: specialityDTO[] = [{ id: 1, name: 'asdasd', items: disciplines }];
+export const specialities: specialityDTO[] = [{ id: 1, name: 'asdasd', disciplinesId: [1, 2, 3] }];

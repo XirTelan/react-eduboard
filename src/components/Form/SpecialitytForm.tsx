@@ -5,47 +5,48 @@ import {
   Divider,
   TextField
 } from '@mui/material';
-import { Form, Formik, useFormikContext } from 'formik';
+import { Form, Formik, FormikHelpers, useFormikContext, validateYupSchema } from 'formik';
 import { ReactNode, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { disciplines } from '../../data/data';
-import { disciplineDTO } from '../../types';
-import AutocompleteField from '../UI/AutocompleteField';
+import { disciplineDTO, specialityCreationDTO, specialityDTO } from '../../types';
+import AutocompleteField, { autocompleteFieldModel } from '../UI/AutocompleteField';
+import * as Yup from 'yup';
 
-export default function SpecialityForm({ name, selectedDisciplines }: SpecialityFormProps) {
-  const [inputValue, setInputValue] = useState(() => (name ? name : ''));
-  const [selectedDisc, setSelectedDisc] = useState<disciplineDTO[] | null>(() =>
-    selectedDisciplines ? selectedDisciplines : []
+export default function SpecialityForm(props: SpecialityFormProps) {
+  const [inputValue, setInputValue] = useState('');
+  const [selectedDisc, setSelectedDisc] = useState(mapToModel(props.seletedDisciplined));
+  const [nonSelectedDisciplines, setNonSelectedDisciplines] = useState(
+    mapToModel(props.nonSelectedDisciplines)
   );
-  const [commonDisc, setCommonDisc] = useState(disciplines);
   const [value, setValue] = useState<disciplineDTO | null>();
 
-  const getNewArray = (value: disciplineDTO[], newValue: disciplineDTO) => {
-    return [...value, newValue].sort((a, b) => a.name.localeCompare(b.name));
-  };
-  const handleChange = (value: disciplineDTO[], newValue: disciplineDTO) => {
-    setCommonDisc((prevVal) => prevVal.filter((elem) => elem.id !== newValue.id));
-    setSelectedDisc(getNewArray(value, newValue));
+  const handleChange = (
+    seleted: autocompleteFieldModel[],
+    nonSelected: autocompleteFieldModel[]
+  ) => {
+    setNonSelectedDisciplines(nonSelected);
+    setSelectedDisc(seleted);
     setValue(null);
     setInputValue('');
   };
 
-  const removeSelectedItem = (id: number) => {
-    const item = selectedDisc?.find((elem) => elem.id === id);
-    setCommonDisc((prevVal) => [...prevVal, item!]);
-    setSelectedDisc((prevVal) => {
-      if (prevVal) return prevVal.filter((elem) => elem.id !== id);
-      else throw new Error('Selected Items Collection is null');
+  function mapToModel(items: { id: number; name: string }[]): autocompleteFieldModel[] {
+    return items.map((item) => {
+      return { key: item.id, name: item.name };
     });
-  };
-
+  }
   return (
     <Formik
-      initialValues={{ name: '', students: [] }}
-      onSubmit={(val) => {
-        console.log({ ...selectedDisc });
+      initialValues={props.model}
+      onSubmit={(val, actions) => {
+        val.disciplinesId = selectedDisc.map((item) => item.key);
+        props.onSubmit(val, actions);
         console.log(val);
-      }}>
+      }}
+      validationSchema={Yup.object({
+        name: Yup.string().required('This field is required')
+      })}>
       {(formikProps) => {
         return (
           <Form onSubmit={formikProps.handleSubmit}>
@@ -55,18 +56,11 @@ export default function SpecialityForm({ name, selectedDisciplines }: Speciality
               fullWidth
               label="Наименование"
             />
+            {formikProps.errors.name && <span>{formikProps.errors.name}</span>}
             <AutocompleteField
-              selectedLabel="Выбранные дисциплины"
-              commonItems={commonDisc}
-              value={value}
-              setValue={setValue}
-              handleChange={handleChange}
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-              setCommonItems={setCommonDisc}
-              selectedItems={selectedDisc}
-              setSelectedItems={setSelectedDisc}
-              removeSelectedItem={removeSelectedItem}
+              selected={selectedDisc}
+              nonSelected={nonSelectedDisciplines}
+              onChange={handleChange}
             />
             <Divider className="m-3" />
             <div className="text-center">
@@ -78,7 +72,7 @@ export default function SpecialityForm({ name, selectedDisciplines }: Speciality
                 variant="contained"
                 disabled={formikProps.isSubmitting}
                 type="submit">
-                Создать
+                {props.specialityEdit ? 'Сохранить изменения' : 'Создать'}
               </Button>
             </div>
           </Form>
@@ -89,6 +83,9 @@ export default function SpecialityForm({ name, selectedDisciplines }: Speciality
 }
 
 interface SpecialityFormProps {
-  name?: string;
-  selectedDisciplines?: disciplineDTO[];
+  model: specialityCreationDTO;
+  seletedDisciplined: disciplineDTO[];
+  nonSelectedDisciplines: disciplineDTO[];
+  specialityEdit?: specialityDTO;
+  onSubmit(values: specialityCreationDTO, actions: FormikHelpers<specialityCreationDTO>): void;
 }
