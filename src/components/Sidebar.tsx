@@ -13,6 +13,7 @@ import TocIcon from '@mui/icons-material/Toc';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import GroupIcon from '@mui/icons-material/Group';
 import HomeIcon from '@mui/icons-material/Home';
 
 interface SidebarProps {
@@ -56,8 +57,12 @@ export default function Sidebar({ isOpen, handleSidebar }: SidebarProps) {
           <Divider className="w-100" color="primary.main" />
           {/* <label>Настройки</label> */}
           <NavListItem isOpen={isOpen} to="/groups" title="Группы">
+            <GroupIcon />
+          </NavListItem>
+          <NavListItem isOpen={isOpen} to="/students" title="Студенты">
             <GroupsIcon />
           </NavListItem>
+          <Divider className="w-100" color="primary.main" />
           <NavListItem isOpen={isOpen} to="/specialities" title="Специальности">
             <ListAltIcon />
           </NavListItem>

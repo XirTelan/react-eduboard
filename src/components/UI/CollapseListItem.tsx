@@ -21,7 +21,8 @@ export default function CollapseListItem({
         <Typography
           sx={{
             backgroundColor: 'primary.main',
-            color: 'common.white'
+            color: 'common.white',
+            fontSize: '1rem'
           }}
           width={customWidth === undefined ? '30%' : customWidth}
           maxWidth="100%"
@@ -30,7 +31,9 @@ export default function CollapseListItem({
           padding={1}
           fontSize="24px"
           alignSelf="center"
-          variant="caption">
+          variant="caption"
+          
+          >
           {displayName}
         </Typography>
         <div className="align-self-center">

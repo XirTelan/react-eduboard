@@ -21,6 +21,7 @@ import { Box, CssBaseline } from '@mui/material';
 import SpecialityCreate from './page/SpecialityCreate';
 import GroupCreate from './page/GroupCreate';
 import SpecialityEdit from './page/SpecialityEdit';
+import StudentsList from './page/StudentsList';
 const drawerWidth = 240;
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
                 <Route path="/specialities" element={<SpecialitiesList />} />
                 <Route path="/specialities/create" element={<SpecialityCreate />} />
                 <Route path="/specialities/edit/:id" element={<SpecialityEdit />} />
+                <Route path="/students" element={<StudentsList />} />
                 <Route path="/users" element={<UserList />} />
                 <Route path="/users/create" element={<CreateUser />} />
                 <Route path="/attendance" element={<Attendance />} />

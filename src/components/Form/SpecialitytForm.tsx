@@ -39,7 +39,7 @@ export default function SpecialityForm(props: SpecialityFormProps) {
   return (
     <Formik
       initialValues={props.model}
-      onSubmit={(val, actions) => {
+      onSubmit={async (val, actions) => {
         val.disciplinesId = selectedDisc.map((item) => item.key);
         props.onSubmit(val, actions);
         console.log(val);

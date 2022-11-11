@@ -1,6 +1,7 @@
 import Groups from '@mui/icons-material/Groups';
 import { Box, Button, Typography } from '@mui/material';
 import { group } from 'console';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import AutocompleteField from '../components/UI/AutocompleteField';
 import CollapseListItem from '../components/UI/CollapseListItem';
 import Header from '../components/UI/Header';
@@ -27,7 +28,7 @@ export default function GroupList() {
   return (
     <>
       <Box className="bg-white p-3 m-3 rounded" sx={{ maxHeight: '89vh', overflow: 'auto' }}>
-        <Header title="Группы" buttonText="Создать группу" buttonLink="group/create" />
+        <Header title="Группы" buttonIcon={<GroupAddIcon/>} buttonText="Создать группу" buttonLink="group/create" />
 
         <ul>
           {groups.map((group) => {
