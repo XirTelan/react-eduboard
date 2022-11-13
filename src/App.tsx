@@ -74,10 +74,17 @@ function App() {
         </BrowserRouter>
       ) : (
         <BrowserRouter>
-          <Routes>
-            {/* <Route path="*" element={<h1>Not Found</h1>} /> */}
-            <Route path="*" element={<Login onChange={handleAuthorizePlaceholder} />} />
-          </Routes>
+          <div
+            style={{
+              backgroundColor: 'rgba(0, 212, 255)',
+              background:
+              "linear-gradient(to top, #2F80ED, #56CCF2)"
+            }}>
+            <Routes>
+              {/* <Route path="*" element={<h1>Not Found</h1>} /> */}
+              <Route path="*" element={<Login onChange={handleAuthorizePlaceholder} />} />
+            </Routes>
+          </div>
         </BrowserRouter>
       )}
     </>
