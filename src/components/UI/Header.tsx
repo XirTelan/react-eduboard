@@ -1,6 +1,8 @@
 import { Button, Divider, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header({ title, buttonText, buttonLink, buttonIcon }: HeaderProps) {
+  const navigate = useNavigate();
   return (
     <>
       <div className="d-flex justify-content-between">
@@ -11,7 +13,7 @@ export default function Header({ title, buttonText, buttonLink, buttonIcon }: He
           <>
             <Button
               startIcon={buttonIcon}
-              href={buttonLink}
+              onClick={() => navigate(`${buttonLink}`)}
               sx={{ backgroundColor: 'success.light' }}
               className="my-3"
               variant="contained"

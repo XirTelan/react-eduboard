@@ -56,7 +56,7 @@ export default function Sidebar({ isOpen, handleSidebar }: SidebarProps) {
           </NavListItem>
           <Divider className="w-100" color="primary.main" />
           {/* <label>Настройки</label> */}
-          <NavListItem isOpen={isOpen} to="/groups" title="Группы">
+          <NavListItem isOpen={isOpen} to="/group" title="Группы">
             <GroupIcon />
           </NavListItem>
           <NavListItem isOpen={isOpen} to="/students" title="Студенты">

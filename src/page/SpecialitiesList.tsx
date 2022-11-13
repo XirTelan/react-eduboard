@@ -22,7 +22,7 @@ export default function SpecialitiesList() {
       className="bg-white m-3 p-3 rounded">
       <Header
         title="Специальности"
-        buttonLink="specialities/create"
+        buttonLink="create"
         buttonText="Создать специальность"
       />
       <ul>

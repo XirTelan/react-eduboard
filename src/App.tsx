@@ -37,8 +37,8 @@ function App() {
 
   return (
     <>
-      {isAuthoraized ? (
-        <BrowserRouter>
+      <BrowserRouter>
+        {isAuthoraized ? (
           <Box sx={{ display: 'flex', width: 'fil-available' }}>
             <CssBaseline />
             <Sidebar isOpen={open} handleSidebar={handleSidebar} />
@@ -57,7 +57,7 @@ function App() {
                   <Route path="/intermediate-controll" element={<IntermediateControll />} />
                   <Route path="/current-controll" element={<CurrentControll />} />
                   <Route path="/discipline" element={<DiscplinesList />} />
-                  <Route path="/groups" element={<GroupList />} />
+                  <Route path="/group" element={<GroupList />} />
                   <Route path="/group/create" element={<GroupCreate />} />
                   <Route path="/specialities" element={<SpecialitiesList />} />
                   <Route path="/specialities/create" element={<SpecialityCreate />} />
@@ -71,22 +71,19 @@ function App() {
               </Box>
             </Box>
           </Box>
-        </BrowserRouter>
-      ) : (
-        <BrowserRouter>
+        ) : (
           <div
             style={{
               backgroundColor: 'rgba(0, 212, 255)',
-              background:
-              "linear-gradient(to top, #2F80ED, #56CCF2)"
+              background: 'linear-gradient(to top, #2F80ED, #56CCF2)'
             }}>
             <Routes>
               {/* <Route path="*" element={<h1>Not Found</h1>} /> */}
               <Route path="*" element={<Login onChange={handleAuthorizePlaceholder} />} />
             </Routes>
           </div>
-        </BrowserRouter>
-      )}
+        )}
+      </BrowserRouter>
     </>
   );
 }

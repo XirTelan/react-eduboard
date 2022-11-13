@@ -28,7 +28,7 @@ export default function GroupList() {
   return (
     <>
       <Box className="bg-white p-3 m-3 rounded" sx={{ maxHeight: '89vh', overflow: 'auto' }}>
-        <Header title="Группы" buttonIcon={<GroupAddIcon/>} buttonText="Создать группу" buttonLink="group/create" />
+        <Header title="Группы" buttonIcon={<GroupAddIcon/>} buttonText="Создать группу" buttonLink="create" />
 
         <ul>
           {groups.map((group) => {
