@@ -27,7 +27,7 @@ const drawerWidth = 240;
 
 function App() {
   const [open, setOpen] = React.useState(true);
-  const [isAuthoraized, setIsAuthoraized] = React.useState(false);
+  const [isAuthoraized, setIsAuthoraized] = React.useState(true);
   const handleAuthorizePlaceholder = (login: string, password: string) => {
     if (login === 'admin' && password === 'admin') setIsAuthoraized(true);
   };
@@ -43,10 +43,17 @@ function App() {
             <CssBaseline />
             <Sidebar isOpen={open} handleSidebar={handleSidebar} />
             <Box
+              style={{
+                backgroundColor: 'rgba(0, 212, 255)',
+                background: 'linear-gradient(to top, #2F80ED, #56CCF2)'
+              }}
+              className="overflow-hidden"
               sx={{
                 flex: '1 1 0',
                 backgroundColor: 'grey.100'
               }}>
+              {squreBackground('45deg', '0', '50px')}
+              {squreBackground('225deg', undefined, undefined, 0, 0)}
               <Nav />
               <Box component="main" sx={{ overflow: 'auto', maxWidth: '100vw', maxHeight: '89vh' }}>
                 <Routes>
@@ -87,5 +94,94 @@ function App() {
     </>
   );
 }
+
+export const squreBackground = (
+  deg: string,
+  topVal?: string | number,
+  rightVal?: string | number,
+  leftVal?: string | number,
+  bottomVal?: string | number
+) => {
+  return (
+    <>
+      <div
+        style={{
+          width: '600px',
+          height: '500px',
+          right: rightVal,
+          top: topVal,
+          bottom: bottomVal,
+          left: leftVal,
+          // backgroundColor: 'white',
+          columnGap: '10px',
+          rowGap: '10px',
+          gridTemplateColumns: 'repeat(10,100px)',
+          gridTemplateRows: 'repeat(6,100px)',
+          transformOrigin: 'center',
+          aspectRatio: '1/1',
+          rotate: `${deg}`
+        }}
+        className="overflow-hidden position-absolute d-grid">
+        <div
+          style={{
+            gridColumn: '3/ span 2',
+            gridRow: 'span 2',
+            backgroundColor: 'rgba(255,255,255,0.1)'
+          }}
+        />
+
+        <div
+          style={{
+            gridColumn: '3',
+            gridRow: '3',
+            backgroundColor: 'rgba(255,255,255,0.1)'
+          }}
+        />
+        <div
+          style={{
+            gridColumn: '5',
+            gridRow: '2',
+            backgroundColor: 'rgba(255,255,255,0.1)'
+          }}
+        />
+        <div
+          style={{
+            gridColumn: '3',
+            gridRow: '5',
+            backgroundColor: 'rgba(255,255,255,0.1)'
+          }}
+        />
+        <div
+          style={{
+            gridColumn: '6',
+            gridRow: '5',
+            backgroundColor: 'rgba(255,255,255,0.1)'
+          }}
+        />
+        <div
+          style={{
+            gridColumn: '4 / span 2',
+            gridRow: '3 / span 2',
+            backgroundColor: 'rgba(0,255,0,0.2)'
+          }}
+        />
+
+        <div
+          style={{
+            gridColumn: '2',
+            backgroundColor: 'rgba(255,255,255,0.1)'
+          }}
+        />
+        <div
+          style={{
+            gridColumn: '6 / span 4',
+            gridRow: '1 / span 4',
+            backgroundColor: 'rgba(255,255,255,0.1)'
+          }}
+        />
+      </div>
+    </>
+  );
+};
 
 export default App;
