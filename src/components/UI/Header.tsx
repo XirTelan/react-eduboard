@@ -1,12 +1,12 @@
-import { Button, Divider, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 export default function Header({ title, buttonText, buttonLink, buttonIcon }: HeaderProps) {
   const navigate = useNavigate();
   return (
     <>
-      <div className="d-flex justify-content-between">
-        <Typography alignSelf="center" variant="h4" color="primary.main">
+      <Box className="p-3 d-flex align-items-center justify-content-between mt-2 mb-1 mx-2 rounded bg-white">
+        <Typography variant="h5" color="primary.main">
           {title}
         </Typography>
         {buttonText && (
@@ -15,15 +15,13 @@ export default function Header({ title, buttonText, buttonLink, buttonIcon }: He
               startIcon={buttonIcon}
               onClick={() => navigate(`${buttonLink}`)}
               sx={{ backgroundColor: 'success.light' }}
-              className="my-3"
               variant="contained"
               size="large">
               {buttonText}
             </Button>
           </>
         )}
-      </div>
-      <Divider style={{ margin: '10px 0', width: '100%' }} />
+      </Box>
     </>
   );
 }

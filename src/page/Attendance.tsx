@@ -21,6 +21,7 @@ import {
 } from '@mui/x-data-grid';
 import { useState } from 'react';
 import Filter from '../components/Filter';
+import Header from '../components/UI/Header';
 import { months } from '../data/data';
 
 const rows: GridRowsProp = [
@@ -84,12 +85,9 @@ export default function Attendance() {
   const columns: GridColDef[] = [...columnsDefault, ...daysColumn];
   return (
     <>
-      <Box className="bg-white p-3 m-3 rounded">
-        <Typography variant="h4" color="primary.main">
-          Посещяемость
-        </Typography>
-        <Divider className="my-3" />
-        <Filter isYearSelectable periodicity="monthly" />
+      <Header title="Посещяемость" />
+      <Filter isYearSelectable periodicity="monthly" />
+      <Box className="bg-white p-3 mx-2 rounded">
         <DataGrid
           autoHeight
           experimentalFeatures={{ columnGrouping: true }}

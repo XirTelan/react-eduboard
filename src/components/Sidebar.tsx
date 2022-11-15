@@ -1,7 +1,6 @@
 import { Divider, IconButton, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import NavListItem from './UI/NavListItem';
-import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -14,7 +13,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import GroupIcon from '@mui/icons-material/Group';
-import HomeIcon from '@mui/icons-material/Home';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -38,7 +36,6 @@ export default function Sidebar({ isOpen, handleSidebar }: SidebarProps) {
         <ul
           className="nav nav-pills w-100 flex-column mb-sm-auto mb-0 align-text-center align-items-center align-items-sm-start"
           id="menu">
-          {/* <Typography variant="subtitle1">Основное</Typography> */}
           <NavListItem isOpen={isOpen} to="/attendance" title="Посещяемость">
             <CalendarMonthIcon />
           </NavListItem>
@@ -55,7 +52,6 @@ export default function Sidebar({ isOpen, handleSidebar }: SidebarProps) {
             <EventAvailableIcon />
           </NavListItem>
           <Divider className="w-100" color="primary.main" />
-          {/* <label>Настройки</label> */}
           <NavListItem isOpen={isOpen} to="/group" title="Группы">
             <GroupIcon />
           </NavListItem>

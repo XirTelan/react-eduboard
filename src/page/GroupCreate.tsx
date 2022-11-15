@@ -3,17 +3,15 @@ import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import GroupForm from '../components/Form/GroupForm';
+import Header from '../components/UI/Header';
 
 export default function GroupCreate() {
   return (
-    <Box className="bg-white p-3 m-3 rounded">
-      <Typography
-        sx={{ fontWeight: 'bold', alignSelf: 'center' }}
-        variant="h4"
-        color="primary.main">
-        Создать группу
-      </Typography>
-      <GroupForm />
-    </Box>
+    <>
+      <Header title=" Создать группу" />
+      <Box className="bg-white p-3 mx-2 rounded">
+        <GroupForm />
+      </Box>
+    </>
   );
 }

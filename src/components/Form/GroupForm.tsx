@@ -1,9 +1,15 @@
 import { ReactNode, useState } from 'react';
-import { Autocomplete, AutocompleteRenderInputParams, Button, TextField } from '@mui/material';
+import {
+  Autocomplete,
+  AutocompleteRenderInputParams,
+  Button,
+  TextField,
+  Typography
+} from '@mui/material';
 import AutocompleteField from '../UI/AutocompleteField';
 import * as Yup from 'yup';
 
-import { Form, Formik, useFormikContext } from 'formik';
+import { ErrorMessage, Form, Formik, useFormikContext } from 'formik';
 import { Link } from 'react-router-dom';
 
 export default function GroupForm() {
@@ -27,9 +33,7 @@ export default function GroupForm() {
                 error={!!formikProps.errors.name}
                 sx={{ width: '80%' }}
               />
-              {formikProps.errors.name && formikProps.touched.name && (
-                <h4> {formikProps.errors.name}</h4>
-              )}
+
               <TextField
                 {...formikProps.getFieldProps('course')}
                 margin="normal"
@@ -60,12 +64,22 @@ export default function GroupForm() {
               renderInput={(params) => <TextField {...params} label="Выбрать специальность" />}
               sx={{ margin: '10px 0' }}
             />
-            <Button disabled={formikProps.isSubmitting} type="submit">
-              Save Changes
-            </Button>
+            {formikProps.errors.name && formikProps.touched.name && (
+              <>
+                <Typography variant="subtitle1">Обнаружены ошибки при заполнении</Typography>
+                <ErrorMessage component="div" name="name" />
+              </>
+            )}
             <Link className="btn btn-secondary m-1" to="/users">
               Cancel
             </Link>
+            <Button
+              color="success"
+              variant="contained"
+              disabled={formikProps.isSubmitting }
+              type="submit">
+              Save Changes
+            </Button>
           </Form>
         );
       }}

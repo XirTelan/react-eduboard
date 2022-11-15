@@ -11,16 +11,17 @@ import {
   ruRU
 } from '@mui/x-data-grid';
 import Filter from '../Filter';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { students } from '../../data/data';
 
 interface ControllerProps {
   name: string;
 }
-const rows: GridRowsProp = [
-  { id: 1, indx: 1, fio: 'Ivanonv Ivan Ivanovich', col2: 'World' },
-  { id: 2, indx: 2, fio: 'Ivanonv Ivan Ivanovich', col2: 'is Awesome' },
-  { id: 3, indx: 3, fio: 'Ivanonv Ivan Ivanovich', col2: 'is Amazing' }
-];
+const rows: GridRowsProp = students.map((student, indx) => ({
+  id: student.id,
+  indx: indx + 1,
+  fio: student.name
+}));
 
 const columns: GridColDef[] = [
   { field: 'indx', headerName: '№', flex: 1 },
@@ -65,7 +66,7 @@ export default function BaseControll(props: GenControllProps) {
   ];
   console.log(nameController);
   return (
-    <>
+    <Box className="bg-white p-3  mx-2 rounded">
       <h2 className="d-flex justify-content-center">{nameController.name}</h2>
       <div className="mb-2">
         <DataGrid
@@ -84,6 +85,6 @@ export default function BaseControll(props: GenControllProps) {
           Сохранить
         </Button>
       </div>
-    </>
+    </Box>
   );
 }

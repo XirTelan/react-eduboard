@@ -27,10 +27,14 @@ export default function GroupList() {
 
   return (
     <>
-      <Box className="bg-white p-3 m-3 rounded" sx={{ maxHeight: '89vh', overflow: 'auto' }}>
-        <Header title="Группы" buttonIcon={<GroupAddIcon/>} buttonText="Создать группу" buttonLink="create" />
-
-        <ul>
+      <Header
+        title="Группы"
+        buttonIcon={<GroupAddIcon />}
+        buttonText="Создать группу"
+        buttonLink="create"
+      />
+      <Box className="bg-white p-3 mx-2 rounded" sx={{ maxHeight: '89vh', overflow: 'auto' }}>
+        <ul className='p-0'>
           {groups.map((group) => {
             return (
               <CollapseListItem key={group.id} displayName={group.name} items={group.students}>

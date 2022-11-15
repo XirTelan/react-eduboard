@@ -3,16 +3,15 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import { Formik } from 'formik';
+import Header from '../components/UI/Header';
 
 export default function DiscplinesList() {
   const specialities = ['Русский язык', 'Математика', 'Информатика', 'Физика'];
 
   return (
     <>
-      <Box className="bg-white p-3 m-3 rounded">
-        <Typography variant="h4" color="primary.main">
-          Дисциплины
-        </Typography>
+      <Header title="Дисциплины" />
+      <Box className="bg-white p-3 mx-2 rounded">
         <Formik initialValues={{ speciality: '1' }} onSubmit={(e) => console.log(e)}>
           <form className="my-3">
             <div className="d-flex justify-content-center">

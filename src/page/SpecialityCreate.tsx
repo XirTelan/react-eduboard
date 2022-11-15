@@ -19,14 +19,14 @@ export default function SpecialityCreate() {
     }
   }
   return (
-    <Box className="bg-white p-3 m-3 rounded">
+    <>
       <Header title="Добавить специальность" />
       <SpecialitytForm
         model={{ name: '', disciplinesId: [] }}
         seletedDisciplined={[]}
         nonSelectedDisciplines={disciplines}
-        onSubmit={async values =>await create(values)}
+        onSubmit={async (values) => await create(values)}
       />
-    </Box>
+    </>
   );
 }

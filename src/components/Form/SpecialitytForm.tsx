@@ -1,6 +1,7 @@
 import {
   Autocomplete,
   AutocompleteRenderInputParams,
+  Box,
   Button,
   Divider,
   TextField
@@ -49,33 +50,37 @@ export default function SpecialityForm(props: SpecialityFormProps) {
       })}>
       {(formikProps) => {
         return (
-          <Form onSubmit={formikProps.handleSubmit}>
-            <TextField
-              {...formikProps.getFieldProps('name')}
-              margin="normal"
-              fullWidth
-              label="Наименование"
-            />
-            {formikProps.errors.name && <span>{formikProps.errors.name}</span>}
-            <AutocompleteField
-              selected={selectedDisc}
-              nonSelected={nonSelectedDisciplines}
-              onChange={handleChange}
-            />
-            <Divider className="m-3" />
-            <div className="text-center">
-              <Link className="btn btn-secondary m-1" to="/specialities">
-                Назад
-              </Link>
-              <Button
-                sx={{ width: '90%', backgroundColor: 'success.main' }}
-                variant="contained"
-                disabled={formikProps.isSubmitting}
-                type="submit">
-                {props.specialityEdit ? 'Сохранить изменения' : 'Создать'}
-              </Button>
-            </div>
-          </Form>
+          <>
+            <Form onSubmit={formikProps.handleSubmit}>
+              <Box className="bg-white px-3 pb-3 mx-2 mb-1 rounded">
+                <TextField
+                  {...formikProps.getFieldProps('name')}
+                  margin="normal"
+                  fullWidth
+                  label="Наименование"
+                />
+                {formikProps.errors.name && <span>{formikProps.errors.name}</span>}
+                <AutocompleteField
+                  selected={selectedDisc}
+                  nonSelected={nonSelectedDisciplines}
+                  onChange={handleChange}
+                />
+              </Box>
+
+              <Box className="bg-white p-1 mx-2 rounded d-flex justify-content-between">
+                <Link className="btn btn-secondary " to="/specialities">
+                  Назад
+                </Link>
+                <Button
+                  variant="contained"
+                  color="success"
+                  disabled={formikProps.isSubmitting}
+                  type="submit">
+                  {props.specialityEdit ? 'Сохранить изменения' : 'Создать'}
+                </Button>
+              </Box>
+            </Form>
+          </>
         );
       }}
     </Formik>

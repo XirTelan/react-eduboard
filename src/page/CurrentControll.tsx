@@ -1,13 +1,12 @@
 import { Box, Typography } from '@mui/material';
 import BaseControll from '../components/Form/BaseControll';
 import Filter from '../components/Filter';
+import Header from '../components/UI/Header';
 
 export default function CurrentControll() {
   return (
-    <Box className="bg-white p-3 m-3 rounded">
-      <Typography variant="h4" color="primary.main">
-        Текущий контроль
-      </Typography>
+    <>
+      <Header title=" Текущий контроль" />
       <Filter isYearSelectable periodicity="monthly" />
       <BaseControll
         disc={[
@@ -25,6 +24,6 @@ export default function CurrentControll() {
           'Электротехника'
         ]}
       />
-    </Box>
+    </>
   );
 }

@@ -1,13 +1,12 @@
 import { Box, Typography } from '@mui/material';
 import BaseControll from '../components/Form/BaseControll';
 import Filter from '../components/Filter';
+import Header from '../components/UI/Header';
 
 export default function EntranceControll() {
   return (
-    <Box className="bg-white p-3 m-3 rounded">
-      <Typography variant="h4" color="primary.main">
-        Входной контроль
-      </Typography>
+    <>
+      <Header title="Входной контроль" />
       <Filter periodicity="none" />
       <BaseControll
         disc={[
@@ -25,6 +24,6 @@ export default function EntranceControll() {
           'Электротехника'
         ]}
       />
-    </Box>
+    </>
   );
 }

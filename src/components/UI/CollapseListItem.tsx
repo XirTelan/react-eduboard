@@ -31,9 +31,7 @@ export default function CollapseListItem({
           padding={1}
           fontSize="24px"
           alignSelf="center"
-          variant="caption"
-          
-          >
+          variant="caption">
           {displayName}
         </Typography>
         <div className="align-self-center">
@@ -51,21 +49,28 @@ export default function CollapseListItem({
       <Collapse in={isChecked}>
         <div className="my-2">{children}</div>
 
-        <ul className="list-group m-3">
-          {items.map((elem) => (
-            <li className="list-group-item" key={elem.id}>
-              {elem.name}
-            </li>
-          ))}
-        </ul>
+        {items && (
+          <ul className="list-group m-3">
+            {items.map((elem) => (
+              <li className="list-group-item" key={elem.id}>
+                {elem.name}
+              </li>
+            ))}
+          </ul>
+        )}
       </Collapse>
     </li>
   );
 }
 
+interface CollapseListInnerListModel {
+  id: number;
+  name: string;
+}
+
 interface CollapleListItemProps {
   displayName: string;
-  items: StudentDTO[] | disciplineDTO[];
+  items?: CollapseListInnerListModel[];
   children?: React.ReactNode;
   customWidth?: string;
 }

@@ -13,12 +13,9 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { useState } from 'react';
-import { idText } from 'typescript';
 import { months } from '../data/data';
-import AutocompleteField from './UI/AutocompleteField';
-import Button from './UI/Button';
 interface groupDTO {
   id: number;
   name: string;
@@ -68,7 +65,7 @@ export default function Filter({ isYearSelectable, periodicity }: FilterProps) {
 
   return (
     <>
-      <Box className="d-flex my-4 justify-content-center">
+      <Box className="bg-white mb-1 p-3 mx-2 rounded d-flex justify-content-center">
         <Formik initialValues={initialValue} onSubmit={(submitValue) => console.log(submitValue)}>
           {(formikProps) => (
             <Form>
@@ -94,11 +91,9 @@ export default function Filter({ isYearSelectable, periodicity }: FilterProps) {
                     <Autocomplete
                       id="typeahead"
                       options={['ЭО-312', 'АА-312', 'ФМ-412']}
-                      // getOptionLabel={(elem) => elem.name}
                       placeholder="asd"
                       renderInput={(params) => <TextField {...params} label="Выбрать группу" />}
                     />
-                    {/* <AutocompleteField displayName='Группа' /> */}
                   </FormControl>
                 </div>
                 {isYearSelectable && (
@@ -148,16 +143,6 @@ export default function Filter({ isYearSelectable, periodicity }: FilterProps) {
                   <Typography>2-я половина</Typography>
                 </div>
               )}
-              {/* <div className="col-auto">
-                <Button className="btn btn-primary" onClick={() => formikProps.submitForm()}>
-                  Загрузить
-                </Button>
-                <Button
-                  className="btn btn-danger ms-3"
-                  onClick={() => formikProps.setValues(initialValue)}>
-                  Clear
-                </Button>
-              </div> */}
             </Form>
           )}
         </Formik>
