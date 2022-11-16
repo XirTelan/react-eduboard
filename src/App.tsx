@@ -41,7 +41,7 @@ function App() {
         {isAuthoraized ? (
           <Box sx={{ display: 'flex', width: 'fil-available' }}>
             <CssBaseline />
-            <Sidebar isOpen={open} handleSidebar={handleSidebar} />
+            <Sidebar isOpen={open} authorize={setIsAuthoraized} handleSidebar={handleSidebar} />
             <Box
               style={{}}
               className="position-relative overflow-hidden"

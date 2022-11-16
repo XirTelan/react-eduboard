@@ -1,29 +1,54 @@
 import Groups from '@mui/icons-material/Groups';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { group } from 'console';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import AutocompleteField from '../components/UI/AutocompleteField';
 import CollapseListItem from '../components/UI/CollapseListItem';
 import Header from '../components/UI/Header';
-import TextField from '../components/UI/TextField';
 import { groupDTO, StudentDTO } from '../types';
+import { useState } from 'react';
+
+const students: StudentDTO[] = [
+  { id: 1, name: '123' },
+  { id: 2, name: 'Lex' }
+];
+const students2: StudentDTO[] = [
+  { id: 1, name: 'Petrov' },
+  { id: 2, name: 'Ivanod' }
+];
+const students3: StudentDTO[] = [
+  { id: 1, name: 'Oleg' },
+  { id: 2, name: 'Max' }
+];
+const students4: StudentDTO[] = [
+  { id: 1, name: 'Stanislav' },
+  { id: 2, name: 'Stive' }
+];
+const students5: StudentDTO[] = [
+  { id: 1, name: 'Igor' },
+  { id: 2, name: 'Anton' }
+];
+
+const groupsData: groupDTO[] = [
+  { id: 1, name: 'АА-142d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
+  { id: 2, name: 'АБ-76d', speciality: '01315631 asdafaljb vzx;kjhbfa', students: students2 },
+  { id: 3, name: 'АЧ-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students: students3 },
+  { id: 4, name: 'АО-53d', speciality: '01315631 asdafaljb vzx;kjhbfa', students: students4 },
+  { id: 5, name: 'АО-а3d', speciality: '01315631 asdafaljb vzx;kjhbfa', students: students5 },
+  { id: 6, name: 'БО-33d', speciality: '01315631 asdafaljb vzx;kjhbfa', students: students2 },
+  { id: 7, name: 'БО-43d', speciality: '01315631 asdafaljb vzx;kjhbfa', students: students4 },
+  { id: 8, name: 'БО-53d', speciality: '01315631 asdafaljb vzx;kjhbfa', students: students3 },
+  { id: 9, name: 'БО-63d', speciality: '01315631 asdafaljb vzx;kjhbfa', students: students5 }
+];
 
 export default function GroupList() {
-  const students: StudentDTO[] = [
-    { id: 1, name: 'Иванов иван иванович' },
-    { id: 2, name: 'Alex' }
-  ];
-  const groups: groupDTO[] = [
-    { id: 1, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
-    { id: 2, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
-    { id: 3, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
-    { id: 4, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
-    { id: 5, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
-    { id: 6, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
-    { id: 7, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
-    { id: 8, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students },
-    { id: 9, name: 'ЭО-13d', speciality: '01315631 asdafaljb vzx;kjhbfa', students }
-  ];
+  const [groups, setGroups] = useState(groupsData);
+  const [seacrhString, setSearchString] = useState('');
+  function findStudent(search: string) {
+    setGroups(
+      groupsData.filter((group) => group.students.some((student) => student.name.includes(search)))
+    );
+  }
 
   return (
     <>
@@ -33,8 +58,21 @@ export default function GroupList() {
         buttonText="Создать группу"
         buttonLink="create"
       />
+
+      <Box className="bg-white p-3 mx-2 mb-1 rounded">
+        <TextField
+          fullWidth
+          label="Поиск студента"
+          variant="standard"
+          value={seacrhString}
+          onChange={(e) => {
+            setSearchString(e.target.value);
+            findStudent(e.target.value);
+          }}
+        />
+      </Box>
       <Box className="bg-white p-3 mx-2 rounded" sx={{ maxHeight: '89vh', overflow: 'auto' }}>
-        <ul className='p-0'>
+        <ul className="p-0">
           {groups.map((group) => {
             return (
               <CollapseListItem key={group.id} displayName={group.name} items={group.students}>

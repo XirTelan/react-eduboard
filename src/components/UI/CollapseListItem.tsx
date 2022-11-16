@@ -9,11 +9,12 @@ import { disciplineDTO, groupDTO, specialityDTO, StudentDTO } from '../../types'
 
 export default function CollapseListItem({
   displayName,
+  isOpen = false,
   customWidth,
   items,
   children
 }: CollapleListItemProps) {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(isOpen);
   const navigate = useNavigate();
   return (
     <li className="list-group-item shadow-sm rounded m-1">
@@ -70,6 +71,7 @@ interface CollapseListInnerListModel {
 
 interface CollapleListItemProps {
   displayName: string;
+  isOpen?: boolean;
   items?: CollapseListInnerListModel[];
   children?: React.ReactNode;
   customWidth?: string;

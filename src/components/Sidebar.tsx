@@ -13,17 +13,19 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import GroupIcon from '@mui/icons-material/Group';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 interface SidebarProps {
   isOpen: boolean;
   handleSidebar: () => void;
+  authorize: (state: boolean) => void;
 }
 
-export default function Sidebar({ isOpen, handleSidebar }: SidebarProps) {
+export default function Sidebar({ isOpen, handleSidebar, authorize }: SidebarProps) {
   return (
     <>
       <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100 ">
-        <div className="d-flex align-items-center   mx-auto me-md-auto text-decoration-none">
+        <div className="d-flex gap-2 align-items-center   mx-auto me-md-auto text-decoration-none">
           <AccountCircleIcon />
           {isOpen && (
             <span className="ms-1 fw-bold d-flex align-content-center d-sm-inline">
@@ -31,7 +33,11 @@ export default function Sidebar({ isOpen, handleSidebar }: SidebarProps) {
               <br /> Роль: Админ
             </span>
           )}
+          <IconButton color='primary' aria-label="logout" onClick={() => authorize(false)}>
+            <LogoutIcon />
+          </IconButton>
         </div>
+
         <hr className="w-100 text-secondary" />
         <ul
           className="nav nav-pills w-100 flex-column mb-sm-auto mb-0 align-text-center align-items-center align-items-sm-start"
