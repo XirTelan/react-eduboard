@@ -14,6 +14,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import GroupIcon from '@mui/icons-material/Group';
 import LogoutIcon from '@mui/icons-material/Logout';
+import './Sidebar.css';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -24,8 +25,11 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, handleSidebar, authorize }: SidebarProps) {
   return (
     <>
-      <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100 ">
-        <div className="d-flex gap-2 align-items-center   mx-auto me-md-auto text-decoration-none">
+      <aside
+        className={`d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100 ${
+          isOpen ? '' : 'active'
+        } `}>
+        <div className="d-flex gap-2 align-items-center flex-column  mx-auto me-md-auto text-decoration-none">
           <AccountCircleIcon />
           {isOpen && (
             <span className="ms-1 fw-bold d-flex align-content-center d-sm-inline">
@@ -33,7 +37,7 @@ export default function Sidebar({ isOpen, handleSidebar, authorize }: SidebarPro
               <br /> Роль: Админ
             </span>
           )}
-          <IconButton color='primary' aria-label="logout" onClick={() => authorize(false)}>
+          <IconButton color="primary" aria-label="logout" onClick={() => authorize(false)}>
             <LogoutIcon />
           </IconButton>
         </div>
@@ -76,7 +80,7 @@ export default function Sidebar({ isOpen, handleSidebar, authorize }: SidebarPro
         <IconButton onClick={handleSidebar}>
           {isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
         </IconButton>
-      </div>
+      </aside>
     </>
   );
 }

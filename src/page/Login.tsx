@@ -2,6 +2,7 @@ import { Button, Input, TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import { squreBackground } from '../App';
+import './Login.css';
 
 export default function Login({ onChange }: LoginProps) {
   return (
@@ -17,20 +18,26 @@ export default function Login({ onChange }: LoginProps) {
           {(formikProps) => (
             <Form onSubmit={formikProps.handleSubmit}>
               <div
+                id="login-form"
                 style={{
                   backdropFilter: 'blur(10px)',
                   backgroundColor: 'rgba(255,255,255,0.1)'
                 }}
-                className="shadow rounded d-flex">
-                <div className=" m-3 flex-grow-1 d-flex flex-wrap  flex-row bg-white rounded">
-                  <div className="p-3 d-flex gap-3 flex-column">
+                className={`shadow  p-3 ${formikProps.isSubmitting ? 'active ' : ''}`}>
+                <div
+                  className={`login-form-inner d-flex justify-content-center   ${
+                    formikProps.isSubmitting ? 'active ' : 'bg-white'
+                  }`}>
+                  <div className="p-3">
                     <TextField
+                      className={`mb-1 input-field ${formikProps.isSubmitting ? 'active' : ''}`}
                       label="login"
                       fullWidth
                       {...formikProps.getFieldProps('login')}
                       onChange={formikProps.handleChange}
                       type="text"></TextField>
                     <TextField
+                      className={`input-field ${formikProps.isSubmitting ? 'active' : ''}`}
                       label="password"
                       fullWidth
                       {...formikProps.getFieldProps('password')}
@@ -38,12 +45,13 @@ export default function Login({ onChange }: LoginProps) {
                       aria-label="Password"
                       type="password"></TextField>
                   </div>
-                  <div className="p-1 mx-3 d-flex flex-grow-1 align-self-center">
+                  <div className="p-1 mx-3 align-self-center">
                     <Button
                       sx={{ width: '5rem', height: '5rem' }}
                       color="success"
                       variant="contained"
-                      type="submit">
+                      type="submit"
+                      className={`input-field ${formikProps.isSubmitting ? 'active' : ''}`}>
                       <ArrowCircleRightOutlinedIcon sx={{ fontSize: '2rem' }} />
                     </Button>
                   </div>

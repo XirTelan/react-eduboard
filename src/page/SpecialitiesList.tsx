@@ -21,7 +21,8 @@ export default function SpecialitiesList() {
         params: { page, recordsPerPage }
       })
       .then((response: AxiosResponse<specialityDTO[]>) => {
-        const totalAmountOfRecords = parseInt(response.headers['totalamountofrecords']!, 10);
+        const responseHeader = response.headers['totalamountofrecords'];
+        const totalAmountOfRecords = parseInt(responseHeader ? responseHeader : '', 10);
         setTotalAmountOfPages(Math.ceil(totalAmountOfRecords / recordsPerPage));
         setSpecialities(response.data);
       });
