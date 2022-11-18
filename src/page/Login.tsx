@@ -3,8 +3,12 @@ import { Form, Formik } from 'formik';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import { squreBackground } from '../App';
 import './Login.css';
+import { useState } from 'react';
 
 export default function Login({ onChange }: LoginProps) {
+  const [authorize, setAuthorize] = useState(false);
+  const [result, setResult] = useState(undefined);
+
   return (
     <>
       <div className="vh-100 vw-100 d-flex overflow-hidden align-items-center position-relative justify-content-center">
@@ -14,7 +18,13 @@ export default function Login({ onChange }: LoginProps) {
 
         <Formik
           initialValues={{ login: '', password: '' }}
-          onSubmit={(e) => onChange(e.login, e.password)}>
+          onSubmit={async (e) => {
+            setAuthorize(true);
+            onChange(e.login, e.password)
+              .then((val) => console.log(val))
+              .catch((error) => console.log(error))
+              .finally(() => setAuthorize(false));
+          }}>
           {(formikProps) => (
             <Form onSubmit={formikProps.handleSubmit}>
               <div
@@ -23,21 +33,21 @@ export default function Login({ onChange }: LoginProps) {
                   backdropFilter: 'blur(10px)',
                   backgroundColor: 'rgba(255,255,255,0.1)'
                 }}
-                className={`shadow  p-3 ${formikProps.isSubmitting ? 'active ' : ''}`}>
+                className={`shadow  p-3 ${authorize ? 'active ' : ''}`}>
                 <div
                   className={`login-form-inner d-flex justify-content-center   ${
-                    formikProps.isSubmitting ? 'active ' : 'bg-white'
+                    authorize ? 'active ' : 'bg-white'
                   }`}>
                   <div className="p-3">
                     <TextField
-                      className={`mb-1 input-field ${formikProps.isSubmitting ? 'active' : ''}`}
+                      className={`mb-1 input-field ${authorize ? 'active' : ''}`}
                       label="login"
                       fullWidth
                       {...formikProps.getFieldProps('login')}
                       onChange={formikProps.handleChange}
                       type="text"></TextField>
                     <TextField
-                      className={`input-field ${formikProps.isSubmitting ? 'active' : ''}`}
+                      className={`input-field ${authorize ? 'active' : ''}`}
                       label="password"
                       fullWidth
                       {...formikProps.getFieldProps('password')}
@@ -51,7 +61,7 @@ export default function Login({ onChange }: LoginProps) {
                       color="success"
                       variant="contained"
                       type="submit"
-                      className={`input-field ${formikProps.isSubmitting ? 'active' : ''}`}>
+                      className={`input-field ${authorize ? 'active' : ''}`}>
                       <ArrowCircleRightOutlinedIcon sx={{ fontSize: '2rem' }} />
                     </Button>
                   </div>
@@ -66,5 +76,5 @@ export default function Login({ onChange }: LoginProps) {
 }
 
 interface LoginProps {
-  onChange(login: string, password: string): void;
+  onChange(login: string, password: string): Promise<boolean>;
 }

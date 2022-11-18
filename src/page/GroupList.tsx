@@ -44,10 +44,8 @@ const groupsData: groupDTO[] = [
 export default function GroupList() {
   const [groups, setGroups] = useState(groupsData);
   const [seacrhString, setSearchString] = useState('');
-  function findStudent(search: string) {
-    setGroups(
-      groupsData.filter((group) => group.students.some((student) => student.name.includes(search)))
-    );
+  function findGroup(search: string) {
+    setGroups(groupsData.filter((group) => group.name.includes(search)));
   }
 
   return (
@@ -62,12 +60,12 @@ export default function GroupList() {
       <Box className="bg-white p-3 mx-2 mb-1 rounded">
         <TextField
           fullWidth
-          label="Поиск студента"
+          label="Поиск группы"
           variant="standard"
           value={seacrhString}
           onChange={(e) => {
             setSearchString(e.target.value);
-            findStudent(e.target.value);
+            findGroup(e.target.value);
           }}
         />
       </Box>

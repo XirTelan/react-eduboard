@@ -29,7 +29,16 @@ function App() {
   const [open, setOpen] = React.useState(true);
   const [isAuthoraized, setIsAuthoraized] = React.useState(true);
   const handleAuthorizePlaceholder = (login: string, password: string) => {
-    if (login === 'admin' && password === 'admin') setIsAuthoraized(true);
+    return new Promise<boolean>((resolve, reject) => {
+      setTimeout(() => {
+        if (login === 'admin' && password === 'admin') {
+          setIsAuthoraized(true);
+          resolve(true);
+        } else {
+          reject(false);
+        }
+      }, 3000);
+    });
   };
   const handleSidebar = () => {
     setOpen(!open);

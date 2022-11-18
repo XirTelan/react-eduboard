@@ -12,6 +12,7 @@ import Pagination from '../components/UI/Pagination';
 
 export default function SpecialitiesList() {
   const [specialities, setSpecialities] = useState<specialityDTO[]>();
+  const [errors, setErrors] = useState<AxiosError>();
   const [totalAmountOfPages, setTotalAmountOfPages] = useState(0);
   const [recordsPerPage, setRecordsPerPage] = useState(5);
   const [page, setPage] = useState(1);
@@ -25,6 +26,9 @@ export default function SpecialitiesList() {
         const totalAmountOfRecords = parseInt(responseHeader ? responseHeader : '', 10);
         setTotalAmountOfPages(Math.ceil(totalAmountOfRecords / recordsPerPage));
         setSpecialities(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }, [page, recordsPerPage]);
 
@@ -36,6 +40,7 @@ export default function SpecialitiesList() {
         buttonText="Создать специальность"
         buttonIcon={<PlaylistAddIcon />}
       />
+
       <Box sx={{ overflow: 'hidden', overflowY: 'auto' }} className="bg-white mx-2 p-1 rounded">
         <ul className="p-0">
           {specialities &&

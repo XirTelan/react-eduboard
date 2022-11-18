@@ -1,5 +1,5 @@
 :root {
-  --login-circle-size: 12rem;
+  --login-circle-size: 8rem;
 }
 #login-form {
   height: auto;
@@ -8,7 +8,6 @@
 }
 .login-form-inner {
   width: auto;
-  min-width: 10vw;
   height: auto;
   border-radius: 1rem;
 }
@@ -38,7 +37,7 @@
 }
 @media screen and (min-width: 900px) {
   #login-form {
-    width: 40vw;
+    width: min(40vw, 400px);
     height: auto;
     border-radius: 1rem;
   }
