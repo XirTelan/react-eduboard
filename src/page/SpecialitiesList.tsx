@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { Box, Button, MenuItem, Select, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, MenuItem, Select, Typography } from '@mui/material';
 
 import CollapseListItem from '../components/UI/CollapseListItem';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
@@ -13,10 +13,15 @@ import Pagination from '../components/UI/Pagination';
 export default function SpecialitiesList() {
   const [specialities, setSpecialities] = useState<specialityDTO[]>();
   const [errors, setErrors] = useState<AxiosError>();
+  const [dialogAlertOpen, setDialogAlertOpen] = useState(false);
+
   const [totalAmountOfPages, setTotalAmountOfPages] = useState(0);
   const [recordsPerPage, setRecordsPerPage] = useState(5);
   const [page, setPage] = useState(1);
   useEffect(() => {
+    fetchData();
+  }, [page, recordsPerPage]);
+  function fetchData() {
     axios
       .get(urlSpecialities, {
         params: { page, recordsPerPage }
@@ -30,8 +35,15 @@ export default function SpecialitiesList() {
       .catch((error) => {
         console.log(error);
       });
-  }, [page, recordsPerPage]);
-
+  }
+  async function deleteSpeciality(id: number) {
+    try {
+      await axios.delete(`${urlSpecialities}/${id}`);
+      fetchData();
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
       <Header
@@ -44,17 +56,20 @@ export default function SpecialitiesList() {
       <Box sx={{ overflow: 'hidden', overflowY: 'auto' }} className="bg-white mx-2 p-1 rounded">
         <ul className="p-0">
           {specialities &&
-            specialities.map((elem) => {
+            specialities.map((speciality) => {
               return (
                 <CollapseListItem
-                  key={elem.id}
+                  id={speciality.id}
+                  key={speciality.id}
                   customWidth="50%"
-                  displayName={elem.name}
+                  displayName={speciality.name}
+                  onDelete={deleteSpeciality}
                   items={disciplines}
                 />
               );
             })}
         </ul>
+       
         <div className="d-flex gap-3 my-1 justify-content-center">
           <Pagination
             currentPage={page}

@@ -15,14 +15,43 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import GroupIcon from '@mui/icons-material/Group';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './Sidebar.css';
+import React, { useEffect, useState } from 'react';
 
 interface SidebarProps {
   isOpen: boolean;
-  handleSidebar: () => void;
+  setOpen: (setState: React.SetStateAction<boolean>) => void;
   authorize: (state: boolean) => void;
 }
 
-export default function Sidebar({ isOpen, handleSidebar, authorize }: SidebarProps) {
+export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
+  const [isAnimated, setIsAnimated] = useState(false);
+  useEffect(() => {
+    console.log('isanimated', isAnimated);
+    console.log('isOpen', isOpen);
+    promiseAnimated(isOpen).then((val) => {
+      console.log('Promise is here', val);
+      setIsAnimated(val);
+    });
+  }, [isOpen]);
+
+  const promiseAnimated = (isOpen: boolean) => {
+    return new Promise<boolean>((resolve) => {
+      if (isOpen)
+        setTimeout(() => {
+          console.log('5s response');
+          resolve(false);
+        }, 200);
+      else {
+        console.log('fast response');
+        resolve(false);
+      }
+    });
+  };
+
+  function handleSidebar() {
+    setIsAnimated(true);
+    setOpen(!isOpen);
+  }
   return (
     <>
       <aside
@@ -31,8 +60,8 @@ export default function Sidebar({ isOpen, handleSidebar, authorize }: SidebarPro
         } `}>
         <div className="d-flex gap-2 align-items-center flex-column  mx-auto me-md-auto text-decoration-none">
           <AccountCircleIcon />
-          {isOpen && (
-            <span className="ms-1 fw-bold d-flex align-content-center d-sm-inline">
+          {isOpen && !isAnimated && (
+            <span className="ms-1 fw-bold d-flex align-content-center ">
               Имя Отчество
               <br /> Роль: Админ
             </span>
@@ -46,33 +75,57 @@ export default function Sidebar({ isOpen, handleSidebar, authorize }: SidebarPro
         <ul
           className="nav nav-pills w-100 flex-column mb-sm-auto mb-0 align-text-center align-items-center align-items-sm-start"
           id="menu">
-          <NavListItem isOpen={isOpen} to="/attendance" title="Посещяемость">
+          <NavListItem
+            isOpen={isOpen}
+            isAnimated={isAnimated}
+            to="/attendance"
+            title="Посещяемость">
             <CalendarMonthIcon />
           </NavListItem>
-          <NavListItem isOpen={isOpen} to="/current-controll" title="Текущий контроль">
+          <NavListItem
+            isOpen={isOpen}
+            isAnimated={isAnimated}
+            to="/current-controll"
+            title="Текущий контроль">
             <EventRepeatIcon />
           </NavListItem>
-          <NavListItem isOpen={isOpen} to="/intersessional-controll" title="Межсессионный контроль">
+          <NavListItem
+            isOpen={isOpen}
+            isAnimated={isAnimated}
+            to="/intersessional-controll"
+            title="Межсессионный контроль">
             <TodayIcon />
           </NavListItem>
-          <NavListItem isOpen={isOpen} to="/intermediate-controll" title="Промежуточная аттестация">
+          <NavListItem
+            isOpen={isOpen}
+            isAnimated={isAnimated}
+            to="/intermediate-controll"
+            title="Промежуточная аттестация">
             <EventIcon />
           </NavListItem>
-          <NavListItem isOpen={isOpen} to="/entrance-controll" title="Входной контроль">
+          <NavListItem
+            isOpen={isOpen}
+            isAnimated={isAnimated}
+            to="/entrance-controll"
+            title="Входной контроль">
             <EventAvailableIcon />
           </NavListItem>
           <Divider className="w-100" color="primary.main" />
-          <NavListItem isOpen={isOpen} to="/group" title="Группы">
+          <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/group" title="Группы">
             <GroupIcon />
           </NavListItem>
-          <NavListItem isOpen={isOpen} to="/students" title="Студенты">
+          <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/students" title="Студенты">
             <GroupsIcon />
           </NavListItem>
           <Divider className="w-100" color="primary.main" />
-          <NavListItem isOpen={isOpen} to="/specialities" title="Специальности">
+          <NavListItem
+            isOpen={isOpen}
+            isAnimated={isAnimated}
+            to="/specialities"
+            title="Специальности">
             <ListAltIcon />
           </NavListItem>
-          <NavListItem isOpen={isOpen} to="/discipline" title="Дисциплины">
+          <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/discipline" title="Дисциплины">
             <TocIcon />
           </NavListItem>
           <hr className="w-100 text-secondary" />
@@ -83,4 +136,7 @@ export default function Sidebar({ isOpen, handleSidebar, authorize }: SidebarPro
       </aside>
     </>
   );
+}
+function setState(): [any, any] {
+  throw new Error('Function not implemented.');
 }

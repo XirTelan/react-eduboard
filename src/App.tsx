@@ -40,9 +40,7 @@ function App() {
       }, 3000);
     });
   };
-  const handleSidebar = () => {
-    setOpen(!open);
-  };
+
 
   return (
     <>
@@ -50,7 +48,7 @@ function App() {
         {isAuthoraized ? (
           <Box sx={{ display: 'flex', width: 'fil-available' }}>
             <CssBaseline />
-            <Sidebar isOpen={open} authorize={setIsAuthoraized} handleSidebar={handleSidebar} />
+            <Sidebar isOpen={open} authorize={setIsAuthoraized} setOpen={setOpen} />
             <Box
               style={{}}
               className="position-relative overflow-hidden"

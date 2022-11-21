@@ -10,10 +10,11 @@ import { urlSpecialities } from '../endpoints';
 import { specialityCreationDTO, specialityDTO } from '../types';
 
 export default function SpecialityCreate() {
+  const navigate = useNavigate();
   async function create(speciality: specialityCreationDTO) {
     try {
       await axios.post(urlSpecialities, speciality);
-      redirect('/specialities');
+      navigate('/specialities');
     } catch (error) {
       console.error(error);
     }

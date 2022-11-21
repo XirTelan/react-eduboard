@@ -7,6 +7,8 @@ import CollapseListItem from '../components/UI/CollapseListItem';
 import Header from '../components/UI/Header';
 import { groupDTO, StudentDTO } from '../types';
 import { useState } from 'react';
+import axios, { AxiosResponse } from 'axios';
+import { urlGroups } from '../endpoints';
 
 const students: StudentDTO[] = [
   { id: 1, name: '123' },
@@ -47,7 +49,25 @@ export default function GroupList() {
   function findGroup(search: string) {
     setGroups(groupsData.filter((group) => group.name.includes(search)));
   }
+  async function deleteGroup(id: number) {
+    try {
+      await axios.delete(`${urlGroups}/${id}`);
+      fetchData();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
+  function fetchData() {
+    axios
+      .get(urlGroups)
+      .then((response: AxiosResponse<groupDTO[]>) => {
+        setGroups(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   return (
     <>
       <Header
@@ -73,7 +93,12 @@ export default function GroupList() {
         <ul className="p-0">
           {groups.map((group) => {
             return (
-              <CollapseListItem key={group.id} displayName={group.name} items={group.students}>
+              <CollapseListItem
+                id={group.id}
+                key={group.id}
+                displayName={group.name}
+                onDelete={deleteGroup}
+                items={group.students}>
                 <div className="d-flex flex-column m-3 gap-2">
                   <Typography
                     sx={{

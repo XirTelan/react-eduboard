@@ -1,6 +1,6 @@
 aside {
   transition: width 0.2s ease-in-out;
-  width: 10vw;
+  width: 300px;
 }
 aside.active {
   width: 3vw;

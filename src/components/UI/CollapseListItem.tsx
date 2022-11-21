@@ -1,4 +1,16 @@
-import { IconButton, Collapse, Divider, Typography, Box } from '@mui/material';
+import {
+  IconButton,
+  Collapse,
+  Divider,
+  Typography,
+  Box,
+  DialogTitle,
+  Dialog,
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogContentText
+} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -6,9 +18,12 @@ import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { disciplineDTO, groupDTO, specialityDTO, StudentDTO } from '../../types';
+import { customAlert } from '../../utils';
 
 export default function CollapseListItem({
+  id,
   displayName,
+  onDelete,
   isOpen = false,
   customWidth,
   items,
@@ -39,10 +54,14 @@ export default function CollapseListItem({
           <IconButton color="primary" onClick={() => setIsChecked(!isChecked)}>
             {isChecked ? <VisibilityOffIcon /> : <VisibilityIcon />}
           </IconButton>
-          <IconButton color="success" onClick={() => navigate(`edit/${1}`)}>
+          <IconButton color="success" onClick={() => navigate(`edit/${id}`)}>
             <EditIcon />
           </IconButton>
-          <IconButton color="error">
+          <IconButton
+            color="error"
+            onClick={() =>
+              customAlert(`Удалить ${displayName}?`, 'Удалить', () => onDelete(id))
+            }>
             <DeleteForeverSharpIcon />
           </IconButton>
         </div>
@@ -70,7 +89,9 @@ interface CollapseListInnerListModel {
 }
 
 interface CollapleListItemProps {
+  id: number;
   displayName: string;
+  onDelete(id: number): void;
   isOpen?: boolean;
   items?: CollapseListInnerListModel[];
   children?: React.ReactNode;
