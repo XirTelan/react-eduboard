@@ -1,7 +1,13 @@
 import { Box, Button, Divider, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export default function Header({ title, buttonText, buttonLink, buttonIcon }: HeaderProps) {
+export default function Header({
+  title,
+  buttonText,
+  buttonLink,
+  buttonIcon,
+  children
+}: HeaderProps) {
   const navigate = useNavigate();
   return (
     <>
@@ -9,18 +15,19 @@ export default function Header({ title, buttonText, buttonLink, buttonIcon }: He
         <Typography variant="h5" color="primary.main">
           {title}
         </Typography>
-        {buttonText && (
-          <>
+        <div>
+          {children}
+          {buttonText && (
             <Button
               startIcon={buttonIcon}
               onClick={() => navigate(`${buttonLink}`)}
-              sx={{ backgroundColor: 'success.light' }}
+              color="success"
               variant="contained"
               size="large">
               {buttonText}
             </Button>
-          </>
-        )}
+          )}
+        </div>
       </Box>
     </>
   );
@@ -31,4 +38,5 @@ interface HeaderProps {
   buttonIcon?: React.ReactNode;
   buttonText?: string;
   buttonLink?: string;
+  children?: React.ReactElement;
 }

@@ -12,16 +12,14 @@ import {
 } from '@mui/x-data-grid';
 import Filter from '../Filter';
 import { Box, Button } from '@mui/material';
-import { students } from '../../data/data';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { urlStudents } from '../../endpoints';
+import { studentDTO } from '../../types';
 
 interface ControllerProps {
   name: string;
 }
-const rows: GridRowsProp = students.map((student, indx) => ({
-  id: student.id,
-  indx: indx + 1,
-  fio: student.name
-}));
 
 const columns: GridColDef[] = [
   { field: 'indx', headerName: '№', flex: 1 },
@@ -42,6 +40,16 @@ function CustomToolbar() {
 }
 
 export default function BaseControll(props: GenControllProps) {
+  const [students, setStudents] = useState<studentDTO[]>([]);
+
+  useEffect(() => {
+    axios.get(urlStudents).then((resolve) => setStudents(resolve.data));
+  }, []);
+  const rows: GridRowsProp = students.map((student, indx) => ({
+    id: student.id,
+    indx: indx + 1,
+    fio: `${student.secondName} ${student.firstName} ${student.middleName}`
+  }));
   const nameController = useParams();
   const defaulColumns: GridColDef[] = [
     { field: 'indx', headerName: '№', flex: 1, maxWidth: 50 },
@@ -64,7 +72,6 @@ export default function BaseControll(props: GenControllProps) {
     'Ivanov I.I',
     'Ivanov I.I'
   ];
-  console.log(nameController);
   return (
     <Box className="bg-white p-3  mx-2 rounded">
       <h2 className="d-flex justify-content-center">{nameController.name}</h2>

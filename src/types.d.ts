@@ -1,3 +1,13 @@
+export interface disciplineDTO {
+  id: number;
+  name: string;
+}
+export interface groupDTO {
+  id: number;
+  name: string;
+  speciality: string;
+  students: studentDTO[];
+}
 export interface specialityDTO {
   id: number;
   name: string;
@@ -8,18 +18,16 @@ export interface specialityCreationDTO {
   disciplinesId: number[];
 }
 
-
-export interface disciplineDTO {
+export interface studentDTO {
   id: number;
-  name: string;
+  firstName: string;
+  secondName: string;
+  middleName: string;
+  group: groupDTO;
 }
-export interface groupDTO {
-  id: number;
-  name: string;
-  speciality: string;
-  students: StudentDTO[];
-}
-export interface StudentDTO {
-  id: number;
-  name: string;
+export interface studentCreationDTO {
+  firstName: string;
+  secondName: string;
+  middleName: string;
+  groupId: number;
 }

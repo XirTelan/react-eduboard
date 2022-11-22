@@ -17,7 +17,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { disciplineDTO, groupDTO, specialityDTO, StudentDTO } from '../../types';
+import { disciplineDTO, groupDTO, specialityDTO, studentDTO } from '../../types';
 import { customAlert } from '../../utils';
 
 export default function CollapseListItem({
@@ -59,9 +59,7 @@ export default function CollapseListItem({
           </IconButton>
           <IconButton
             color="error"
-            onClick={() =>
-              customAlert(`Удалить ${displayName}?`, 'Удалить', () => onDelete(id))
-            }>
+            onClick={() => customAlert(`Удалить ${displayName}?`, 'Удалить', () => onDelete(id))}>
             <DeleteForeverSharpIcon />
           </IconButton>
         </div>

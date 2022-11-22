@@ -23,6 +23,8 @@ import GroupCreate from './page/GroupCreate';
 import SpecialityEdit from './page/SpecialityEdit';
 import StudentsList from './page/StudentsList';
 import Statistic from './page/Statistic';
+import StudentEdit from './page/StudentEdit';
+import StudentCreate from './page/StudentCreate';
 const drawerWidth = 240;
 
 function App() {
@@ -40,7 +42,6 @@ function App() {
       }, 3000);
     });
   };
-
 
   return (
     <>
@@ -72,6 +73,8 @@ function App() {
                   <Route path="/specialities/create" element={<SpecialityCreate />} />
                   <Route path="/specialities/edit/:id" element={<SpecialityEdit />} />
                   <Route path="/students" element={<StudentsList />} />
+                  <Route path="/students/create" element={<StudentCreate />} />
+                  <Route path="/students/edit/:id" element={<StudentEdit />} />
 
                   <Route path="/users" element={<UserList />} />
                   <Route path="/users/create" element={<CreateUser />} />
