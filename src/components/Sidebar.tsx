@@ -125,7 +125,7 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
             title="Специальности">
             <ListAltIcon />
           </NavListItem>
-          <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/discipline" title="Дисциплины">
+          <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/disciplines" title="Дисциплины">
             <TocIcon />
           </NavListItem>
           <hr className="w-100 text-secondary" />

@@ -7,7 +7,7 @@ import {
   TextField
 } from '@mui/material';
 import { Form, Formik, FormikHelpers, useFormikContext, validateYupSchema } from 'formik';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { disciplines } from '../../data/data';
 import { disciplineDTO, specialityCreationDTO, specialityDTO } from '../../types';
@@ -33,6 +33,7 @@ export default function SpecialityForm(props: SpecialityFormProps) {
   };
 
   function mapToModel(items: { id: number; name: string }[]): autocompleteFieldModel[] {
+    console.log('map', items);
     return items.map((item) => {
       return { key: item.id, name: item.name };
     });
@@ -41,7 +42,7 @@ export default function SpecialityForm(props: SpecialityFormProps) {
     <Formik
       initialValues={props.model}
       onSubmit={async (val, actions) => {
-        val.disciplinesId = selectedDisc.map((item) => item.key);
+        val.disciplineIds = selectedDisc.map((item) => item.key);
         props.onSubmit(val, actions);
         console.log(val);
       }}

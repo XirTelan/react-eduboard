@@ -18,7 +18,7 @@ export default function StudentCreate() {
   }
   return (
     <>
-      <Header title="Добавить студе" />
+      <Header title="Добавить студента" />
       <StudentForm
         model={{ firstName: '', secondName: '', middleName: '', groupId: -1 }}
         onSubmit={async (values) => await create(values)}

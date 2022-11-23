@@ -2,6 +2,9 @@ export interface disciplineDTO {
   id: number;
   name: string;
 }
+export interface disciplineCreationDTO {
+  name: string;
+}
 export interface groupDTO {
   id: number;
   name: string;
@@ -11,11 +14,11 @@ export interface groupDTO {
 export interface specialityDTO {
   id: number;
   name: string;
-  disciplinesId: number[];
+  disciplineIds: number[];
 }
 export interface specialityCreationDTO {
   name: string;
-  disciplinesId: number[];
+  disciplineIds: number[];
 }
 
 export interface studentDTO {
