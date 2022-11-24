@@ -10,6 +10,7 @@ import { disciplineCreationDTO, disciplineDTO } from '../types';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { customAlert } from '../utils';
 
 export default function DiscplinesList() {
   const navigate = useNavigate();
@@ -59,13 +60,13 @@ export default function DiscplinesList() {
         </Formik>
         <h3 className="text-left my-3 ">Список дисциплин</h3>
         <IndexEntity<disciplineDTO> urlEntity={urlDisciplines}>
-          {(disciplines) => (
+          {(disciplines, deleteEntity) => (
             <>
               {disciplines.map((elem, index) => {
                 return (
-                  <li key={index} className="list-group-item d-flex justify-content-between">
+                  <li key={elem.id} className="list-group-item d-flex justify-content-between">
                     {elem.name}
-                    <Button className="btn " color="warning">
+                    <Button onClick={() => customAlert(`Удалить ${elem.name}?`, 'Удалить', () => deleteEntity(elem.id))} className="btn " color="warning">
                       <DeleteForeverSharpIcon className="fs-5 " />
                     </Button>
                   </li>

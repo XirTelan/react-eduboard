@@ -11,14 +11,25 @@ export interface groupDTO {
   speciality: string;
   students: studentDTO[];
 }
+export interface groupCreationDTO {
+  name: string;
+  speciality: string;
+  curator?: string;
+  studentsId?: number[];
+}
 export interface specialityDTO {
   id: number;
   name: string;
-  disciplineIds: number[];
+  disciplines: disciplineDTO[];
+}
+export interface specialityEditDTO {
+  speciality: specialityDTO;
+  selectedDisciplines: disciplineDTO[];
+  nonSelectedDisciplines: disciplineDTO[];
 }
 export interface specialityCreationDTO {
   name: string;
-  disciplineIds: number[];
+  disciplineIds?: number[];
 }
 
 export interface studentDTO {

@@ -6,7 +6,6 @@ import { redirect, useNavigate } from 'react-router-dom';
 import SpecialitytForm from '../components/Form/SpecialitytForm';
 import AutocompleteField from '../components/UI/AutocompleteField';
 import Header from '../components/UI/Header';
-import { disciplines } from '../data/data';
 import { urlDisciplines, urlSpecialities } from '../endpoints';
 import { disciplineDTO, specialityCreationDTO, specialityDTO } from '../types';
 
@@ -16,13 +15,12 @@ export default function SpecialityCreate() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`${urlDisciplines}`).then((response: AxiosResponse<disciplineDTO[]>) => {
+    axios.get(`${urlDisciplines}/getall`).then((response: AxiosResponse<disciplineDTO[]>) => {
       console.log('response data', response);
       setDisciplines(response.data);
       setLoading(false);
     });
   }, []);
-  }
 
   async function create(speciality: specialityCreationDTO) {
     try {

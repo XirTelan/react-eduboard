@@ -111,7 +111,7 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
             <EventAvailableIcon />
           </NavListItem>
           <Divider className="w-100" color="primary.main" />
-          <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/group" title="Группы">
+          <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/groups" title="Группы">
             <GroupIcon />
           </NavListItem>
           <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/students" title="Студенты">

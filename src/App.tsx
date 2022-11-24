@@ -67,8 +67,8 @@ function App() {
                   <Route path="/intermediate-controll" element={<IntermediateControll />} />
                   <Route path="/current-controll" element={<CurrentControll />} />
                   <Route path="/disciplines" element={<DiscplinesList />} />
-                  <Route path="/group" element={<GroupList />} />
-                  <Route path="/group/create" element={<GroupCreate />} />
+                  <Route path="/groups" element={<GroupList />} />
+                  <Route path="/groups/create" element={<GroupCreate />} />
                   <Route path="/specialities" element={<SpecialitiesList />} />
                   <Route path="/specialities/create" element={<SpecialityCreate />} />
                   <Route path="/specialities/edit/:id" element={<SpecialityEdit />} />

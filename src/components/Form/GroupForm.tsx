@@ -9,14 +9,16 @@ import {
 import AutocompleteField from '../UI/AutocompleteField';
 import * as Yup from 'yup';
 
-import { ErrorMessage, Form, Formik, useFormikContext } from 'formik';
+import { ErrorMessage, Form, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { Link } from 'react-router-dom';
+import { groupCreationDTO } from '../../types';
 
-export default function GroupForm() {
+export default function GroupForm(props: groupFormProps) {
   return (
     <Formik
-      initialValues={{ name: '', course: '', teacher: null, speciality: null }}
-      onSubmit={(value) => {
+      initialValues={props.model}
+      onSubmit={(value, actions) => {
+        props.onSubmit(value, actions);
         console.log(value);
       }}
       validationSchema={Yup.object({
@@ -44,7 +46,7 @@ export default function GroupForm() {
 
             <Autocomplete
               id="teacher"
-              value={formikProps.values.teacher}
+              value={formikProps.values.curator}
               onBlur={formikProps.handleBlur}
               onChange={(e, value) => formikProps.setFieldValue('teacher', value)}
               options={['Иванов Иван Иванович', 'Кто Где Когда', 'Апельсин Мандарин Яблоко']}
@@ -76,7 +78,7 @@ export default function GroupForm() {
             <Button
               color="success"
               variant="contained"
-              disabled={formikProps.isSubmitting }
+              disabled={formikProps.isSubmitting}
               type="submit">
               Save Changes
             </Button>
@@ -87,7 +89,7 @@ export default function GroupForm() {
   );
 }
 
-interface specilityDTO {
-  id: number;
-  name: string;
+interface groupFormProps {
+  model: groupCreationDTO;
+  onSubmit(values: groupCreationDTO, actions: FormikHelpers<groupCreationDTO>): void;
 }

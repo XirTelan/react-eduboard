@@ -9,10 +9,11 @@ import {
 import { Form, Formik, FormikHelpers, useFormikContext, validateYupSchema } from 'formik';
 import { ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { disciplines } from '../../data/data';
 import { disciplineDTO, specialityCreationDTO, specialityDTO } from '../../types';
 import AutocompleteField, { autocompleteFieldModel } from '../UI/AutocompleteField';
 import * as Yup from 'yup';
+import axios, { AxiosResponse } from 'axios';
+import { urlDisciplines } from '../../endpoints';
 
 export default function SpecialityForm(props: SpecialityFormProps) {
   const [inputValue, setInputValue] = useState('');
@@ -68,15 +69,15 @@ export default function SpecialityForm(props: SpecialityFormProps) {
                 />
               </Box>
 
-              <Box className="bg-white p-1 mx-2 rounded d-flex justify-content-between">
-                <Link className="btn btn-secondary " to="/specialities">
+              <Box className="bg-white  p-1 mx-2 rounded d-flex justify-content-between">
+                <Link className="btn btn-secondary fw-bold " to="/specialities">
                   Назад
                 </Link>
                 <Button
                   variant="contained"
                   color="success"
                   disabled={formikProps.isSubmitting}
-                  type="submit">
+                  type="submit" className='fw-bold'>
                   {props.specialityEdit ? 'Сохранить изменения' : 'Создать'}
                 </Button>
               </Box>

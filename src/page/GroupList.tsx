@@ -34,12 +34,12 @@ export default function GroupList() {
           value={seacrhString}
           onChange={(e) => {
             setSearchString(e.target.value);
-           // findGroup(e.target.value);
+            // findGroup(e.target.value);
           }}
         />
       </Box>
-      <IndexEntity<groupDTO> urlEntity="groups">
-        {(groups,deleteEntity) => (
+      <IndexEntity<groupDTO> urlEntity={urlGroups}>
+        {(groups, deleteEntity) => (
           <>
             {groups.map((group) => {
               return (
@@ -81,7 +81,6 @@ export default function GroupList() {
           </>
         )}
       </IndexEntity>
-
     </>
   );
 }

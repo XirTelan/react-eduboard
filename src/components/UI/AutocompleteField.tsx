@@ -76,26 +76,28 @@ export default function AutocompleteField(props: autocompleteFieldProps) {
             }}>
             {props.selected?.map((elem: autocompleteFieldModel) => {
               return (
-                <ListItem
+                <li
                   key={elem.key}
-                  sx={{
+                  className="px-3 py-1 bg-secondary text-muted bg-light"
+                  style={{
                     border: '1px solid lightgrey',
                     borderRadius: '2rem',
-                    flex: '0 1 20%',
+                    flexShrink: 0,
                     minWidth: '0'
                   }}>
-                  <div className="w-100 d-flex justify-content-between align-items-center">
+                  <div className="w-100 d-flex justify-content-center gap-3 align-items-center ">
                     <Typography sx={{ fontSize: '1rem', fontWeight: 'bold' }}>
                       {elem.name.toUpperCase()}
                     </Typography>
                     <IconButton
-                      sx={{ width: '10px', height: '10px' }}
+                      sx={{ width: '10px', height: '10px' ,  }}
                       color="error"
+                      
                       onClick={() => deselect(elem)}>
                       <ClearIcon />
                     </IconButton>
                   </div>
-                </ListItem>
+                </li>
               );
             })}
           </List>

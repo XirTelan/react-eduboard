@@ -15,7 +15,6 @@ import {
 import CollapseListItem from '../components/UI/CollapseListItem';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Header from '../components/UI/Header';
-import { disciplines, specialities } from '../data/data';
 import { disciplineDTO, specialityDTO } from '../types';
 import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react';
 import { urlSpecialities } from '../endpoints';
@@ -36,6 +35,7 @@ export default function SpecialitiesList() {
           <>
             {entities &&
               entities.map((entity) => {
+                console.log(entity.disciplines);
                 return (
                   <CollapseListItem
                     id={entity.id}
@@ -43,7 +43,7 @@ export default function SpecialitiesList() {
                     customWidth="50%"
                     displayName={entity.name}
                     onDelete={deleteEntity}
-                    items={disciplines}
+                    items={entity.disciplines}
                   />
                 );
               })}

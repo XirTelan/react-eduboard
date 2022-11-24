@@ -8,6 +8,7 @@ import { studentCreationDTO } from '../types';
 
 export default function StudentCreate() {
   const navigate = useNavigate();
+  
   async function create(student: studentCreationDTO) {
     try {
       await axios.post(urlStudents, student);

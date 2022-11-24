@@ -31,6 +31,7 @@ export default function CollapseListItem({
 }: CollapleListItemProps) {
   const [isChecked, setIsChecked] = useState(isOpen);
   const navigate = useNavigate();
+
   return (
     <li className="list-group-item shadow-sm rounded m-1">
       <div className="d-flex justify-content-between ">
@@ -67,7 +68,7 @@ export default function CollapseListItem({
       <Collapse in={isChecked}>
         <div className="my-2">{children}</div>
 
-        {items && (
+        {items && items.length > 0 ? (
           <ul className="list-group m-3">
             {items.map((elem) => (
               <li className="list-group-item" key={elem.id}>
@@ -75,6 +76,8 @@ export default function CollapseListItem({
               </li>
             ))}
           </ul>
+        ) : (
+          <p>Список пуст</p>
         )}
       </Collapse>
     </li>
