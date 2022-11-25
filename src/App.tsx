@@ -25,6 +25,7 @@ import StudentsList from './page/StudentsList';
 import Statistic from './page/Statistic';
 import StudentEdit from './page/StudentEdit';
 import StudentCreate from './page/StudentCreate';
+import GroupEdit from './page/GroupEdit';
 const drawerWidth = 240;
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
                   <Route path="/disciplines" element={<DiscplinesList />} />
                   <Route path="/groups" element={<GroupList />} />
                   <Route path="/groups/create" element={<GroupCreate />} />
+                  <Route path="/groups/edit/:id" element={<GroupEdit />} />
                   <Route path="/specialities" element={<SpecialitiesList />} />
                   <Route path="/specialities/create" element={<SpecialityCreate />} />
                   <Route path="/specialities/edit/:id" element={<SpecialityEdit />} />

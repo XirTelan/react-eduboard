@@ -6,16 +6,16 @@ import * as Yup from 'yup';
 import EditEntity from '../components/Entities/EditEntity';
 import GroupForm from '../components/Form/GroupForm';
 import Header from '../components/UI/Header';
-import { urlSpecialities } from '../endpoints';
+import { urlGroups, urlSpecialities } from '../endpoints';
 import { groupCreationDTO, groupDTO, specialityCreationDTO } from '../types';
 
 export default function GroupCreate() {
   const navigate = useNavigate();
 
-  async function create(speciality: specialityCreationDTO) {
+  async function create(group: groupCreationDTO) {
     try {
-      await axios.post(urlSpecialities, speciality);
-      navigate('/specialities');
+      await axios.post(urlGroups, group);
+      navigate('/groups');
     } catch (error) {
       console.error(error);
     }
@@ -24,7 +24,10 @@ export default function GroupCreate() {
     <>
       <Header title=" Создать группу" />
       <Box className="bg-white p-3 mx-2 rounded">
-        <GroupForm model={{ name: '', speciality: '' }} onSubmit={(values) => create(values)} />
+        <GroupForm
+          model={{ name: '', year: '', specialityId: -1 }}
+          onSubmit={(values) => create(values)}
+        />
       </Box>
     </>
   );

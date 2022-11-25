@@ -8,13 +8,14 @@ export interface disciplineCreationDTO {
 export interface groupDTO {
   id: number;
   name: string;
-  speciality: string;
+  speciality: specialityDTO;
   students: studentDTO[];
 }
 export interface groupCreationDTO {
   name: string;
-  speciality: string;
-  curator?: string;
+  specialityId: number;
+  year: string;
+  curatorId?: number;
   studentsId?: number[];
 }
 export interface specialityDTO {
@@ -43,5 +44,5 @@ export interface studentCreationDTO {
   firstName: string;
   secondName: string;
   middleName: string;
-  groupId: number;
+  groupId?: number;
 }

@@ -1,4 +1,5 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
+import _debounce from 'lodash/debounce';
 import {
   Autocomplete,
   AutocompleteRenderInputParams,
@@ -6,18 +7,52 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import AutocompleteField from '../UI/AutocompleteField';
 import * as Yup from 'yup';
 
 import { ErrorMessage, Form, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { Link } from 'react-router-dom';
-import { groupCreationDTO } from '../../types';
+import { groupCreationDTO, specialityDTO } from '../../types';
+import axios from 'axios';
+import { urlSpecialities } from '../../endpoints';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+
+function handleDebounceFn(
+  query: string,
+  urlFilter: string,
+  setState: React.Dispatch<React.SetStateAction<any>>
+) {
+  console.log(query);
+  if (query == null || query.trim() === '') return;
+  try {
+    axios
+      .get(`${urlFilter}/filter`, {
+        params: { query }
+      })
+      .then((response) => {
+        console.log(response.data);
+        setState(response.data);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export default function GroupForm(props: groupFormProps) {
+  const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
+  const [queryUser, setUserQuery] = useState(props.selectedSpeciality ? props.selectedSpeciality : '');
+  const [querySpeciality, setSpecialityQuery] = useState('');
+  const [specialityOptions, setSpecialityOptions] = useState<specialityDTO[]>([]);
+  const [userOptions, setUserOptions] = useState<autocompleteFieldModel[]>([]);
+
   return (
     <Formik
       initialValues={props.model}
       onSubmit={(value, actions) => {
+        value.year = value.year.toString();
+        console.log('year', value.year);
         props.onSubmit(value, actions);
         console.log(value);
       }}
@@ -27,29 +62,42 @@ export default function GroupForm(props: groupFormProps) {
       {(formikProps) => {
         return (
           <Form onSubmit={formikProps.handleSubmit}>
-            <div className="d-flex gap-3">
+            <div className="d-flex align-items-center gap-3">
               <TextField
                 {...formikProps.getFieldProps('name')}
-                margin="normal"
+                margin="none"
                 label="Наименование"
                 error={!!formikProps.errors.name}
                 sx={{ width: '80%' }}
               />
-
-              <TextField
-                {...formikProps.getFieldProps('course')}
-                margin="normal"
-                label="Курс"
-                sx={{ width: '20%' }}
-              />
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  {...formikProps.getFieldProps('year')}
+                  views={['year']}
+                  openTo="year"
+                  label="Год начала обучения"
+                  value={formikProps.values.year}
+                  onChange={(newValue) => {
+                    console.log('newValue', newValue);
+                    formikProps.setFieldValue('year', newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} helperText={null} />}
+                />
+              </LocalizationProvider>
             </div>
 
             <Autocomplete
               id="teacher"
-              value={formikProps.values.curator}
+              inputValue={queryUser}
               onBlur={formikProps.handleBlur}
-              onChange={(e, value) => formikProps.setFieldValue('teacher', value)}
-              options={['Иванов Иван Иванович', 'Кто Где Когда', 'Апельсин Мандарин Яблоко']}
+              options={userOptions}
+              onChange={(e, value) => {
+                formikProps.setFieldValue('curatorId', value!.id);
+              }}
+              onInputChange={(e, value) => {
+                setUserQuery(value);
+                debounceFn(value, '/users', setUserOptions);
+              }}
               // getOptionLabel={(elem) => elem.name}
               placeholder="asd"
               renderInput={(params) => <TextField {...params} label="Выбрать куратора" />}
@@ -57,12 +105,19 @@ export default function GroupForm(props: groupFormProps) {
             />
             <Autocomplete
               id="speciality"
-              value={formikProps.values.speciality}
+              inputValue={querySpeciality}
               onBlur={formikProps.handleBlur}
-              onChange={(e, value) => formikProps.setFieldValue('speciality', value)}
-              options={['21231 asdasdasfdasf', '21212 cvcaqsfqwfas', '41654 zxvasfasdasdfasf']}
-              // getOptionLabel={(elem) => elem.name}
+              options={specialityOptions}
+              isOptionEqualToValue={(elem, val) => elem.id == val.id}
+              getOptionLabel={(elem) => elem.name}
               placeholder="asd"
+              onChange={(e, value) => {
+                formikProps.setFieldValue('specialityId', value!.id);
+              }}
+              onInputChange={(e, value) => {
+                setSpecialityQuery(value);
+                debounceFn(value, urlSpecialities, setSpecialityOptions);
+              }}
               renderInput={(params) => <TextField {...params} label="Выбрать специальность" />}
               sx={{ margin: '10px 0' }}
             />
@@ -72,7 +127,7 @@ export default function GroupForm(props: groupFormProps) {
                 <ErrorMessage component="div" name="name" />
               </>
             )}
-            <Link className="btn btn-secondary m-1" to="/users">
+            <Link className="btn btn-secondary m-1" to="/groups">
               Cancel
             </Link>
             <Button
@@ -88,8 +143,13 @@ export default function GroupForm(props: groupFormProps) {
     </Formik>
   );
 }
+interface autocompleteFieldModel {
+  id: number;
+  name: string;
+}
 
 interface groupFormProps {
   model: groupCreationDTO;
+  selectedSpeciality?: string;
   onSubmit(values: groupCreationDTO, actions: FormikHelpers<groupCreationDTO>): void;
 }

@@ -21,7 +21,7 @@ export default function StudentCreate() {
     <>
       <Header title="Добавить студента" />
       <StudentForm
-        model={{ firstName: '', secondName: '', middleName: '', groupId: -1 }}
+        model={{ firstName: '', secondName: '', middleName: '' }}
         onSubmit={async (values) => await create(values)}
       />
     </>

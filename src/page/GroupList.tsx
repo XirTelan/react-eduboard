@@ -57,7 +57,7 @@ export default function GroupList() {
                         width: '100%'
                       }}
                       variant="subtitle1">
-                      {group.speciality}
+                      {group.speciality.name}
                     </Typography>
                     <Typography
                       sx={{
