@@ -42,7 +42,9 @@ function handleDebounceFn(
 
 export default function GroupForm(props: groupFormProps) {
   const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
-  const [queryUser, setUserQuery] = useState(props.selectedSpeciality ? props.selectedSpeciality : '');
+  const [queryUser, setUserQuery] = useState(
+    props.selectedSpeciality ? props.selectedSpeciality : ''
+  );
   const [querySpeciality, setSpecialityQuery] = useState('');
   const [specialityOptions, setSpecialityOptions] = useState<specialityDTO[]>([]);
   const [userOptions, setUserOptions] = useState<autocompleteFieldModel[]>([]);
@@ -57,7 +59,9 @@ export default function GroupForm(props: groupFormProps) {
         console.log(value);
       }}
       validationSchema={Yup.object({
-        name: Yup.string().required('This field is required')
+        name: Yup.string().required('Данное поле обязательно'),
+        year: Yup.string().required('Данное поле обязательно'),
+        specialityId: Yup.string().required('Данное поле обязательно')
       })}>
       {(formikProps) => {
         return (
@@ -91,6 +95,7 @@ export default function GroupForm(props: groupFormProps) {
               inputValue={queryUser}
               onBlur={formikProps.handleBlur}
               options={userOptions}
+
               onChange={(e, value) => {
                 formikProps.setFieldValue('curatorId', value!.id);
               }}
@@ -121,7 +126,7 @@ export default function GroupForm(props: groupFormProps) {
               renderInput={(params) => <TextField {...params} label="Выбрать специальность" />}
               sx={{ margin: '10px 0' }}
             />
-            {formikProps.errors.name && formikProps.touched.name && (
+            {formikProps.errors.specialityId  && (
               <>
                 <Typography variant="subtitle1">Обнаружены ошибки при заполнении</Typography>
                 <ErrorMessage component="div" name="name" />

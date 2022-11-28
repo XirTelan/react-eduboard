@@ -1,5 +1,7 @@
 import { Form, Formik, FormikHelpers } from 'formik';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import _debounce from 'lodash/debounce';
+
 import { groupDTO, studentCreationDTO, studentDTO } from '../../types';
 import * as Yup from 'yup';
 import { Autocomplete, Box, Button, TextField } from '@mui/material';
@@ -7,12 +9,38 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { urlGroups } from '../../endpoints';
 
+function handleDebounceFn(
+  query: string,
+  urlFilter: string,
+  setState: React.Dispatch<React.SetStateAction<any>>
+) {
+  console.log(query);
+  if (query == null || query.trim() === '') return;
+  try {
+    axios
+      .get(`${urlFilter}/filter`, {
+        params: { query }
+      })
+      .then((response) => {
+        console.log(response.data);
+        setState(response.data);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export default function StudentForm(props: studentFormProps) {
+  const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
+
   const [groups, setGroups] = useState<groupDTO[]>([]);
   let filterTimeout: ReturnType<typeof setTimeout>;
 
   function fetchSearchQuery() {
-    axios.get(`${urlGroups}`).then((response) => console.log(response.data));
+    axios.get(`${urlGroups}`).then((response) => {
+      console.log(response.data);
+      setGroups(response.data);
+    });
   }
   function handleSearch(query: string) {
     clearTimeout(filterTimeout);
@@ -31,7 +59,8 @@ export default function StudentForm(props: studentFormProps) {
         props.onSubmit(val, actions);
       }}
       validationSchema={Yup.object({
-        firstName: Yup.string().required('This field is required')
+        firstName: Yup.string().required('This field is required'),
+        secondName: Yup.string().required('This field is required')
       })}>
       {(formikProps) => {
         return (
@@ -41,11 +70,13 @@ export default function StudentForm(props: studentFormProps) {
                 <TextField
                   {...formikProps.getFieldProps('firstName')}
                   margin="normal"
+                  error={!!formikProps.errors.firstName}
                   fullWidth
                   label="Имя"
                 />
                 <TextField
                   {...formikProps.getFieldProps('secondName')}
+                  error={!!formikProps.errors.secondName}
                   margin="normal"
                   fullWidth
                   label="Фамилия"
@@ -58,9 +89,14 @@ export default function StudentForm(props: studentFormProps) {
                 />
                 <Autocomplete
                   options={groups}
+                  onBlur={formikProps.handleBlur}
+                  isOptionEqualToValue={(elem, val) => elem.id == val.id}
                   getOptionLabel={(elem) => elem.name}
+                  onChange={(e, value) => formikProps.setFieldValue('groupId', value!.id)}
                   onInputChange={(e, value) => handleSearch(value)}
-                  renderInput={(params) => <TextField {...params} label="Movie" />}
+                  renderInput={(params) => (
+                    <TextField {...params} error={!!formikProps.errors.groupId} label="Группа" />
+                  )}
                 />
 
                 {formikProps.errors.firstName && <span>{formikProps.errors.firstName}</span>}

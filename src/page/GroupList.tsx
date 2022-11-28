@@ -10,6 +10,7 @@ import { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { urlGroups } from '../endpoints';
 import IndexEntity from '../components/Entities/IndexEntity';
+import Authorized from '../auth/Authorized';
 
 export default function GroupList() {
   const [seacrhString, setSearchString] = useState('');
@@ -25,7 +26,7 @@ export default function GroupList() {
         buttonText="Создать группу"
         buttonLink="create"
       />
-
+      <Authorized authorized={<>True</>} notAuthorized={<>False</>} role="admin" />
       <Box className="bg-white p-3 mx-2 mb-1 rounded">
         <TextField
           fullWidth
@@ -41,6 +42,7 @@ export default function GroupList() {
       <IndexEntity<groupDTO> urlEntity={urlGroups}>
         {(groups, deleteEntity) => (
           <>
+            {console.log(groups)}
             {groups.map((group) => {
               return (
                 <CollapseListItem

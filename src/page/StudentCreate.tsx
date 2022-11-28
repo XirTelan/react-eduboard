@@ -8,7 +8,7 @@ import { studentCreationDTO } from '../types';
 
 export default function StudentCreate() {
   const navigate = useNavigate();
-  
+
   async function create(student: studentCreationDTO) {
     try {
       await axios.post(urlStudents, student);
@@ -21,7 +21,7 @@ export default function StudentCreate() {
     <>
       <Header title="Добавить студента" />
       <StudentForm
-        model={{ firstName: '', secondName: '', middleName: '' }}
+        model={{ firstName: '', secondName: '', middleName: '', groupId: undefined }}
         onSubmit={async (values) => await create(values)}
       />
     </>

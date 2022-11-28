@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Nav from './components/Nav';
@@ -26,11 +26,15 @@ import Statistic from './page/Statistic';
 import StudentEdit from './page/StudentEdit';
 import StudentCreate from './page/StudentCreate';
 import GroupEdit from './page/GroupEdit';
+import { claim } from './auth/auth.model';
+import AuthenticationContext from './auth/AuthenticationContext';
+import Register from './auth/Register';
 const drawerWidth = 240;
 
 function App() {
-  const [open, setOpen] = React.useState(true);
-  const [isAuthoraized, setIsAuthoraized] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const [claims, setClaims] = useState<claim[]>([{ name: 'email', value: 'ads' }]);
+  const [isAuthoraized, setIsAuthoraized] = useState(true);
   const handleAuthorizePlaceholder = (login: string, password: string) => {
     return new Promise<boolean>((resolve, reject) => {
       setTimeout(() => {
@@ -47,69 +51,71 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        {isAuthoraized ? (
-          <Box sx={{ display: 'flex', width: 'fil-available' }}>
-            <CssBaseline />
-            <Sidebar isOpen={open} authorize={setIsAuthoraized} setOpen={setOpen} />
-            <Box
-              style={{}}
-              className="position-relative overflow-hidden"
-              sx={{
-                flex: '1 1 0'
-              }}>
+        <AuthenticationContext.Provider value={{ claims, update: setClaims }}>
+          {isAuthoraized ? (
+            <Box sx={{ display: 'flex', width: 'fil-available' }}>
+              <CssBaseline />
+              <Sidebar isOpen={open} authorize={setIsAuthoraized} setOpen={setOpen} />
               <Box
-                component="main"
-                sx={{ overflow: 'auto', maxWidth: '100vw', maxHeight: '100vh' }}>
-                <Routes>
-                  <Route path="/" element={<Statistic />} />
-                  <Route path="/attendance" element={<Attendance />} />
-                  <Route path="/entrance-controll" element={<EntranceControll />} />
-                  <Route path="/intersessional-controll" element={<IntersessionalControll />} />
-                  <Route path="/intermediate-controll" element={<IntermediateControll />} />
-                  <Route path="/current-controll" element={<CurrentControll />} />
-                  <Route path="/disciplines" element={<DiscplinesList />} />
-                  <Route path="/groups" element={<GroupList />} />
-                  <Route path="/groups/create" element={<GroupCreate />} />
-                  <Route path="/groups/edit/:id" element={<GroupEdit />} />
-                  <Route path="/specialities" element={<SpecialitiesList />} />
-                  <Route path="/specialities/create" element={<SpecialityCreate />} />
-                  <Route path="/specialities/edit/:id" element={<SpecialityEdit />} />
-                  <Route path="/students" element={<StudentsList />} />
-                  <Route path="/students/create" element={<StudentCreate />} />
-                  <Route path="/students/edit/:id" element={<StudentEdit />} />
-
-                  <Route path="/users" element={<UserList />} />
-                  <Route path="/users/create" element={<CreateUser />} />
-                  <Route path="*" element={<h1>Not Found</h1>} />
-                </Routes>
+                style={{}}
+                className="position-relative overflow-hidden"
+                sx={{
+                  flex: '1 1 0'
+                }}>
+                <Box
+                  component="main"
+                  sx={{ overflow: 'auto', maxWidth: '100vw', maxHeight: '100vh' }}>
+                  <Routes>
+                    <Route path="/" element={<Statistic />} />
+                    <Route path="/attendance" element={<Attendance />} />
+                    <Route path="/entrance-controll" element={<EntranceControll />} />
+                    <Route path="/intersessional-controll" element={<IntersessionalControll />} />
+                    <Route path="/intermediate-controll" element={<IntermediateControll />} />
+                    <Route path="/current-controll" element={<CurrentControll />} />
+                    <Route path="/disciplines" element={<DiscplinesList />} />
+                    <Route path="/groups" element={<GroupList />} />
+                    <Route path="/groups/create" element={<GroupCreate />} />
+                    <Route path="/groups/edit/:id" element={<GroupEdit />} />
+                    <Route path="/specialities" element={<SpecialitiesList />} />
+                    <Route path="/specialities/create" element={<SpecialityCreate />} />
+                    <Route path="/specialities/edit/:id" element={<SpecialityEdit />} />
+                    <Route path="/students" element={<StudentsList />} />
+                    <Route path="/students/create" element={<StudentCreate />} />
+                    <Route path="/students/edit/:id" element={<StudentEdit />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/users" element={<UserList />} />
+                    <Route path="/users/create" element={<CreateUser />} />
+                    <Route path="*" element={<h1>Not Found</h1>} />
+                  </Routes>
+                </Box>
+                <div
+                  style={{
+                    zIndex: -99,
+                    height: '100%',
+                    width: '100%',
+                    top: 0,
+                    left: 0,
+                    backgroundColor: 'rgba(0, 212, 255)',
+                    background: 'linear-gradient(to top, #2F80ED, #56CCF2)'
+                  }}
+                  className="position-absolute overflow-hidden">
+                  {squreBackground('45deg', '75px', '-12%', undefined, undefined)}
+                  {squreBackground('225deg', undefined, undefined, '-12%', '75px')}
+                </div>
               </Box>
-              <div
-                style={{
-                  zIndex: -99,
-                  height: '100%',
-                  width: '100%',
-                  top: 0,
-                  left: 0,
-                  backgroundColor: 'rgba(0, 212, 255)',
-                  background: 'linear-gradient(to top, #2F80ED, #56CCF2)'
-                }}
-                className="position-absolute overflow-hidden">
-                {squreBackground('45deg', '75px', '-12%', undefined, undefined)}
-                {squreBackground('225deg', undefined, undefined, '-12%', '75px')}
-              </div>
             </Box>
-          </Box>
-        ) : (
-          <div
-            style={{
-              backgroundColor: 'rgba(0, 212, 255)',
-              background: 'linear-gradient(to top, #2F80ED, #56CCF2)'
-            }}>
-            <Routes>
-              <Route path="*" element={<Login onChange={handleAuthorizePlaceholder} />} />
-            </Routes>
-          </div>
-        )}
+          ) : (
+            <div
+              style={{
+                backgroundColor: 'rgba(0, 212, 255)',
+                background: 'linear-gradient(to top, #2F80ED, #56CCF2)'
+              }}>
+              <Routes>
+                <Route path="*" element={<Login onChange={handleAuthorizePlaceholder} />} />
+              </Routes>
+            </div>
+          )}
+        </AuthenticationContext.Provider>
       </BrowserRouter>
     </>
   );
