@@ -41,9 +41,16 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
   return (
     <>
       <Box sx={{ overflow: 'hidden', overflowY: 'auto' }} className="bg-white mx-2 p-1 rounded">
-        
         <Box sx={{ overflow: 'hidden', overflowY: 'auto' }} className="bg-white mx-2 p-1 rounded">
-          <ul className="p-0">{entities ? props.children(entities!, deleteEntity) : 'Loading'}</ul>
+          {props.isCustom ? (
+            <>{entities ? props.children(entities!, deleteEntity) : 'Loading'}</>
+          ) : (
+            <>
+              <ul className="p-0">
+                {entities ? props.children(entities!, deleteEntity) : 'Loading'}
+              </ul>
+            </>
+          )}
         </Box>
         <div className="d-flex gap-3 my-1 justify-content-center">
           <Pagination
@@ -68,5 +75,10 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
 
 interface indexEntityProps<T> {
   urlEntity: string;
+  isCustom?: false;
   children(entities: T[], deleteEntity: (id: number) => void): React.ReactElement;
 }
+
+IndexEntity.defaultProps = {
+  isCustom: false
+};

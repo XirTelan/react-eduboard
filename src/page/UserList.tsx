@@ -1,3 +1,4 @@
+import Groups from '@mui/icons-material/Groups';
 import {
   Box,
   Button,
@@ -14,9 +15,14 @@ import {
   Typography
 } from '@mui/material';
 import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
+import AuthenticationContext from '../auth/AuthenticationContext';
+import IndexEntity from '../components/Entities/IndexEntity';
 import Header from '../components/UI/Header';
+import { urlAccounts } from '../endpoints';
+import { userDTO } from '../types';
 
 function createData(
   login: string,
@@ -47,73 +53,81 @@ export default function UserList() {
           buttonLink="/users/create"
         />
 
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-              <TableRow sx={{ width: 200, backgroundColor: 'primary.light' }}>
-                <TableCell
-                  sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
-                  width="50px"
-                  align="center">
-                  №
-                </TableCell>
-                <TableCell
-                  sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
-                  variant="head"
-                  align="center">
-                  Login
-                </TableCell>
-                <TableCell
-                  sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
-                  align="left">
-                  FIO
-                </TableCell>
-                <TableCell
-                  sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
-                  align="center">
-                  Роль
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row, index) => (
-                <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell align="center">{index + 1}</TableCell>
-                  <TableCell component="th" scope="row" align="center">
-                    {row.login}
-                  </TableCell>
-                  <TableCell align="left">{row.name}</TableCell>
-                  <TableCell align="center">
-                    <Select sx={{ width: 200 }} value={row.role}>
-                      <MenuItem value={1}>
-                        <span className="fw-bold">ADMIN</span>
-                      </MenuItem>
-                      <MenuItem value={2}>
-                        <span className="fw-bold">КУРАТОР</span>
-                      </MenuItem>
-                      <MenuItem value={3}>
-                        <span className="fw-bold">ПОЛЬЗОВАТЕЛЬ</span>
-                      </MenuItem>
-                    </Select>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-            <TableFooter sx={{ backgroundColor: 'primary.light' }}>
-              <TableRow >
-                <TableCell
-                  sx={{
-                    height: '3rem',
-                    color: 'common.white',
-                    fontWeight: 'bold',
-                    fontSize: '1.125rem'
-                  }}
-                  colSpan={4}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
+        <IndexEntity<userDTO> urlEntity={`${urlAccounts}/users`}>
+          {(users) => (
+            <>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow sx={{ width: 200, backgroundColor: 'primary.light' }}>
+                      <TableCell
+                        sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
+                        width="50px"
+                        align="center">
+                        №
+                      </TableCell>
+                      <TableCell
+                        sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
+                        variant="head"
+                        align="center">
+                        Login
+                      </TableCell>
+                      <TableCell
+                        sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
+                        align="left">
+                        FIO
+                      </TableCell>
+                      <TableCell
+                        sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
+                        align="center">
+                        Роль
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {users.map((user, index) => (
+                      <TableRow
+                        key={user.id}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell align="center">{index + 1}</TableCell>
+                        <TableCell component="th" scope="row" align="center">
+                          {user.userName}
+                        </TableCell>
+                        <TableCell align="left"></TableCell>
+                        <TableCell align="center">
+                          <Select sx={{ width: 200 }} value={1}>
+                            <MenuItem value={1}>
+                              <span className="fw-bold">ADMIN</span>
+                            </MenuItem>
+                            <MenuItem value={2}>
+                              <span className="fw-bold">КУРАТОР</span>
+                            </MenuItem>
+                            <MenuItem value={3}>
+                              <span className="fw-bold">ПОЛЬЗОВАТЕЛЬ</span>
+                            </MenuItem>
+                          </Select>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                  <TableFooter sx={{ backgroundColor: 'primary.light' }}>
+                    <TableRow>
+                      <TableCell
+                        sx={{
+                          height: '3rem',
+                          color: 'common.white',
+                          fontWeight: 'bold',
+                          fontSize: '1.125rem'
+                        }}
+                        colSpan={4}
+                      />
+                    </TableRow>
+                  </TableFooter>
+                </Table>
+              </TableContainer>
+            </>
+          )}
+        </IndexEntity>
       </Box>
     </>
   );

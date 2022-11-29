@@ -3,11 +3,30 @@ import { Form, Formik } from 'formik';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import { squreBackground } from '../App';
 import './Login.css';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { authenticationResponse, userCredentials } from '../auth/auth.model';
+import axios from 'axios';
+import { urlAccounts } from '../endpoints';
+import { getClaims, saveToken } from '../auth/handleJWT';
+import AuthenticationContext from '../auth/AuthenticationContext';
+import { useNavigate } from 'react-router-dom';
 
-export default function Login({ onChange }: LoginProps) {
-  const [authorize, setAuthorize] = useState(false);
-  const [result, setResult] = useState(undefined);
+export default function Login() {
+  const { update } = useContext(AuthenticationContext);
+  const navigate = useNavigate();
+  async function login(credentials: userCredentials) {
+    try {
+      const response = await axios.post<authenticationResponse>(
+        `${urlAccounts}/login`,
+        credentials
+      );
+      saveToken(response.data);
+      update(getClaims());
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -17,13 +36,9 @@ export default function Login({ onChange }: LoginProps) {
         {/* {squreBackground('225deg')} */}
 
         <Formik
-          initialValues={{ login: '', password: '' }}
-          onSubmit={async (e) => {
-            setAuthorize(true);
-            onChange(e.login, e.password)
-              .then((val) => console.log(val))
-              .catch((error) => console.log(error))
-              .finally(() => setAuthorize(false));
+          initialValues={{ userName: '', password: '' }}
+          onSubmit={async (values) => {
+            login(values);
           }}>
           {(formikProps) => (
             <Form onSubmit={formikProps.handleSubmit}>
@@ -33,21 +48,23 @@ export default function Login({ onChange }: LoginProps) {
                   backdropFilter: 'blur(10px)',
                   backgroundColor: 'rgba(255,255,255,0.1)'
                 }}
-                className={`shadow  p-3 ${authorize ? 'active ' : ''}`}>
+                className={`shadow  p-3 ${formikProps.isSubmitting ? 'active ' : ''}`}>
                 <div
                   className={`login-form-inner d-flex justify-content-center   ${
-                    authorize ? 'active ' : 'bg-white'
+                    formikProps.isSubmitting ? 'active ' : 'bg-white'
                   }`}>
                   <div className="p-3">
                     <TextField
-                      className={`mb-1 input-field ${authorize ? 'active' : ''}`}
+                      autoComplete="username"
+                      className={`mb-1 input-field ${formikProps.isSubmitting ? 'active' : ''}`}
                       label="login"
                       fullWidth
-                      {...formikProps.getFieldProps('login')}
+                      {...formikProps.getFieldProps('userName')}
                       onChange={formikProps.handleChange}
                       type="text"></TextField>
                     <TextField
-                      className={`input-field ${authorize ? 'active' : ''}`}
+                      autoComplete="current-password"
+                      className={`input-field ${formikProps.isSubmitting ? 'active' : ''}`}
                       label="password"
                       fullWidth
                       {...formikProps.getFieldProps('password')}
@@ -61,7 +78,7 @@ export default function Login({ onChange }: LoginProps) {
                       color="success"
                       variant="contained"
                       type="submit"
-                      className={`input-field ${authorize ? 'active' : ''}`}>
+                      className={`input-field ${formikProps.isSubmitting ? 'active' : ''}`}>
                       <ArrowCircleRightOutlinedIcon sx={{ fontSize: '2rem' }} />
                     </Button>
                   </div>

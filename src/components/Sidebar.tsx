@@ -12,10 +12,14 @@ import TocIcon from '@mui/icons-material/Toc';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import GroupIcon from '@mui/icons-material/Group';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './Sidebar.css';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import Authorized from '../auth/Authorized';
+import { getClaims, logout } from '../auth/handleJWT';
+import AuthenticationContext from '../auth/AuthenticationContext';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -25,6 +29,13 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
   const [isAnimated, setIsAnimated] = useState(false);
+  const { claims, update } = useContext(AuthenticationContext);
+
+
+  function getUserName(): string {
+    console.log(claims);
+    return claims.filter((x) => x.name === 'name')[0]?.value;
+  }
   useEffect(() => {
     console.log('isanimated', isAnimated);
     console.log('isOpen', isOpen);
@@ -59,16 +70,32 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
           isOpen ? '' : 'active'
         } `}>
         <div className="d-flex gap-2 align-items-center flex-column  mx-auto me-md-auto text-decoration-none">
-          <AccountCircleIcon />
-          {isOpen && !isAnimated && (
-            <span className="ms-1 fw-bold d-flex align-content-center ">
-              Имя Отчество
-              <br /> Роль: Админ
-            </span>
-          )}
-          <IconButton color="primary" aria-label="logout" onClick={() => authorize(false)}>
-            <LogoutIcon />
-          </IconButton>
+          <Authorized
+            authorized={
+              <>
+                <AccountCircleIcon />
+                {isOpen && !isAnimated && (
+                  <span className="ms-1 fw-bold d-flex align-content-center ">
+                    <>{getUserName()}</>
+                  </span>
+                )}
+                <IconButton
+                  color="primary"
+                  aria-label="logout"
+                  onClick={() => {
+                    logout();
+                    update(getClaims());
+                  }}>
+                  <LogoutIcon />
+                </IconButton>
+              </>
+            }
+            notAuthorized={
+              <>
+                <h5>NotAuthorized</h5>
+              </>
+            }
+          />
         </div>
 
         <hr className="w-100 text-secondary" />
@@ -128,7 +155,15 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
           <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/disciplines" title="Дисциплины">
             <TocIcon />
           </NavListItem>
-          <hr className="w-100 text-secondary" />
+          <Divider className="w-100" color="primary.main" />
+          <NavListItem
+            isOpen={isOpen}
+            isAnimated={isAnimated}
+            to="/users"
+            title="Список пользователей">
+            <TocIcon />
+          </NavListItem>
+          <Divider className="w-100" color="primary.main" />
         </ul>
         <IconButton onClick={handleSidebar}>
           {isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}

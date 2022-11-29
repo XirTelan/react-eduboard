@@ -46,3 +46,7 @@ export interface studentCreationDTO {
   middleName: string;
   groupId?: number;
 }
+export interface userDTO {
+  id: string;
+  userName: string;
+}
