@@ -1,9 +1,9 @@
-import { Button, Input, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import { squreBackground } from '../App';
 import './Login.css';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { authenticationResponse, userCredentials } from '../auth/auth.model';
 import axios from 'axios';
 import { urlAccounts } from '../endpoints';

@@ -1,7 +1,5 @@
-import Groups from '@mui/icons-material/Groups';
 import {
   Box,
-  Button,
   MenuItem,
   Paper,
   Select,
@@ -12,13 +10,10 @@ import {
   TableFooter,
   TableHead,
   TableRow,
-  Typography
 } from '@mui/material';
-import { GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
-import AuthenticationContext from '../auth/AuthenticationContext';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { userRoleDTO } from '../auth/auth.model';
 import IndexEntity from '../components/Entities/IndexEntity';
 import Header from '../components/UI/Header';
 import { urlAccounts } from '../endpoints';
@@ -44,6 +39,16 @@ const rows = [
 ];
 
 export default function UserList() {
+  async function changeRole(userRole: userRoleDTO) {
+    if (userRole.role !== '')
+      try {
+        const response = await axios.post(`${urlAccounts}/role`, userRole);
+        Swal.fire(`${response.data}`);
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
   return (
     <>
       <Box className="bg-white p-3 m-3 rounded">
@@ -52,7 +57,6 @@ export default function UserList() {
           buttonText="Cоздать пользователя"
           buttonLink="/users/create"
         />
-
         <IndexEntity<userDTO> urlEntity={`${urlAccounts}/users`}>
           {(users) => (
             <>
@@ -78,37 +82,42 @@ export default function UserList() {
                         FIO
                       </TableCell>
                       <TableCell
-                        sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
+                        sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' , width: '10%'}}
                         align="center">
                         Роль
                       </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {users.map((user, index) => (
-                      <TableRow
-                        key={user.id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        <TableCell align="center">{index + 1}</TableCell>
-                        <TableCell component="th" scope="row" align="center">
-                          {user.userName}
-                        </TableCell>
-                        <TableCell align="left"></TableCell>
-                        <TableCell align="center">
-                          <Select sx={{ width: 200 }} value={1}>
-                            <MenuItem value={1}>
-                              <span className="fw-bold">ADMIN</span>
-                            </MenuItem>
-                            <MenuItem value={2}>
-                              <span className="fw-bold">КУРАТОР</span>
-                            </MenuItem>
-                            <MenuItem value={3}>
-                              <span className="fw-bold">ПОЛЬЗОВАТЕЛЬ</span>
-                            </MenuItem>
-                          </Select>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                    {users.map((user, index) => {
+                      console.log(user);
+                      return (
+                        <TableRow
+                          key={user.id}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                          <TableCell align="center">{index + 1}</TableCell>
+                          <TableCell component="th" scope="row" align="center">
+                            {user.userName}
+                          </TableCell>
+                          <TableCell align="left"> {user.fio}</TableCell>
+                          <TableCell align="center">
+                            <Select
+                              sx={{ width: 200 }}
+                              value={user.role ? user.role : 'user'}
+                              onChange={(e) =>
+                                changeRole({ userId: user.id, role: e.target.value.toString() })
+                              }>
+                              <MenuItem value="admin">
+                                <span className="fw-bold">ADMIN</span>
+                              </MenuItem>
+                              <MenuItem value="user">
+                                <span className="fw-bold">КУРАТОР</span>
+                              </MenuItem>
+                            </Select>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                   <TableFooter sx={{ backgroundColor: 'primary.light' }}>
                     <TableRow>

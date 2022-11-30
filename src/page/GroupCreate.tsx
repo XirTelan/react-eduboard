@@ -1,9 +1,6 @@
-import { Autocomplete, Box, Button, TextField, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import axios from 'axios';
-import { Form, Formik } from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
-import EditEntity from '../components/Entities/EditEntity';
+import {  useNavigate } from 'react-router-dom';
 import GroupForm from '../components/Form/GroupForm';
 import Header from '../components/UI/Header';
 import { urlGroups, urlSpecialities } from '../endpoints';

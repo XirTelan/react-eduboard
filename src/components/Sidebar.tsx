@@ -1,4 +1,4 @@
-import { Divider, IconButton, Typography } from '@mui/material';
+import { Divider, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import NavListItem from './UI/NavListItem';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
@@ -6,13 +6,13 @@ import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import GroupsIcon from '@mui/icons-material/Groups';
 import TodayIcon from '@mui/icons-material/Today';
+import ViewListIcon from '@mui/icons-material/ViewList';
 import EventIcon from '@mui/icons-material/Event';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import TocIcon from '@mui/icons-material/Toc';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import GroupIcon from '@mui/icons-material/Group';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './Sidebar.css';
@@ -30,11 +30,13 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
   const [isAnimated, setIsAnimated] = useState(false);
   const { claims, update } = useContext(AuthenticationContext);
-
+  const userRole = getUserRole();
 
   function getUserName(): string {
-    console.log(claims);
     return claims.filter((x) => x.name === 'name')[0]?.value;
+  }
+  function getUserRole(): string {
+    return claims.filter((x) => x.name === 'type')[0]?.value;
   }
   useEffect(() => {
     console.log('isanimated', isAnimated);
@@ -79,15 +81,24 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
                     <>{getUserName()}</>
                   </span>
                 )}
-                <IconButton
-                  color="primary"
-                  aria-label="logout"
-                  onClick={() => {
-                    logout();
-                    update(getClaims());
-                  }}>
-                  <LogoutIcon />
-                </IconButton>
+                <div className="d-flex align-items-center">
+                  {userRole === 'admin' && (
+                    <>
+                      <Link to="/users">
+                        <ViewListIcon />
+                      </Link>
+                    </>
+                  )}
+                  <IconButton
+                    color="primary"
+                    aria-label="logout"
+                    onClick={() => {
+                      logout();
+                      update(getClaims());
+                    }}>
+                    <LogoutIcon />
+                  </IconButton>
+                </div>
               </>
             }
             notAuthorized={
@@ -153,14 +164,6 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
             <ListAltIcon />
           </NavListItem>
           <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/disciplines" title="Дисциплины">
-            <TocIcon />
-          </NavListItem>
-          <Divider className="w-100" color="primary.main" />
-          <NavListItem
-            isOpen={isOpen}
-            isAnimated={isAnimated}
-            to="/users"
-            title="Список пользователей">
             <TocIcon />
           </NavListItem>
           <Divider className="w-100" color="primary.main" />

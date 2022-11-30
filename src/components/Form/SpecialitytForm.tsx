@@ -1,9 +1,6 @@
 import {
-  Autocomplete,
-  AutocompleteRenderInputParams,
   Box,
   Button,
-  Divider,
   TextField
 } from '@mui/material';
 import { Form, Formik, FormikHelpers, useFormikContext, validateYupSchema } from 'formik';
@@ -12,8 +9,6 @@ import { Link } from 'react-router-dom';
 import { disciplineDTO, specialityCreationDTO, specialityDTO } from '../../types';
 import AutocompleteField, { autocompleteFieldModel } from '../UI/AutocompleteField';
 import * as Yup from 'yup';
-import axios, { AxiosResponse } from 'axios';
-import { urlDisciplines } from '../../endpoints';
 
 export default function SpecialityForm(props: SpecialityFormProps) {
   const [inputValue, setInputValue] = useState('');

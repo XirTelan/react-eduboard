@@ -1,16 +1,5 @@
 import {
-  Box,
-  Button,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Radio,
-  RadioGroup,
-  Select,
-  SelectChangeEvent,
-  Typography
+  Box
 } from '@mui/material';
 import {
   DataGrid,
@@ -19,10 +8,8 @@ import {
   GridRowsProp,
   ruRU
 } from '@mui/x-data-grid';
-import { useState } from 'react';
 import Filter from '../components/Filter';
 import Header from '../components/UI/Header';
-import { months } from '../data/data';
 
 const rows: GridRowsProp = [
   { id: 1, indx: 1, fio: 'Ivanonv Ivan Ivanovich', col2: 'World' },

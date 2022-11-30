@@ -1,5 +1,3 @@
-import AutocompleteField from '../components/UI/AutocompleteField';
-import { DataGrid } from '@mui/x-data-grid';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import { Formik } from 'formik';
@@ -66,7 +64,12 @@ export default function DiscplinesList() {
                 return (
                   <li key={elem.id} className="list-group-item d-flex justify-content-between">
                     {elem.name}
-                    <Button onClick={() => customAlert(`Удалить ${elem.name}?`, 'Удалить', () => deleteEntity(elem.id))} className="btn " color="warning">
+                    <Button
+                      onClick={() =>
+                        customAlert(`Удалить ${elem.name}?`, 'Удалить', () => deleteEntity(elem.id))
+                      }
+                      className="btn "
+                      color="warning">
                       <DeleteForeverSharpIcon className="fs-5 " />
                     </Button>
                   </li>

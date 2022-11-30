@@ -1,5 +1,4 @@
 import axios from 'axios';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import StudentForm from '../components/Form/StudentForm';
 import Header from '../components/UI/Header';

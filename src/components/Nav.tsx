@@ -1,5 +1,4 @@
-import { AppBar, Divider, Toolbar } from '@mui/material';
-import { color } from '@mui/system';
+import {  Divider, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 interface NavProps {
   position?: string;

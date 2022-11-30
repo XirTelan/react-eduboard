@@ -1,7 +1,7 @@
-import { Form, Formik, FormikHelpers } from 'formik';
-import { userCredentials } from './auth.model';
+import { ErrorMessage, Form, Formik, FormikHelpers } from 'formik';
+import { userRegisterCredentials } from './auth.model';
 import * as Yup from 'yup';
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import Header from '../components/UI/Header';
 import { Link } from 'react-router-dom';
 export default function AuthForm(props: authFormProps) {
@@ -14,36 +14,41 @@ export default function AuthForm(props: authFormProps) {
           onSubmit={props.onSubmit}
           validationSchema={Yup.object({
             userName: Yup.string().required('Req'),
-            password: Yup.string().required('Req')
+            password: Yup.string()
+              .required('Req')
+              .matches(/[a-z]+/, 'One lowercase character')
+              .matches(/[A-Z]+/, 'One uppercase character')
+              .matches(/[@$!%*#?&]+/, 'One special character')
+              .matches(/\d+/, 'One number')
+              .min(8, 'Must be exactly 8 digits'),
+
+            fio: Yup.string().required('Req')
           })}>
           {(formikProps) => (
             <Form>
               <div className="d-flex flex-column gap-3">
                 <TextField fullWidth {...formikProps.getFieldProps('userName')} label="Логин" />
-                <TextField fullWidth label="ФИО" />
+                <ErrorMessage name="userName" />
+                <TextField fullWidth {...formikProps.getFieldProps('fio')} label="ФИО" />
+                <ErrorMessage name="fio" />
                 <TextField
                   fullWidth
                   {...formikProps.getFieldProps('password')}
                   type="password"
                   label="Пароль"
                 />
+                <ErrorMessage name="password" />
               </div>
-              <FormControl style={{ marginTop: 20, marginBottom: 20 }} fullWidth size="small">
-                <InputLabel id="role-select-label">Выберите роль</InputLabel>
-                <Select
-                  labelId="role-select-label"
-                  label="Выберите роль"
-                  placeholder="Выберите роль">
-                  <MenuItem value={1}>1</MenuItem>
-                  <MenuItem value={2}>2</MenuItem>
-                  <MenuItem value={3}>3</MenuItem>
-                </Select>
-              </FormControl>
+
               {/* <DateField field="date" displayName="Date" /> */}
               <Link className="btn btn-secondary m-1" to="/users">
                 Cancel
               </Link>
-              <Button disabled={formikProps.isSubmitting} variant='contained' color='success' type="submit">
+              <Button
+                disabled={formikProps.isSubmitting}
+                variant="contained"
+                color="success"
+                type="submit">
                 Save Changes
               </Button>
             </Form>
@@ -55,6 +60,6 @@ export default function AuthForm(props: authFormProps) {
 }
 
 interface authFormProps {
-  model: userCredentials;
-  onSubmit(values: userCredentials, actions: FormikHelpers<userCredentials>): void;
+  model: userRegisterCredentials;
+  onSubmit(values: userRegisterCredentials, actions: FormikHelpers<userRegisterCredentials>): void;
 }

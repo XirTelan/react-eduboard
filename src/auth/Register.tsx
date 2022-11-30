@@ -1,31 +1,37 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { urlAccounts } from '../endpoints';
-import { authenticationResponse, userCredentials } from './auth.model';
+import { authenticationResponse, userCredentials, userRegisterCredentials } from './auth.model';
 import AuthenticationContext from './AuthenticationContext';
 import AuthForm from './AuthForm';
-import { getClaims, saveToken } from './handleJWT';
 
 export default function Register() {
   const { update } = useContext(AuthenticationContext);
+  const navigate = useNavigate();
 
-  async function register(credentials: userCredentials) {
+  async function register(credentials: userRegisterCredentials) {
     try {
       const response = await axios.post<authenticationResponse>(
         `${urlAccounts}/create`,
         credentials
       );
-      saveToken(response.data);
-      update(getClaims());
-      console.log(response);
+      Swal.fire('Success', 'Пользователь успешно создан');
+      navigate('/users');
     } catch (error) {
+      const axiosError = error as AxiosError;
+      Swal.fire(
+        `Ошибка ${axiosError.code}`,
+        `Не удалось создать пользователя ${axiosError.message}`
+      );
       console.log(error);
     }
   }
   return (
     <>
       <AuthForm
-        model={{ userName: '', password: '' }}
+        model={{ userName: '', password: '', fio: '' }}
         onSubmit={async (value) => await register(value)}
       />
     </>

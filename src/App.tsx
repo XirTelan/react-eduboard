@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
-import Nav from './components/Nav';
-import Button from './components/UI/Button';
 import Sidebar from './components/Sidebar';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import UserList from './page/UserList';

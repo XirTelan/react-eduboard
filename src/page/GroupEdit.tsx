@@ -1,4 +1,3 @@
-import React from 'react';
 import EditEntity from '../components/Entities/EditEntity';
 import GroupForm from '../components/Form/GroupForm';
 import { urlGroups } from '../endpoints';

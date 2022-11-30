@@ -49,4 +49,6 @@ export interface studentCreationDTO {
 export interface userDTO {
   id: string;
   userName: string;
+  fio: string;
+  role: string;
 }

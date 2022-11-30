@@ -1,10 +1,7 @@
-import { Box, Typography } from '@mui/material';
 import axios, { AxiosResponse } from 'axios';
-import { Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import SpecialitytForm from '../components/Form/SpecialitytForm';
-import AutocompleteField from '../components/UI/AutocompleteField';
 import Header from '../components/UI/Header';
 import { urlDisciplines, urlSpecialities } from '../endpoints';
 import { disciplineDTO, specialityCreationDTO, specialityDTO } from '../types';

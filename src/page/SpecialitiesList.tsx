@@ -15,10 +15,8 @@ import {
 import CollapseListItem from '../components/UI/CollapseListItem';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Header from '../components/UI/Header';
-import { disciplineDTO, specialityDTO } from '../types';
-import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react';
+import { specialityDTO } from '../types';
 import { urlSpecialities } from '../endpoints';
-import Pagination from '../components/UI/Pagination';
 import IndexEntity from '../components/Entities/IndexEntity';
 
 export default function SpecialitiesList() {

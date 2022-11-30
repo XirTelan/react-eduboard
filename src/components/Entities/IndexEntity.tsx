@@ -1,9 +1,7 @@
 import { Box, MenuItem, Select } from '@mui/material';
 import axios, { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
-import Header from '../UI/Header';
 
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Pagination from '../UI/Pagination';
 
 export default function IndexEntity<T>(props: indexEntityProps<T>) {
@@ -75,7 +73,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
 
 interface indexEntityProps<T> {
   urlEntity: string;
-  isCustom?: false;
+  isCustom?: boolean;
   children(entities: T[], deleteEntity: (id: number) => void): React.ReactElement;
 }
 

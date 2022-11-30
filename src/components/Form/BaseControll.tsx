@@ -10,7 +10,6 @@ import {
   GridToolbarFilterButton,
   ruRU
 } from '@mui/x-data-grid';
-import Filter from '../Filter';
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
