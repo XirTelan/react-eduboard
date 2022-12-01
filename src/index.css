@@ -12,3 +12,9 @@ p {
 a:hover {
   color: #fff;
 }
+
+#drag-file-element {
+  border-radius: 10px;
+  border: 1px solid lightgrey;
+  background: #5ba15ee0;
+}

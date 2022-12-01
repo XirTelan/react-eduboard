@@ -8,13 +8,15 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
+  TextField
 } from '@mui/material';
 import { useState } from 'react';
+import DragDropFile from '../components/DragDropFile';
 import IndexEntity from '../components/Entities/IndexEntity';
 import Header from '../components/UI/Header';
 import { urlStudents } from '../endpoints';
 import { studentDTO } from '../types';
+import { excelImport } from '../utils/handleExcel';
 
 export default function StudentsList() {
   const [seacrhString, setSearchString] = useState('');
@@ -22,14 +24,15 @@ export default function StudentsList() {
   return (
     <>
       <Header title="Список студентов" buttonLink="create" buttonText="Добавить студента">
-        <Button
+        <DragDropFile handleFiles={excelImport} />
+        {/* <Button
           className="me-1"
           onClick={() => console.log('Custom')}
           color="success"
           variant="contained"
           size="large">
           Импорт
-        </Button>
+        </Button> */}
       </Header>
       <Box className="bg-white p-3 mx-2 mb-1 rounded">
         <TextField

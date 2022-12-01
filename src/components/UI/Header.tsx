@@ -15,7 +15,7 @@ export default function Header({
         <Typography variant="h5" color="primary.main">
           {title}
         </Typography>
-        <div>
+        <div className='d-flex gap-3'>
           {children}
           {buttonText && (
             <Button
@@ -23,7 +23,7 @@ export default function Header({
               onClick={() => navigate(`${buttonLink}`)}
               color="success"
               variant="contained"
-              size="large">
+              size="small">
               {buttonText}
             </Button>
           )}
