@@ -23,7 +23,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.2",
-    "react-scripts": "5.0.1",
     "sweetalert2": "^11.6.10",
     "typescript": "^4.8.4",
     "web-vitals": "^2.1.4",
@@ -31,10 +30,9 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
   },
   "eslintConfig": {
     "extends": [
@@ -58,7 +56,11 @@
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
+    "@vitejs/plugin-react": "^2.2.0",
     "eslint": "^8.26.0",
-    "eslint-plugin-react": "^7.31.10"
+    "eslint-plugin-react": "^7.31.10",
+    "vite": "^3.2.4",
+    "vite-plugin-svgr": "^2.2.2",
+    "vite-tsconfig-paths": "^3.6.0"
   }
 }
