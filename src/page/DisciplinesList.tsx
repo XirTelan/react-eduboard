@@ -32,7 +32,7 @@ export default function DiscplinesList() {
   return (
     <>
       <Header title="Дисциплины" />
-      <Box className="bg-white p-3 mx-2 rounded">
+      <Box className="bg-white p-3 mx-2 mb-1 rounded">
         <Formik
           initialValues={initialValues}
           onSubmit={(val) => {
@@ -40,14 +40,14 @@ export default function DiscplinesList() {
             create(val);
           }}>
           {(formikProps) => (
-            <form className="my-3" onSubmit={formikProps.handleSubmit}>
+            <form onSubmit={formikProps.handleSubmit}>
               <div className="d-flex justify-content-center">
                 <TextField
                   {...formikProps.getFieldProps('name')}
                   id="filled-basic"
                   label="Добавить дисциплину"
-                  variant="filled"
-                  className="col-9"
+                  variant="standard"
+                  className="col-9 flex-grow-1"
                 />
                 <Button type="submit" color="success" className="col-2 ms-3" variant="contained">
                   Добавить
@@ -56,31 +56,30 @@ export default function DiscplinesList() {
             </form>
           )}
         </Formik>
-        <h3 className="text-left my-3 ">Список дисциплин</h3>
-        <IndexEntity<disciplineDTO> urlEntity={urlDisciplines}>
-          {(disciplines, deleteEntity) => (
-            <>
-              {disciplines.map((elem, index) => {
-                return (
-                  <li key={elem.id} className="list-group-item d-flex justify-content-between">
-                    {elem.name}
-                    <Button
-                      onClick={() =>
-                        customAlert(`Удалить ${elem.name}?`, 'Удалить', () => deleteEntity(elem.id))
-                      }
-                      className="btn "
-                      color="warning">
-                      <DeleteForeverSharpIcon className="fs-5 " />
-                    </Button>
-                  </li>
-                );
-              })}
-            </>
-          )}
-        </IndexEntity>
-
-        <ul className="list-group"></ul>
       </Box>
+      <IndexEntity<disciplineDTO> urlEntity={urlDisciplines}>
+        {(disciplines, deleteEntity) => (
+          <>
+            {disciplines.map((elem, index) => {
+              return (
+                <li key={elem.id} className="list-group-item d-flex justify-content-between">
+                  {elem.name}
+                  <Button
+                    onClick={() =>
+                      customAlert(`Удалить ${elem.name}?`, 'Удалить', () => deleteEntity(elem.id))
+                    }
+                    className="btn "
+                    color="warning">
+                    <DeleteForeverSharpIcon className="fs-5 " />
+                  </Button>
+                </li>
+              );
+            })}
+          </>
+        )}
+      </IndexEntity>
+
+      <ul className="list-group"></ul>
     </>
   );
 }

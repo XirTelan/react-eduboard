@@ -15,15 +15,14 @@ export default function Header({
         <Typography variant="h5" color="primary.main">
           {title}
         </Typography>
-        <div className='d-flex gap-3'>
+        <div className="d-flex gap-3">
           {children}
           {buttonText && (
             <Button
               startIcon={buttonIcon}
               onClick={() => navigate(`${buttonLink}`)}
               color="success"
-              variant="contained"
-              size="small">
+              variant="contained">
               {buttonText}
             </Button>
           )}

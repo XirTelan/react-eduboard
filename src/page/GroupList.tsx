@@ -18,17 +18,7 @@ export default function GroupList() {
         buttonText="Создать группу"
         buttonLink="create"
       />
-      <Box className="bg-white p-3 mx-2 mb-1 rounded">
-        <TextField
-          fullWidth
-          label="Поиск группы"
-          variant="standard"
-          value={seacrhString}
-          onChange={(e) => {
-            setSearchString(e.target.value);
-          }}
-        />
-      </Box>
+
       <IndexEntity<groupDTO> urlEntity={urlGroups}>
         {(groups, deleteEntity) => (
           <>

@@ -34,17 +34,7 @@ export default function StudentsList() {
           Импорт
         </Button> */}
       </Header>
-      <Box className="bg-white p-3 mx-2 mb-1 rounded">
-        <TextField
-          fullWidth
-          label="Поиск студента"
-          variant="standard"
-          value={seacrhString}
-          onChange={(e) => {
-            setSearchString(e.target.value);
-          }}
-        />
-      </Box>
+
       <IndexEntity<studentDTO> urlEntity={urlStudents} isCustom>
         {(students, deleteEntity) => (
           <>
