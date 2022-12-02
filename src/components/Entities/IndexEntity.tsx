@@ -47,30 +47,35 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
   return (
     <>
       <Box sx={{ overflow: 'hidden', overflowY: 'auto' }} className="bg-white mx-2 p-1 rounded">
-        <div className="d-flex position-relative mx-2 p-1">
-          <TextField
-            fullWidth
-            label="Поиск..."
-            variant="standard"
-            value={query}
-            onChange={(e) => {
-              console.log('trigger setQuery');
-              setQuery(e.target.value);
-            }}
-          />
-          {query == null || query.trim() === '' ? (
-            ''
-          ) : (
-            <>
-              <IconButton
-                color="error"
-                className="position-absolute end-0"
-                onClick={() => setQuery('')}>
-                <ClearIcon />
-              </IconButton>
-            </>
-          )}
-        </div>
+        {props.filterIsEnabled && (
+          <>
+            <div className="d-flex position-relative mx-2 p-1">
+              <TextField
+                fullWidth
+                label="Поиск..."
+                variant="standard"
+                value={query}
+                onChange={(e) => {
+                  console.log('trigger setQuery');
+                  setQuery(e.target.value);
+                }}
+              />
+              {query == null || query.trim() === '' ? (
+                ''
+              ) : (
+                <>
+                  <IconButton
+                    color="error"
+                    className="position-absolute end-0"
+                    onClick={() => setQuery('')}>
+                    <ClearIcon />
+                  </IconButton>
+                </>
+              )}
+            </div>
+          </>
+        )}
+
         <Box sx={{ overflow: 'hidden', overflowY: 'auto' }} className="bg-white mx-2 p-1 rounded">
           {props.isCustom ? (
             <>{entities ? props.children(entities!, deleteEntity) : 'Loading'}</>
@@ -92,7 +97,10 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
             variant="standard"
             size="small"
             value={recordsPerPage}
-            onChange={(e) => setRecordsPerPage(e.target.value as number)}>
+            onChange={(e) => {
+              setRecordsPerPage(e.target.value as number);
+              setPage(1);
+            }}>
             <MenuItem value={5}>5</MenuItem>
             <MenuItem value={10}>10</MenuItem>
             <MenuItem value={20}>20</MenuItem>
@@ -111,9 +119,11 @@ interface fetchDataProps {
 interface indexEntityProps<T> {
   urlEntity: string;
   isCustom?: boolean;
+  filterIsEnabled?: boolean;
   children(entities: T[], deleteEntity: (id: number) => void): React.ReactElement;
 }
 
 IndexEntity.defaultProps = {
-  isCustom: false
+  isCustom: false,
+  filterIsEnabled: true
 };

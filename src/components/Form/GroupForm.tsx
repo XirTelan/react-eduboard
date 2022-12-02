@@ -73,6 +73,7 @@ export default function GroupForm(props: groupFormProps) {
                 label="Наименование"
                 error={!!formikProps.errors.name}
                 sx={{ width: '80%' }}
+                className="flex-grow-1"
               />
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
@@ -95,7 +96,6 @@ export default function GroupForm(props: groupFormProps) {
               inputValue={queryUser}
               onBlur={formikProps.handleBlur}
               options={userOptions}
-
               onChange={(e, value) => {
                 formikProps.setFieldValue('curatorId', value!.id);
               }}
@@ -126,7 +126,7 @@ export default function GroupForm(props: groupFormProps) {
               renderInput={(params) => <TextField {...params} label="Выбрать специальность" />}
               sx={{ margin: '10px 0' }}
             />
-            {formikProps.errors.specialityId  && (
+            {formikProps.errors.specialityId && (
               <>
                 <Typography variant="subtitle1">Обнаружены ошибки при заполнении</Typography>
                 <ErrorMessage component="div" name="name" />

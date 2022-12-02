@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import Sidebar from './components/Sidebar';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import UserList from './page/UserList';
+import UserList from './auth/UserList';
 
 import Attendance from './page/Attendance';
 import EntranceControll from './page/EntranceControll';
-import Login from './page/Login';
+import Login from './auth/Login';
 import DiscplinesList from './page/DisciplinesList';
 import SpecialitiesList from './page/SpecialitiesList';
 import GroupList from './page/GroupList';

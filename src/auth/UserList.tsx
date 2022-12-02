@@ -9,11 +9,11 @@ import {
   TableContainer,
   TableFooter,
   TableHead,
-  TableRow,
+  TableRow
 } from '@mui/material';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { userRoleDTO } from '../auth/auth.model';
+import { userRoleDTO } from './auth.model';
 import IndexEntity from '../components/Entities/IndexEntity';
 import Header from '../components/UI/Header';
 import { urlAccounts } from '../endpoints';
@@ -57,7 +57,7 @@ export default function UserList() {
           buttonText="Cоздать пользователя"
           buttonLink="/users/create"
         />
-        <IndexEntity<userDTO> urlEntity={`${urlAccounts}/users`}>
+        <IndexEntity<userDTO> urlEntity={`${urlAccounts}/users`} filterIsEnabled={false}>
           {(users) => (
             <>
               <TableContainer component={Paper}>
@@ -82,7 +82,12 @@ export default function UserList() {
                         FIO
                       </TableCell>
                       <TableCell
-                        sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' , width: '10%'}}
+                        sx={{
+                          color: 'common.white',
+                          fontWeight: 'bold',
+                          fontSize: '1.125rem',
+                          width: '10%'
+                        }}
                         align="center">
                         Роль
                       </TableCell>

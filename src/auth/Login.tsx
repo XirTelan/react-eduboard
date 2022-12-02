@@ -4,11 +4,11 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import { squreBackground } from '../App';
 import './Login.css';
 import { useContext } from 'react';
-import { authenticationResponse, userCredentials } from '../auth/auth.model';
+import { authenticationResponse, userCredentials } from './auth.model';
 import axios from 'axios';
 import { urlAccounts } from '../endpoints';
-import { getClaims, saveToken } from '../auth/handleJWT';
-import AuthenticationContext from '../auth/AuthenticationContext';
+import { getClaims, saveToken } from './handleJWT';
+import AuthenticationContext from './AuthenticationContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
