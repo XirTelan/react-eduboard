@@ -1,6 +1,4 @@
-import {
-  Box
-} from '@mui/material';
+import { Box } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -10,11 +8,28 @@ import {
 } from '@mui/x-data-grid';
 import Filter from '../components/Filter';
 import Header from '../components/UI/Header';
+const testObj = {
+  studentId: 5,
+  studentFio: 'asdd asf af ',
+  days: [
+    { id: 1, value: 'a' },
+    { id: 2, value: 'a' },
+    { id: 5, value: 'a' },
+    { id: 7, value: 'a' },
+    { id: 10, value: 'a' }
+  ]
+};
+const testObj1: { [k: string]: any } = { id: 4, indx: 4, fio: 'New Ivan Ivanovich' };
+testObj.days.forEach((element) => {
+  testObj1[`d${element.id}`] = element.value;
+});
+console.log('test', testObj1);
 
 const rows: GridRowsProp = [
-  { id: 1, indx: 1, fio: 'Ivanonv Ivan Ivanovich', col2: 'World' },
-  { id: 2, indx: 2, fio: 'Ivanonv Ivan Ivanovich', col2: 'is Awesome' },
-  { id: 3, indx: 3, fio: 'Ivanonv Ivan Ivanovich', d: 'is Amazing' }
+  { id: 1, indx: 1, fio: 'Ivanonv Ivan Ivanovich' },
+  { id: 2, indx: 2, fio: 'Ivanonv Ivan Ivanovich', d1: 'is Awesome' },
+  { id: 3, indx: 3, fio: 'Ivanonv Ivan Ivanovich', d5: 'is Amazing' },
+  testObj1
 ];
 const columnGroupingModel: GridColumnGroupingModel = [
   {
@@ -55,7 +70,10 @@ const columnGroupingModel: GridColumnGroupingModel = [
     ]
   }
 ];
-
+const onCellEditCommit = (cellData: any) => {
+  const { id, field, value } = cellData;
+  console.log(cellData);
+};
 const columnsDefault: GridColDef[] = [
   { field: 'indx', headerName: '№', flex: 1, maxWidth: 50 },
   { field: 'fio', headerName: 'ФИО', flex: 1, minWidth: 100 }
@@ -79,6 +97,9 @@ export default function Attendance() {
           autoHeight
           experimentalFeatures={{ columnGrouping: true }}
           columnGroupingModel={columnGroupingModel}
+          onCellModesModelChange={() => console.log(testObj1)}
+          onCellEditStop={() => console.log(testObj1)}
+          onCellEditCommit={onCellEditCommit}
           localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
           rows={rows}
           columns={columns}

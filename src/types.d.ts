@@ -15,7 +15,7 @@ export interface groupCreationDTO {
   name: string;
   specialityId: number;
   year: string;
-  curatorId?: number;
+  personId?: string;
   studentsId?: number[];
 }
 export interface specialityDTO {

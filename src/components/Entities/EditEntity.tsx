@@ -12,9 +12,8 @@ export default function EditEntity<TCreation, TRead>(props: editEntityProps<TCre
 
   async function edit(entityToEdit: TCreation) {
     try {
-      await axios
-        .put(`${props.urlEntity}/${id}`, entityToEdit)
-        .then(() => navigate(props.urlListPage));
+      await axios.put(`${props.urlEntity}/${id}`, entityToEdit);
+      navigate(props.urlListPage);
     } catch (error) {
       if (error) {
         console.log(error);

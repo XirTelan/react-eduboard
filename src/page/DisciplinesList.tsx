@@ -20,10 +20,9 @@ export default function DiscplinesList() {
   async function create(discipline: disciplineCreationDTO) {
     console.log('Create');
     try {
-      await axios.post(`${urlDisciplines}`, discipline).then((resolve) => {
-        Swal.fire('Success', resolve.data);
-        navigate('/disciplines');
-      });
+      const response = await axios.post(`${urlDisciplines}`, discipline);
+      Swal.fire('Success', response.data);
+      navigate(0);
     } catch (error) {
       console.log(error);
     }
@@ -62,8 +61,10 @@ export default function DiscplinesList() {
           <>
             {disciplines.map((elem, index) => {
               return (
-                <li key={elem.id} className="list-group-item d-flex justify-content-between">
-                  {elem.name}
+                <li
+                  key={elem.id}
+                  className="list-group-item d-flex border mt-1 rounded align-items-center justify-content-between ">
+                  <span className='ms-1'>{elem.name}</span>
                   <Button
                     onClick={() =>
                       customAlert(`Удалить ${elem.name}?`, 'Удалить', () => deleteEntity(elem.id))
@@ -78,8 +79,6 @@ export default function DiscplinesList() {
           </>
         )}
       </IndexEntity>
-
-      <ul className="list-group"></ul>
     </>
   );
 }

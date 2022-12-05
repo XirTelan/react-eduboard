@@ -125,12 +125,15 @@ export default function Filter({ isYearSelectable, periodicity }: FilterProps) {
                       onChange={handleChangeMonth}
                       name="radio-buttons-group">
                       {months.map((elem, index) => (
-                        <FormControlLabel
-                          key={index}
-                          value={elem}
-                          control={<Radio />}
-                          label={elem}
-                        />
+                        <div key={index}>
+                          <input
+                            type="radio"
+                            id={`radio_${elem.id}`}
+                            name="drone"
+                            value={elem.id}
+                          />
+                          <label htmlFor={`radio_${elem.id}`}>{elem.label}</label>
+                        </div>
                       ))}
                     </RadioGroup>
                   </div>

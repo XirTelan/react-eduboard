@@ -5,11 +5,12 @@ import { squreBackground } from '../App';
 import './Login.css';
 import { useContext } from 'react';
 import { authenticationResponse, userCredentials } from './auth.model';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { urlAccounts } from '../endpoints';
 import { getClaims, saveToken } from './handleJWT';
 import AuthenticationContext from './AuthenticationContext';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function Login() {
   const { update } = useContext(AuthenticationContext);
@@ -24,7 +25,8 @@ export default function Login() {
       update(getClaims());
       navigate('/');
     } catch (error) {
-      console.log(error);
+      const errors = error as AxiosError;
+      Swal.fire('Ошибка', errors.message, 'error');
     }
   }
 

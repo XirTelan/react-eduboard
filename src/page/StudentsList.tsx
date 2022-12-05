@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -10,16 +11,23 @@ import {
   TableRow,
   TextField
 } from '@mui/material';
+import { id } from 'date-fns/locale';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DragDropFile from '../components/DragDropFile';
 import IndexEntity from '../components/Entities/IndexEntity';
 import Header from '../components/UI/Header';
 import { urlStudents } from '../endpoints';
 import { studentDTO } from '../types';
+import { customAlert } from '../utils';
 import { excelImport } from '../utils/handleExcel';
+
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 
 export default function StudentsList() {
   const [seacrhString, setSearchString] = useState('');
+  const navigate = useNavigate();
 
   return (
     <>
@@ -60,6 +68,9 @@ export default function StudentsList() {
                     <TableCell sx={{ fontWeight: 'bold', fontSize: '1.125rem' }} align="left">
                       Отчество
                     </TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', fontSize: '1.125rem' }} align="right">
+                      Действия
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -72,6 +83,24 @@ export default function StudentsList() {
                         <TableCell align="left">{student.secondName}</TableCell>
                         <TableCell align="left"> {student.firstName}</TableCell>
                         <TableCell align="left"> {student.middleName}</TableCell>
+                        <TableCell align="right">
+                          <div className="align-self-center">
+                            <IconButton
+                              color="success"
+                              onClick={() => navigate(`edit/${student.id}`)}>
+                              <EditIcon />
+                            </IconButton>
+                            <IconButton
+                              color="error"
+                              onClick={() =>
+                                customAlert(`Удалить ${student.firstName}?`, 'Удалить', () =>
+                                  deleteEntity(student.id)
+                                )
+                              }>
+                              <DeleteForeverSharpIcon />
+                            </IconButton>
+                          </div>
+                        </TableCell>
                       </TableRow>
                     );
                   })}
