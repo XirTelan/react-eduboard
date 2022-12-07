@@ -11,7 +11,7 @@ export default function StudentCreate() {
   async function create(student: studentCreationDTO) {
     try {
       await axios.post(urlStudents, student);
-      navigate('/specialities');
+      navigate('/students');
     } catch (error) {
       console.error(error);
     }

@@ -39,6 +39,7 @@ export default function StudentForm(props: studentFormProps) {
   function fetchSearchQuery() {
     axios.get(`${urlGroups}`).then((response) => {
       console.log(response.data);
+      console.log(props.model);
       setGroups(response.data);
     });
   }

@@ -6,31 +6,50 @@ import {
   GridRowsProp,
   ruRU
 } from '@mui/x-data-grid';
+import { useState } from 'react';
 import Filter from '../components/Filter';
 import Header from '../components/UI/Header';
-const testObj = {
-  studentId: 5,
-  studentFio: 'asdd asf af ',
-  days: [
-    { id: 1, value: 'a' },
-    { id: 2, value: 'a' },
-    { id: 5, value: 'a' },
-    { id: 7, value: 'a' },
-    { id: 10, value: 'a' }
-  ]
-};
-const testObj1: { [k: string]: any } = { id: 4, indx: 4, fio: 'New Ivan Ivanovich' };
-testObj.days.forEach((element) => {
-  testObj1[`d${element.id}`] = element.value;
-});
-console.log('test', testObj1);
-
-const rows: GridRowsProp = [
-  { id: 1, indx: 1, fio: 'Ivanonv Ivan Ivanovich' },
-  { id: 2, indx: 2, fio: 'Ivanonv Ivan Ivanovich', d1: 'is Awesome' },
-  { id: 3, indx: 3, fio: 'Ivanonv Ivan Ivanovich', d5: 'is Amazing' },
-  testObj1
+const testObj = [
+  {
+    studentId: 5,
+    studentFio: 'asdd asf af ',
+    days: [
+      { id: 1, value: 'a' },
+      { id: 2, value: 'a' },
+      { id: 5, value: 'a' },
+      { id: 7, value: 'a' },
+      { id: 10, value: 'a' }
+    ]
+  },
+  {
+    studentId: 6,
+    studentFio: 'ZVZXA asf af ',
+    days: [
+      { id: 1, value: 'a' },
+      { id: 2, value: 'a' },
+      { id: 5, value: 'a' },
+      { id: 7, value: 'a' },
+      { id: 10, value: 'a' }
+    ]
+  }
 ];
+
+function formatData(data: inputData[]) {
+  return data.map((elem) => {
+    const newElem: { [k: string]: any } = {
+      id: elem.studentId,
+      indx: elem.studentId,
+      fio: elem.studentFio
+    };
+    elem.days.forEach((element) => {
+      newElem[`d${element.id}`] = element.value;
+    });
+    return newElem;
+  });
+}
+
+const rows: GridRowsProp = formatData(testObj);
+
 const columnGroupingModel: GridColumnGroupingModel = [
   {
     groupId: 'Дни месяца',
@@ -80,6 +99,7 @@ const columnsDefault: GridColDef[] = [
 ];
 
 export default function Attendance() {
+  const [selectedYear, setSelectedYear] = useState();
   const days: string[] = [...Array(31).keys()].map((e) => '' + (e + 1));
   const daysColumn: GridColDef[] = days.map((elem, index) => ({
     field: `d${index + 1}`,
@@ -93,12 +113,11 @@ export default function Attendance() {
       <Header title="Посещяемость" />
       <Filter isYearSelectable periodicity="monthly" />
       <Box className="bg-white p-3 mx-2 rounded">
+        {}
         <DataGrid
           autoHeight
           experimentalFeatures={{ columnGrouping: true }}
           columnGroupingModel={columnGroupingModel}
-          onCellModesModelChange={() => console.log(testObj1)}
-          onCellEditStop={() => console.log(testObj1)}
           onCellEditCommit={onCellEditCommit}
           localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
           rows={rows}
@@ -107,4 +126,10 @@ export default function Attendance() {
       </Box>
     </>
   );
+}
+
+interface inputData {
+  studentId: number;
+  studentFio: string;
+  days: { id: number; value: string }[];
 }

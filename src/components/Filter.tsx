@@ -1,6 +1,7 @@
 import {
   Autocomplete,
   Box,
+  Button,
   FormControl,
   FormControlLabel,
   InputLabel,
@@ -13,9 +14,11 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import axios from 'axios';
 import { Form, Formik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { months } from '../data/data';
+import { urlGroups } from '../endpoints';
 interface groupDTO {
   id: number;
   name: string;
@@ -25,22 +28,36 @@ interface FilterProps {
   isYearSelectable?: boolean;
 }
 interface FiterGroupForm {
-  title: string;
+  course: string;
   groupId: number;
+  year: string;
+  month: string;
 }
 Filter.defaulProps = {
   periodicity: 'none'
 };
 
 export default function Filter({ isYearSelectable, periodicity }: FilterProps) {
-  const groups: groupDTO[] = [
-    { id: 1, name: 'ОО-001' },
-    { id: 2, name: 'АА-002' }
-  ];
   const [month, setMonth] = useState('Сентябрь');
   const [year, setYear] = useState('2022');
-  const [course, setCourse] = useState(0);
+  const [course, setCourse] = useState('');
+  const [groupsList, setGroupsList] = useState<groupDTO[]>([]);
   const [groupSelected, setGroupSelected] = useState(1);
+
+  useEffect(() => {
+    const fetchData = async (id: string) => {
+      try {
+        const response = await axios.get(`${urlGroups}`, { params: id });
+        console.log(response.data);
+        setGroupsList(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (course === '') return;
+    fetchData(course);
+  }, [course]);
+
   const handleChange = (event: SelectChangeEvent) => {
     console.log(event.target.value);
     setGroupSelected(+event.target.value);
@@ -59,8 +76,10 @@ export default function Filter({ isYearSelectable, periodicity }: FilterProps) {
   };
 
   const initialValue: FiterGroupForm = {
-    title: '',
-    groupId: 1
+    course: course,
+    groupId: groupSelected,
+    year: year,
+    month: month
   };
 
   return (
@@ -74,7 +93,7 @@ export default function Filter({ isYearSelectable, periodicity }: FilterProps) {
                   <FormControl sx={{ minWidth: 220 }}>
                     <InputLabel id="year-select-label">Курс</InputLabel>
                     <Select
-                      value={course.toString()}
+                      value={course ? course : ''}
                       labelId="course-select-label"
                       label="Course"
                       onChange={handleChangeCourse}>
@@ -90,7 +109,7 @@ export default function Filter({ isYearSelectable, periodicity }: FilterProps) {
                   <FormControl sx={{ minWidth: 220 }}>
                     <Autocomplete
                       id="typeahead"
-                      options={['ЭО-312', 'АА-312', 'ФМ-412']}
+                      options={groupsList}
                       placeholder="asd"
                       renderInput={(params) => <TextField {...params} label="Выбрать группу" />}
                     />
@@ -146,6 +165,7 @@ export default function Filter({ isYearSelectable, periodicity }: FilterProps) {
                   <Typography>2-я половина</Typography>
                 </div>
               )}
+              <Button type="submit">Submit</Button>
             </Form>
           )}
         </Formik>

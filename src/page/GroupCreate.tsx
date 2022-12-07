@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import axios from 'axios';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import GroupForm from '../components/Form/GroupForm';
 import Header from '../components/UI/Header';
 import { urlGroups, urlSpecialities } from '../endpoints';
@@ -21,10 +21,7 @@ export default function GroupCreate() {
     <>
       <Header title=" Создать группу" />
       <Box className="bg-white p-3 mx-2 rounded">
-        <GroupForm
-          model={{ name: '', year: '', specialityId: -1 }}
-          onSubmit={(values) => create(values)}
-        />
+        <GroupForm model={{ name: '', year: '' }} onSubmit={(values) => create(values)} />
       </Box>
     </>
   );

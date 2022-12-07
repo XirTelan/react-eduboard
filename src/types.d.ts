@@ -13,7 +13,7 @@ export interface groupDTO {
 }
 export interface groupCreationDTO {
   name: string;
-  specialityId: number;
+  specialityId?: number;
   year: string;
   personId?: string;
   studentsId?: number[];
