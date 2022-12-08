@@ -1,3 +1,11 @@
+export interface AttendanceCreationDTO {
+  StudentId: number;
+  Day: number;
+  Month: number;
+  Year: string;
+  Value: string;
+}
+
 export interface disciplineDTO {
   id: number;
   name: string;

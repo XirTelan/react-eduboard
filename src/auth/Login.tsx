@@ -3,7 +3,7 @@ import { Form, Formik } from 'formik';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import { squreBackground } from '../App';
 import './Login.css';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { authenticationResponse, userCredentials } from './auth.model';
 import axios, { AxiosError } from 'axios';
 import { urlAccounts } from '../endpoints';
@@ -14,8 +14,11 @@ import Swal from 'sweetalert2';
 
 export default function Login() {
   const { update } = useContext(AuthenticationContext);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+
   async function login(credentials: userCredentials) {
+    setIsSubmitting(true);
     try {
       const response = await axios.post<authenticationResponse>(
         `${urlAccounts}/login`,
@@ -23,9 +26,11 @@ export default function Login() {
       );
       saveToken(response.data);
       update(getClaims());
+      setIsSubmitting(false);
       navigate('/');
     } catch (error) {
       const errors = error as AxiosError;
+      setIsSubmitting(false);
       Swal.fire('Ошибка', errors.message, 'error');
     }
   }
@@ -50,15 +55,15 @@ export default function Login() {
                   backdropFilter: 'blur(10px)',
                   backgroundColor: 'rgba(255,255,255,0.1)'
                 }}
-                className={`shadow  p-3 ${formikProps.isSubmitting ? 'active ' : ''}`}>
+                className={`shadow  p-3 ${isSubmitting ? 'active ' : ''}`}>
                 <div
                   className={`login-form-inner d-flex justify-content-center   ${
-                    formikProps.isSubmitting ? 'active ' : 'bg-white'
+                    isSubmitting ? 'active ' : 'bg-white'
                   }`}>
                   <div className="p-3">
                     <TextField
                       autoComplete="username"
-                      className={`mb-1 input-field ${formikProps.isSubmitting ? 'active' : ''}`}
+                      className={`mb-1 input-field ${isSubmitting ? 'active' : ''}`}
                       label="login"
                       fullWidth
                       {...formikProps.getFieldProps('userName')}
@@ -66,7 +71,7 @@ export default function Login() {
                       type="text"></TextField>
                     <TextField
                       autoComplete="current-password"
-                      className={`input-field ${formikProps.isSubmitting ? 'active' : ''}`}
+                      className={`input-field ${isSubmitting ? 'active' : ''}`}
                       label="password"
                       fullWidth
                       {...formikProps.getFieldProps('password')}
@@ -80,7 +85,7 @@ export default function Login() {
                       color="success"
                       variant="contained"
                       type="submit"
-                      className={`input-field ${formikProps.isSubmitting ? 'active' : ''}`}>
+                      className={`input-field ${isSubmitting ? 'active' : ''}`}>
                       <ArrowCircleRightOutlinedIcon sx={{ fontSize: '2rem' }} />
                     </Button>
                   </div>

@@ -1,4 +1,4 @@
-import { Box, IconButton, MenuItem, Select, TextField } from '@mui/material';
+import { Box, IconButton, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import axios, { AxiosResponse } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import _debounce from 'lodash/debounce';
@@ -55,7 +55,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
                 label="Поиск..."
                 variant="standard"
                 value={query}
-                onChange={(e) => {
+                onChange={(e: SelectChangeEvent) => {
                   console.log('trigger setQuery');
                   setQuery(e.target.value);
                 }}

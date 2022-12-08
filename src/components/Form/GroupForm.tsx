@@ -2,14 +2,12 @@ import { ReactNode, useCallback, useState } from 'react';
 import _debounce from 'lodash/debounce';
 import {
   Autocomplete,
-  AutocompleteRenderInputParams,
   Button,
   TextField,
   Typography
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import AutocompleteField from '../UI/AutocompleteField';
 import * as Yup from 'yup';
 
 import { ErrorMessage, Form, Formik, FormikHelpers, useFormikContext } from 'formik';
@@ -53,15 +51,15 @@ export default function GroupForm(props: groupFormProps) {
     <Formik
       initialValues={props.model}
       onSubmit={(value, actions) => {
-        value.year = value.year.toString();
+        value.year =
+          value.year.length <= 4 ? value.year.toString() : value.year.toString().split(' ')[3];
         console.log('year', value.year);
         props.onSubmit(value, actions);
         console.log(value);
       }}
       validationSchema={Yup.object({
         name: Yup.string().required('Данное поле обязательно'),
-        year: Yup.string().required('Данное поле обязательно'),
-        specialityId: Yup.string().required('Данное поле обязательно')
+        year: Yup.string().required('Данное поле обязательно')
       })}>
       {(formikProps) => {
         return (

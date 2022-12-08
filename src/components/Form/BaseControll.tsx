@@ -32,7 +32,6 @@ function CustomToolbar() {
   return (
     <GridToolbarContainer>
       <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
       <GridToolbarDensitySelector />
     </GridToolbarContainer>
   );
@@ -44,6 +43,7 @@ export default function BaseControll(props: GenControllProps) {
   useEffect(() => {
     axios.get(urlStudents).then((resolve) => setStudents(resolve.data));
   }, []);
+  
   const rows: GridRowsProp = students.map((student, indx) => ({
     id: student.id,
     indx: indx + 1,
