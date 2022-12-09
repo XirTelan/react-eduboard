@@ -1,5 +1,5 @@
 import { Form, Formik, FormikHelpers } from 'formik';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import _debounce from 'lodash/debounce';
 
 import { groupDTO, studentCreationDTO, studentDTO } from '../../types';
@@ -9,33 +9,24 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { urlGroups } from '../../endpoints';
 
-function handleDebounceFn(
-  query: string,
-  urlFilter: string,
-  setState: React.Dispatch<React.SetStateAction<any>>
-) {
-  console.log(query);
-  if (query == null || query.trim() === '') return;
-  try {
-    axios
-      .get(`${urlFilter}/filter`, {
-        params: { query }
-      })
-      .then((response) => {
-        console.log(response.data);
-        setState(response.data);
-      });
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 export default function StudentForm(props: studentFormProps) {
-  const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
 
   const [groups, setGroups] = useState<groupDTO[]>([]);
   let filterTimeout: ReturnType<typeof setTimeout>;
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${urlGroups}/getindexlist`);
+        console.log(response.data);
+        setGroups(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+  
   function fetchSearchQuery() {
     axios.get(`${urlGroups}`).then((response) => {
       console.log(response.data);

@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -7,11 +7,12 @@ import {
   ruRU
 } from '@mui/x-data-grid';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Filter from '../components/Filter';
 import Header from '../components/UI/Header';
 import { urlAttendance } from '../endpoints';
 import { AttendanceCreationDTO } from '../types';
+import { Toast } from '../utils/swalToast';
 
 function formatData(data: inputData[]) {
   return data.map((elem) => {
@@ -68,8 +69,8 @@ const columnGroupingModel: GridColumnGroupingModel = [
 ];
 
 const columnsDefault: GridColDef[] = [
-  { field: 'indx', headerName: '№', flex: 1, maxWidth: 50 },
-  { field: 'fio', headerName: 'ФИО', flex: 1, minWidth: 100 }
+  { field: 'indx', headerName: '№', maxWidth: 50 },
+  { field: 'fio', headerName: 'ФИО', flex: 1, minWidth: 200 }
 ];
 
 export default function Attendance() {
@@ -95,47 +96,64 @@ export default function Attendance() {
       Year: selectedYear,
       Value: value
     };
-    console.log('FormatData', formatData);
     try {
       const response = await axios.post(urlAttendance, formatData);
-      console.log('Responce', response.data);
+      await Toast.fire({
+        icon: 'success',
+        title: 'Успех'
+      });
     } catch (error) {
-      console.log(error);
+      await Toast.fire({
+        icon: 'error',
+        title: 'Ошибка'
+      });
     }
-    console.log(cellData);
   }
-  async function loadData(groupId: number, year: string, month: number) {
+
+  function updateParams(groupId: number, year: string, month: number) {
     setSelectedYear(year);
     setSelectedMonth(month);
     setSelectedGroupId(groupId);
+  }
+  useEffect(() => {
+    if (selectedGroupId && selectedGroupId != 0)
+      loadData(selectedGroupId, selectedYear, selectedMonth);
+  }, [selectedGroupId, selectedYear, selectedMonth]);
+
+  async function loadData(groupId: number, year: string, month: number) {
     try {
       const response = await axios.get(urlAttendance, {
         params: { groupId, year, month }
       });
-      console.log('Responce', response.data);
       const data = formatData(response.data);
-      console.log('Data', data);
       setGridData(data);
     } catch (error) {
       console.log(error);
     }
-    console.log(groupId, year, month);
   }
 
   return (
     <>
       <Header title="Посещяемость" />
-      <Filter isYearSelectable periodicity="monthly" onSubmit={loadData} />
+      <Filter isYearSelectable periodicity="monthly" onSubmit={updateParams} />
       <Box className="bg-white p-3 mx-2 rounded">
-        <DataGrid
-          autoHeight
-          experimentalFeatures={{ columnGrouping: true }}
-          columnGroupingModel={columnGroupingModel}
-          onCellEditCommit={onCellEditCommit}
-          localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
-          rows={gridData}
-          columns={columns}
-        />
+        <div className="d-flex align-items-center justify-content-center">
+          {!selectedGroupId || selectedGroupId === 0 ? (
+            <p className="fw-bold text-secondary">Группа не выбрана</p>
+          ) : gridData.length ? (
+            <DataGrid
+              autoHeight
+              experimentalFeatures={{ columnGrouping: true }}
+              columnGroupingModel={columnGroupingModel}
+              onCellEditCommit={onCellEditCommit}
+              localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+              rows={gridData}
+              columns={columns}
+            />
+          ) : (
+            <CircularProgress />
+          )}
+        </div>
       </Box>
     </>
   );
