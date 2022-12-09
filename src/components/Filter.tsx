@@ -1,3 +1,8 @@
+import { useEffect, useState } from 'react';
+import { ErrorMessage, Form, Formik } from 'formik';
+import axios from 'axios';
+import * as Yup from 'yup';
+
 import {
   Autocomplete,
   Box,
@@ -14,27 +19,16 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import * as Yup from 'yup';
-
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import axios from 'axios';
-import { ErrorMessage, Form, Formik } from 'formik';
-import { useEffect, useState } from 'react';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import SearchIcon from '@mui/icons-material/Search';
+
 import { months } from '../data/data';
 import { urlGroups } from '../endpoints';
-interface groupDTO {
-  id: number;
-  name: string;
-}
 
 export default function Filter(props: FilterProps) {
-  const [month, setMonth] = useState(9);
-  const [year, setYear] = useState('2022');
-  const [course, setCourse] = useState('');
   const [groupsList, setGroupsList] = useState<{ id: number; name: string }[]>([]);
-  const [groupSelected, setGroupSelected] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,27 +43,10 @@ export default function Filter(props: FilterProps) {
     fetchData();
   }, []);
 
-  const handleChange = (event: SelectChangeEvent) => {
-    console.log(event.target.value);
-    setGroupSelected(+event.target.value);
-  };
-  const handleChangeMonth = (event: SelectChangeEvent) => {
-    console.log(`month ${month}`);
-    setMonth(+event.target.value);
-  };
-  const handleChangeCourse = (event: SelectChangeEvent) => {
-    console.log(event.target.value);
-    setCourse(event.target.value);
-  };
-  const handleChangeYear = (event: SelectChangeEvent) => {
-    setYear(event.target.value);
-    console.log(year);
-  };
-
   const initialValue: FiterGroupForm = {
-    groupId: groupSelected,
-    year: year,
-    month: month
+    groupId: 0,
+    year: new Date().getFullYear().toString(),
+    month: props.period === 'monthly' ? 9 : 1
   };
 
   return (
@@ -85,10 +62,12 @@ export default function Filter(props: FilterProps) {
             groupId: Yup.number().required('Данное поле обязательно').min(1, 'Не может быть пустым')
           })}>
           {(formikProps) => (
-            <Form onSubmit={formikProps.handleSubmit}>
-              <div className="d-flex ">
+            <Form
+              onSubmit={formikProps.handleSubmit}
+              className="d-flex justify-content-center w-100 m-auto">
+              <div className="d-flex align-items-center">
                 <div className="d-flex flex-column ">
-                  <div className="d-flex  gap-3 justify-content-center">
+                  <div className="d-flex  gap-3  justify-content-center">
                     <div className="w-50">
                       <FormControl fullWidth sx={{ minWidth: 220 }}>
                         <Autocomplete
@@ -132,17 +111,13 @@ export default function Filter(props: FilterProps) {
                     </div>
                   </div>
                   <div>
-                    {props.periodicity === 'monthly' && (
+                    {props.period === 'monthly' && (
                       <div className="d-flex justify-content-center">
                         <div className="d-flex ">
                           <RadioGroup
                             row
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            defaultValue="female"
                             value={formikProps.values.month}
                             onChange={(_, newValue) => {
-                              console.log('newValue', newValue);
-
                               formikProps.setFieldValue('month', newValue);
                             }}
                             name="radio-buttons-group">
@@ -159,17 +134,30 @@ export default function Filter(props: FilterProps) {
                         </div>
                       </div>
                     )}
-                    {props.periodicity === 'half' && (
+                    {props.period === 'half' && (
                       <div className="d-flex justify-content-center align-items-center">
-                        <Typography>1-я половина</Typography>
-                        <Switch defaultChecked />
-                        <Typography>2-я половина</Typography>
+                        <RadioGroup
+                          row
+                          value={formikProps.values.month}
+                          onChange={(_, newValue) => {
+                            formikProps.setFieldValue('month', newValue);
+                          }}
+                          name="radio-buttons-group">
+                          <div>
+                            <FormControlLabel value={1} control={<Radio />} label="1-я половина" />
+                          </div>
+                          <div>
+                            <FormControlLabel value={2} control={<Radio />} label="2-я половина" />
+                          </div>
+                        </RadioGroup>
                       </div>
                     )}
                   </div>
                 </div>
-                <div>
-                  <Button variant='contained' type="submit">Submit</Button>
+                <div className="d-flex ms-3" style={{ width: '80px', height: '80px' }}>
+                  <Button fullWidth variant="contained" color="success" type="submit">
+                    <SearchIcon className="fs-1" />
+                  </Button>
                 </div>
               </div>
             </Form>
@@ -181,7 +169,7 @@ export default function Filter(props: FilterProps) {
 }
 
 interface FilterProps {
-  periodicity: 'none' | 'half' | 'monthly';
+  period: 'none' | 'half' | 'monthly';
   isYearSelectable?: boolean;
   onSubmit(id: number, year: string, month: number): void;
 }

@@ -9,20 +9,28 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { customAlert } from '../utils';
+import { Toast } from '../utils/swalToast';
+import { useEffect, useState } from 'react';
 
 export default function DiscplinesList() {
+  const [update, setUpdate] = useState(false);
   const navigate = useNavigate();
 
   const initialValues: disciplineCreationDTO = {
     name: ''
   };
+  useEffect(() => {
+    setUpdate(false);
+  }, [update]);
 
   async function create(discipline: disciplineCreationDTO) {
-    console.log('Create');
     try {
       const response = await axios.post(`${urlDisciplines}`, discipline);
-      Swal.fire('Success', response.data);
-      navigate(0);
+      await Toast.fire({
+        icon: 'success',
+        title: 'Успешно добавлено'
+      });
+      setUpdate(true);
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +72,7 @@ export default function DiscplinesList() {
                 <li
                   key={elem.id}
                   className="list-group-item d-flex border mt-1 rounded align-items-center justify-content-between ">
-                  <span className='ms-1'>{elem.name}</span>
+                  <span className="ms-1">{elem.name}</span>
                   <Button
                     onClick={() =>
                       customAlert(`Удалить ${elem.name}?`, 'Удалить', () => deleteEntity(elem.id))

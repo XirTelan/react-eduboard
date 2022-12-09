@@ -2,11 +2,11 @@ import BaseControll from '../components/Form/BaseControll';
 import Filter from '../components/Filter';
 import Header from '../components/UI/Header';
 
-export default function CurrentControll() {
+export default function ControllIntermediate() {
   return (
     <>
-      <Header title=" Текущий контроль" />
-      <Filter isYearSelectable periodicity="monthly" />
+      <Header title="Промежуточная аттестация" />
+      <Filter isYearSelectable period="half" />
       <BaseControll
         disc={[
           'Русский язык',

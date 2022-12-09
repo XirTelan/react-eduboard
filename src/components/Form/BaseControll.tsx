@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { urlStudents } from '../../endpoints';
 import { studentDTO } from '../../types';
+import Filter from '../Filter';
 
 interface ControllerProps {
   name: string;
@@ -24,9 +25,6 @@ const columns: GridColDef[] = [
   { field: 'indx', headerName: '№', flex: 1 },
   { field: 'fio', headerName: 'ФИО', flex: 1 }
 ];
-interface GenControllProps {
-  disc: string[];
-}
 
 function CustomToolbar() {
   return (
@@ -39,11 +37,36 @@ function CustomToolbar() {
 
 export default function BaseControll(props: GenControllProps) {
   const [students, setStudents] = useState<studentDTO[]>([]);
+  const [gridData, setGridData] = useState<GridRowsProp>([]);
+  const [selectedYear, setSelectedYear] = useState<string>('0000');
+  const [selectedMonth, setSelectedMonth] = useState<number>(1);
+  const [selectedGroupId, setSelectedGroupId] = useState<number>(0);
+
+  useEffect(() => {
+    console.log('Fire useEffect');
+    if (selectedGroupId && selectedGroupId != 0) {
+      setGridData([]);
+      loadData(selectedGroupId, selectedYear, selectedMonth);
+    }
+  }, [selectedGroupId, selectedYear, selectedMonth]);
+
+  async function loadData(groupId: number, year: string, month: number) {
+    try {
+      console.log('Loading data');
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     axios.get(urlStudents).then((resolve) => setStudents(resolve.data));
   }, []);
-  
+
+  function updateParams(groupId: number, year: string, month: number) {
+    setSelectedYear(year);
+    setSelectedMonth(month);
+    setSelectedGroupId(groupId);
+  }
   const rows: GridRowsProp = students.map((student, indx) => ({
     id: student.id,
     indx: indx + 1,
@@ -60,37 +83,36 @@ export default function BaseControll(props: GenControllProps) {
     editable: true
   }));
   const columns: GridColDef[] = [...defaulColumns, ...discColumns];
-  const data = ['Спец 1', 'Spec 2', 'Spec 3', 'Spec 4', 'Spec 5'];
-  const dataUser = [
-    'Ivanov I.I',
-    'Ivanov I.I',
-    'Ivanov I.I',
-    'Ivanov I.I',
-    'Ivanov I.I',
-    'Ivanov I.I',
-    'Ivanov I.I',
-    'Ivanov I.I'
-  ];
+
   return (
-    <Box className="bg-white p-3  mx-2 rounded">
-      <h2 className="d-flex justify-content-center">{nameController.name}</h2>
-      <div className="mb-2">
-        <DataGrid
-          components={{
-            Toolbar: CustomToolbar
-          }}
-          autoHeight
-          localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
-          rows={rows}
-          columns={columns}
-          hideFooterSelectedRowCount
-        />
-      </div>
-      <div>
-        <Button color="success" variant="contained">
-          Сохранить
-        </Button>
-      </div>
-    </Box>
+    <>
+      <Filter isYearSelectable period={props.period} onSubmit={updateParams} />
+
+      <Box className="bg-white p-3  mx-2 rounded">
+        <h2 className="d-flex justify-content-center">{nameController.name}</h2>
+        <div className="mb-2">
+          <DataGrid
+            components={{
+              Toolbar: CustomToolbar
+            }}
+            autoHeight
+            localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+            rows={rows}
+            columns={columns}
+            hideFooterSelectedRowCount
+          />
+        </div>
+        <div>
+          <Button color="success" variant="contained">
+            Сохранить
+          </Button>
+        </div>
+      </Box>
+    </>
   );
+}
+
+interface GenControllProps {
+  disc: string[];
+  period: 'none' | 'half' | 'monthly';
 }

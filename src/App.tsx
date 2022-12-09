@@ -5,14 +5,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import UserList from './auth/UserList';
 
 import Attendance from './page/Attendance';
-import EntranceControll from './page/EntranceControll';
+import ControllEntrance from './page/ControllEntrance';
 import Login from './auth/Login';
 import DiscplinesList from './page/DisciplinesList';
 import SpecialitiesList from './page/SpecialitiesList';
 import GroupList from './page/GroupList';
-import IntersessionalControll from './page/IntersessionalControll';
-import IntermediateControll from './page/IntermediateControll';
-import CurrentControll from './page/CurrentControll';
+import ControllIntersessional from './page/ControllIntersessional';
+import ControllIntermediate from './page/ControllIntermediate';
+import ControllCurrent from './page/ControllCurrent';
 import { Box, CssBaseline } from '@mui/material';
 import SpecialityCreate from './page/SpecialityCreate';
 import GroupCreate from './page/GroupCreate';
@@ -63,13 +63,13 @@ function App() {
                       <Routes>
                         <Route path="/" element={<Statistic />} />
                         <Route path="/attendance" element={<Attendance />} />
-                        <Route path="/entrance-controll" element={<EntranceControll />} />
+                        <Route path="/entrance-controll" element={<ControllEntrance />} />
                         <Route
                           path="/intersessional-controll"
-                          element={<IntersessionalControll />}
+                          element={<ControllIntersessional />}
                         />
-                        <Route path="/intermediate-controll" element={<IntermediateControll />} />
-                        <Route path="/current-controll" element={<CurrentControll />} />
+                        <Route path="/intermediate-controll" element={<ControllIntermediate />} />
+                        <Route path="/current-controll" element={<ControllCurrent />} />
                         <Route path="/disciplines" element={<DiscplinesList />} />
                         <Route path="/groups" element={<GroupList />} />
                         <Route path="/groups/create" element={<GroupCreate />} />

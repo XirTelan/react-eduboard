@@ -1,13 +1,12 @@
-import { Box, Typography } from '@mui/material';
 import BaseControll from '../components/Form/BaseControll';
 import Filter from '../components/Filter';
 import Header from '../components/UI/Header';
 
-export default function IntersessionalControll() {
+export default function ControllEntrance() {
   return (
     <>
-      <Header title=" Межсессионный контроль" />
-      <Filter isYearSelectable periodicity="half" />
+      <Header title="Входной контроль" />
+      <Filter period="none" />
       <BaseControll
         disc={[
           'Русский язык',

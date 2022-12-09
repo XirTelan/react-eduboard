@@ -116,8 +116,11 @@ export default function Attendance() {
     setSelectedGroupId(groupId);
   }
   useEffect(() => {
-    if (selectedGroupId && selectedGroupId != 0)
+    console.log('Fire useEffect');
+    if (selectedGroupId && selectedGroupId != 0) {
+      setGridData([]);
       loadData(selectedGroupId, selectedYear, selectedMonth);
+    }
   }, [selectedGroupId, selectedYear, selectedMonth]);
 
   async function loadData(groupId: number, year: string, month: number) {
@@ -135,7 +138,7 @@ export default function Attendance() {
   return (
     <>
       <Header title="Посещяемость" />
-      <Filter isYearSelectable periodicity="monthly" onSubmit={updateParams} />
+      <Filter isYearSelectable period="monthly" onSubmit={updateParams} />
       <Box className="bg-white p-3 mx-2 rounded">
         <div className="d-flex align-items-center justify-content-center">
           {!selectedGroupId || selectedGroupId === 0 ? (
