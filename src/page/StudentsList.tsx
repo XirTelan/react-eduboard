@@ -68,6 +68,9 @@ export default function StudentsList() {
                     <TableCell sx={{ fontWeight: 'bold', fontSize: '1.125rem' }} align="left">
                       Отчество
                     </TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', fontSize: '1.125rem' }} align="left">
+                      Группа
+                    </TableCell>
                     <TableCell sx={{ fontWeight: 'bold', fontSize: '1.125rem' }} align="right">
                       Действия
                     </TableCell>
@@ -83,6 +86,7 @@ export default function StudentsList() {
                         <TableCell align="left">{student.secondName}</TableCell>
                         <TableCell align="left"> {student.firstName}</TableCell>
                         <TableCell align="left"> {student.middleName}</TableCell>
+                        <TableCell align="left"> {student.group.name}</TableCell>
                         <TableCell align="right">
                           <div className="align-self-center">
                             <IconButton

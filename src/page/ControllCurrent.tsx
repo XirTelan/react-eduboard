@@ -7,6 +7,7 @@ export default function ControllCurrent() {
     <>
       <Header title=" Текущий контроль" />
       <BaseControll
+        period='monthly'
         disc={[
           'Русский язык',
           'Математика',

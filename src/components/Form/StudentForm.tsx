@@ -1,4 +1,4 @@
-import { Form, Formik, FormikHelpers } from 'formik';
+import { ErrorMessage, Form, Formik, FormikHelpers } from 'formik';
 import React, { useCallback, useEffect, useState } from 'react';
 import _debounce from 'lodash/debounce';
 
@@ -10,7 +10,6 @@ import axios from 'axios';
 import { urlGroups } from '../../endpoints';
 
 export default function StudentForm(props: studentFormProps) {
-
   const [groups, setGroups] = useState<groupDTO[]>([]);
   let filterTimeout: ReturnType<typeof setTimeout>;
 
@@ -26,22 +25,6 @@ export default function StudentForm(props: studentFormProps) {
     };
     fetchData();
   }, []);
-  
-  function fetchSearchQuery() {
-    axios.get(`${urlGroups}`).then((response) => {
-      console.log(response.data);
-      console.log(props.model);
-      setGroups(response.data);
-    });
-  }
-  function handleSearch(query: string) {
-    clearTimeout(filterTimeout);
-    if (!query) return [];
-
-    filterTimeout = setTimeout(() => {
-      fetchSearchQuery();
-    }, 500);
-  }
 
   return (
     <Formik
@@ -66,6 +49,10 @@ export default function StudentForm(props: studentFormProps) {
                   fullWidth
                   label="Имя"
                 />
+                {formikProps.errors.firstName && formikProps.touched.firstName && (
+                  <span className="text-danger">{formikProps.errors.firstName}</span>
+                )}
+
                 <TextField
                   {...formikProps.getFieldProps('secondName')}
                   error={!!formikProps.errors.secondName}
@@ -73,6 +60,10 @@ export default function StudentForm(props: studentFormProps) {
                   fullWidth
                   label="Фамилия"
                 />
+                {formikProps.errors.secondName && formikProps.touched.firstName && (
+                  <span className="text-danger">{formikProps.errors.secondName}</span>
+                )}
+
                 <TextField
                   {...formikProps.getFieldProps('middleName')}
                   margin="normal"
@@ -84,14 +75,11 @@ export default function StudentForm(props: studentFormProps) {
                   onBlur={formikProps.handleBlur}
                   isOptionEqualToValue={(elem, val) => elem.id == val.id}
                   getOptionLabel={(elem) => elem.name}
-                  onChange={(e, value) => formikProps.setFieldValue('groupId', value!.id)}
-                  onInputChange={(e, value) => handleSearch(value)}
+                  onChange={(e, value) => value && formikProps.setFieldValue('groupId', value!.id)}
                   renderInput={(params) => (
                     <TextField {...params} error={!!formikProps.errors.groupId} label="Группа" />
                   )}
                 />
-
-                {formikProps.errors.firstName && <span>{formikProps.errors.firstName}</span>}
               </Box>
 
               <Box className="bg-white p-1 mx-2 rounded d-flex justify-content-between">

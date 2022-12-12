@@ -89,6 +89,7 @@ export default function Attendance() {
 
   async function onCellEditCommit(cellData: any) {
     const { id, field, value } = cellData;
+    if (value === undefined) return;
     const formatData: AttendanceCreationDTO = {
       StudentId: id,
       Day: field,

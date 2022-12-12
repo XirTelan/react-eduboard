@@ -18,19 +18,24 @@ export default function SpecialityEdit() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`${urlSpecialities}/edit/${id}`)
-      .then((response: AxiosResponse<specialityEditDTO>) => {
-        console.log('response data', response.data);
-        const model: specialityCreationDTO = {
-          name: response.data.speciality.name
-        };
-        setSpeciality(model);
-        setSpecialityEdit(response.data);
-        setLoading(false);
-      });
+    get();
   }, []);
 
+  async function get() {
+    try {
+      const response = (await axios.get(`${urlSpecialities}/edit/${id}`)) as AxiosResponse<
+        specialityEditDTO,
+        any
+      >;
+      console.log('response data', response.data);
+      const model: specialityCreationDTO = {
+        name: response.data.speciality.name
+      };
+      setSpeciality(model);
+      setSpecialityEdit(response.data);
+      setLoading(false);
+    } catch (error) {}
+  }
   async function edit(speciality: specialityCreationDTO) {
     console.log('submit edit', speciality);
     try {

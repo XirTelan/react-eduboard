@@ -1,17 +1,20 @@
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
   DataGrid,
-  GridColDef,
+  GridColumns,
+  GridEditRowsModel,
+  GridEventListener,
+  GridRowId,
+  GridRowModel,
+  GridRowModes,
+  GridRowModesModel,
+  GridRowParams,
   GridRowsProp,
-  GridToolbar,
-  GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarDensitySelector,
-  GridToolbarFilterButton,
+  MuiEvent,
   ruRU
 } from '@mui/x-data-grid';
 import { Box, Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { urlStudents } from '../../endpoints';
 import { studentDTO } from '../../types';
@@ -21,19 +24,14 @@ interface ControllerProps {
   name: string;
 }
 
-const columns: GridColDef[] = [
-  { field: 'indx', headerName: '№', flex: 1 },
-  { field: 'fio', headerName: 'ФИО', flex: 1 }
-];
-
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarDensitySelector />
-    </GridToolbarContainer>
-  );
-}
+// function CustomToolbar() {
+//   return (
+//     <GridToolbarContainer>
+//       <GridToolbarColumnsButton />
+//       <GridToolbarDensitySelector />
+//     </GridToolbarContainer>
+//   );
+// }
 
 export default function BaseControll(props: GenControllProps) {
   const [students, setStudents] = useState<studentDTO[]>([]);
@@ -61,49 +59,77 @@ export default function BaseControll(props: GenControllProps) {
   useEffect(() => {
     axios.get(urlStudents).then((resolve) => setStudents(resolve.data));
   }, []);
+  const initialRows: GridRowsProp = [
+    {
+      id: 1,
+      name: 'asdasd',
+      age: 25,
+      editable: true
+    },
+    {
+      id: 2,
+      name: 'asdasd',
+      age: 36,
+      editable: true
+    },
+    {
+      id: 3,
+      name: 'asdasd',
+      age: 19,
+      editable: true
+    },
+    {
+      id: 4,
+      name: 'asdasd',
+      age: 28,
+      editable: true
+    },
+    {
+      id: 5,
+      name: 'asdasd',
+      age: 23,
+      editable: true
+    }
+  ];
 
   function updateParams(groupId: number, year: string, month: number) {
     setSelectedYear(year);
     setSelectedMonth(month);
     setSelectedGroupId(groupId);
   }
-  const rows: GridRowsProp = students.map((student, indx) => ({
-    id: student.id,
-    indx: indx + 1,
-    fio: `${student.secondName} ${student.firstName} ${student.middleName}`
-  }));
-  const nameController = useParams();
-  const defaulColumns: GridColDef[] = [
-    { field: 'indx', headerName: '№', flex: 1, maxWidth: 50 },
-    { field: 'fio', headerName: 'ФИО', flex: 1 }
+
+  const [rows, setRows] = useState(initialRows);
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
+
+  const columns: GridColumns = [
+    { field: 'name', headerName: 'Name', width: 180, editable: true },
+    { field: 'age', headerName: 'Age', type: 'number', editable: true }
   ];
-  const discColumns: GridColDef[] = props.disc.map((elem, index) => ({
-    field: `disc${index}`,
-    headerName: elem,
-    editable: true
-  }));
-  const columns: GridColDef[] = [...defaulColumns, ...discColumns];
+
+  const processRowUpdate = (newRow: GridRowModel) => {
+    setRows(rows.map((row) => (row.id === newRow.id ? newRow : row)));
+    return newRow;
+  };
 
   return (
     <>
       <Filter isYearSelectable period={props.period} onSubmit={updateParams} />
 
       <Box className="bg-white p-3  mx-2 rounded">
-        <h2 className="d-flex justify-content-center">{nameController.name}</h2>
         <div className="mb-2">
           <DataGrid
-            components={{
-              Toolbar: CustomToolbar
-            }}
             autoHeight
-            localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
             rows={rows}
             columns={columns}
-            hideFooterSelectedRowCount
+            editMode="row"
+            rowModesModel={rowModesModel}
+            onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+            processRowUpdate={processRowUpdate}
+            experimentalFeatures={{ newEditingApi: true }}
           />
         </div>
         <div>
-          <Button color="success" variant="contained">
+          <Button color="success" variant="contained" onClick={() => console.log(rows)}>
             Сохранить
           </Button>
         </div>
