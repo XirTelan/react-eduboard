@@ -3,9 +3,6 @@ import { Autocomplete, IconButton, List, ListItem, TextField, Typography } from 
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import ClearIcon from '@mui/icons-material/Clear';
 import { ChangeEvent, useState } from 'react';
-import { Box } from '@mui/system';
-import { AnyARecord } from 'dns';
-import { useField } from 'formik';
 
 export default function AutocompleteField(props: autocompleteFieldProps) {
   const [inputValue, setInputValue] = useState('');

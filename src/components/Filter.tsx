@@ -7,6 +7,7 @@ import {
   Autocomplete,
   Box,
   Button,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   InputLabel,
@@ -65,55 +66,82 @@ export default function Filter(props: FilterProps) {
             <Form
               onSubmit={formikProps.handleSubmit}
               className="d-flex justify-content-center w-100 m-auto">
-              <div className="d-flex align-items-center">
-                <div className="d-flex flex-column ">
-                  <div className="d-flex  gap-3  justify-content-center">
-                    <div className="w-50">
-                      <FormControl fullWidth sx={{ minWidth: 220 }}>
-                        <Autocomplete
-                          fullWidth
-                          id="typeahead"
-                          options={groupsList}
-                          getOptionLabel={(elem) => elem.name}
-                          placeholder="asd"
-                          onChange={(event, value) => {
-                            console.log(value);
-                            formikProps.setFieldValue('groupId', value?.id);
-                          }}
-                          renderInput={(params) => (
-                            <TextField
-                              {...params}
-                              error={!!(formikProps.errors.groupId && formikProps.touched.groupId)}
-                              label="Выбрать группу"
-                            />
-                          )}
-                        />
-                        <ErrorMessage name="groupId" />
-                      </FormControl>
-                    </div>
-                    <div className="col-auto">
-                      {props.isYearSelectable && (
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                          <DatePicker
-                            {...formikProps.getFieldProps('year')}
-                            views={['year']}
-                            openTo="year"
-                            label="Год "
-                            value={formikProps.values.year}
-                            onChange={(newValue) => {
-                              console.log('newValue', newValue);
-                              formikProps.setFieldValue('year', newValue);
+              {groupsList.length == 0 ? (
+                <CircularProgress />
+              ) : (
+                <div className="d-flex align-items-center">
+                  <div className="d-flex flex-column ">
+                    <div className="d-flex  gap-3  justify-content-center">
+                      <div className="w-50">
+                        <FormControl fullWidth sx={{ minWidth: 220 }}>
+                          <Autocomplete
+                            fullWidth
+                            id="typeahead"
+                            options={groupsList}
+                            getOptionLabel={(elem) => elem.name}
+                            placeholder="asd"
+                            onChange={(event, value) => {
+                              console.log(value);
+                              formikProps.setFieldValue('groupId', value?.id);
                             }}
-                            renderInput={(params) => <TextField {...params} helperText={null} />}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                error={
+                                  !!(formikProps.errors.groupId && formikProps.touched.groupId)
+                                }
+                                label="Выбрать группу"
+                              />
+                            )}
                           />
-                        </LocalizationProvider>
-                      )}
+                          <ErrorMessage name="groupId" />
+                        </FormControl>
+                      </div>
+                      <div className="col-auto">
+                        {props.isYearSelectable && (
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                              {...formikProps.getFieldProps('year')}
+                              views={['year']}
+                              openTo="year"
+                              label="Год "
+                              value={formikProps.values.year}
+                              onChange={(newValue) => {
+                                console.log('newValue', newValue);
+                                formikProps.setFieldValue('year', newValue);
+                              }}
+                              renderInput={(params) => <TextField {...params} helperText={null} />}
+                            />
+                          </LocalizationProvider>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    {props.period === 'monthly' && (
-                      <div className="d-flex justify-content-center">
-                        <div className="d-flex ">
+                    <div>
+                      {props.period === 'monthly' && (
+                        <div className="d-flex justify-content-center">
+                          <div className="d-flex ">
+                            <RadioGroup
+                              row
+                              value={formikProps.values.month}
+                              onChange={(_, newValue) => {
+                                formikProps.setFieldValue('month', newValue);
+                              }}
+                              name="radio-buttons-group">
+                              {months.map((elem, index) => (
+                                <div key={index}>
+                                  <FormControlLabel
+                                    value={elem.id}
+                                    control={<Radio />}
+                                    label={elem.label}
+                                  />
+                                </div>
+                              ))}
+                            </RadioGroup>
+                          </div>
+                        </div>
+                      )}
+                      {props.period === 'half' && (
+                        <div className="d-flex justify-content-center align-items-center">
                           <RadioGroup
                             row
                             value={formikProps.values.month}
@@ -121,45 +149,32 @@ export default function Filter(props: FilterProps) {
                               formikProps.setFieldValue('month', newValue);
                             }}
                             name="radio-buttons-group">
-                            {months.map((elem, index) => (
-                              <div key={index}>
-                                <FormControlLabel
-                                  value={elem.id}
-                                  control={<Radio />}
-                                  label={elem.label}
-                                />
-                              </div>
-                            ))}
+                            <div>
+                              <FormControlLabel
+                                value={1}
+                                control={<Radio />}
+                                label="1-я половина"
+                              />
+                            </div>
+                            <div>
+                              <FormControlLabel
+                                value={2}
+                                control={<Radio />}
+                                label="2-я половина"
+                              />
+                            </div>
                           </RadioGroup>
                         </div>
-                      </div>
-                    )}
-                    {props.period === 'half' && (
-                      <div className="d-flex justify-content-center align-items-center">
-                        <RadioGroup
-                          row
-                          value={formikProps.values.month}
-                          onChange={(_, newValue) => {
-                            formikProps.setFieldValue('month', newValue);
-                          }}
-                          name="radio-buttons-group">
-                          <div>
-                            <FormControlLabel value={1} control={<Radio />} label="1-я половина" />
-                          </div>
-                          <div>
-                            <FormControlLabel value={2} control={<Radio />} label="2-я половина" />
-                          </div>
-                        </RadioGroup>
-                      </div>
-                    )}
+                      )}
+                    </div>
+                  </div>
+                  <div className="d-flex ms-3" style={{ width: '80px', height: '80px' }}>
+                    <Button fullWidth variant="contained" color="success" type="submit">
+                      <SearchIcon className="fs-1" />
+                    </Button>
                   </div>
                 </div>
-                <div className="d-flex ms-3" style={{ width: '80px', height: '80px' }}>
-                  <Button fullWidth variant="contained" color="success" type="submit">
-                    <SearchIcon className="fs-1" />
-                  </Button>
-                </div>
-              </div>
+              )}
             </Form>
           )}
         </Formik>

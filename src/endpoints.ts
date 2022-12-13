@@ -5,4 +5,6 @@ export const urlDisciplines = `${baseURL}/disciplines`;
 export const urlGroups = `${baseURL}/groups`;
 export const urlStudents = `${baseURL}/students`;
 export const urlAccounts = `${baseURL}/accounts`;
+
 export const urlAttendance = `${baseURL}/attendance`;
+export const urlControll = `${baseURL}/controll`;

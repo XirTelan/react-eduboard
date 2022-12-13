@@ -1,6 +1,7 @@
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
   DataGrid,
+  GridColDef,
   GridColumns,
   GridEditRowsModel,
   GridEventListener,
@@ -13,11 +14,11 @@ import {
   MuiEvent,
   ruRU
 } from '@mui/x-data-grid';
-import { Box, Button } from '@mui/material';
+import { Box, Button, CircularProgress } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import { urlStudents } from '../../endpoints';
-import { studentDTO } from '../../types';
+import { urlControll, urlDisciplines, urlSpecialities, urlStudents } from '../../endpoints';
+import { disciplineDTO, studentDTO } from '../../types';
 import Filter from '../Filter';
 
 interface ControllerProps {
@@ -32,10 +33,36 @@ interface ControllerProps {
 //     </GridToolbarContainer>
 //   );
 // }
+const initialRows: GridRowsProp = [
+  {
+    id: 1,
+    fio: 'ОченьОченьОчень Длинноеееееееее ФИООООООО',
+    1: 1,
+    2: 5
+  }
+];
+const columnsDefault: GridColumns = [
+  { field: 'indx', headerName: '№', maxWidth: 50 },
+  { field: 'fio', headerName: 'ФИО', flex: 1, minWidth: 200, maxWidth: 400 }
+];
+function formatData(data: inputData[]) {
+  return data.map((elem) => {
+    const newElem: { [k: string]: any } = {
+      id: elem.studentId,
+      indx: elem.studentId,
+      fio: elem.studentFio
+    };
+    elem.disciplines?.forEach((element) => {
+      newElem[`${element.id}`] = element.value;
+    });
+    return newElem;
+  });
+}
 
 export default function BaseControll(props: GenControllProps) {
-  const [students, setStudents] = useState<studentDTO[]>([]);
-  const [gridData, setGridData] = useState<GridRowsProp>([]);
+  const [rows, setRows] = useState<GridRowsProp>([]);
+  const [columns, setColumns] = useState<GridColumns>([]);
+  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const [selectedYear, setSelectedYear] = useState<string>('0000');
   const [selectedMonth, setSelectedMonth] = useState<number>(1);
   const [selectedGroupId, setSelectedGroupId] = useState<number>(0);
@@ -43,68 +70,64 @@ export default function BaseControll(props: GenControllProps) {
   useEffect(() => {
     console.log('Fire useEffect');
     if (selectedGroupId && selectedGroupId != 0) {
-      setGridData([]);
-      loadData(selectedGroupId, selectedYear, selectedMonth);
+      setRows([]);
+      getGridColumns();
+      loadData(props.type, selectedGroupId, selectedYear, selectedMonth);
     }
   }, [selectedGroupId, selectedYear, selectedMonth]);
 
-  async function loadData(groupId: number, year: string, month: number) {
+  async function getGridColumns() {
+    const response = await getGroupDisciplines(selectedGroupId);
+    if (!response) return;
+    const discColumn: GridColumns = response.data.map((elem: disciplineDTO) => ({
+      field: `${elem.id}`,
+      headerName: elem.name,
+      width: 20,
+      sortable: false,
+      editable: true,
+      flex: 1
+    }));
+    console.log('asd', discColumn);
+    setColumns([...columnsDefault, ...discColumn]);
+    console.log(columns);
+  }
+
+  async function loadData(typeId: number, groupId: number, year: string, month: number) {
     try {
-      console.log('Loading data');
+      const response = await axios.get(urlControll, {
+        params: { typeId, groupId, year, month }
+      });
+      console.log('Data response', response);
+
+      const data = formatData(response.data);
+      console.log('Data', data);
+      setRows(data);
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      console.log('Loading data controll');
     } catch (error) {
       console.log(error);
     }
   }
+  // serviceStudents.getStudents()
 
-  useEffect(() => {
-    axios.get(urlStudents).then((resolve) => setStudents(resolve.data));
-  }, []);
-  const initialRows: GridRowsProp = [
-    {
-      id: 1,
-      name: 'asdasd',
-      age: 25,
-      editable: true
-    },
-    {
-      id: 2,
-      name: 'asdasd',
-      age: 36,
-      editable: true
-    },
-    {
-      id: 3,
-      name: 'asdasd',
-      age: 19,
-      editable: true
-    },
-    {
-      id: 4,
-      name: 'asdasd',
-      age: 28,
-      editable: true
-    },
-    {
-      id: 5,
-      name: 'asdasd',
-      age: 23,
-      editable: true
+  async function getGroupDisciplines(groupId: number) {
+    try {
+      const responce = await axios.get(`${urlDisciplines}/group/${groupId}`);
+      console.log('Loading specialitites', responce.data);
+      return responce;
+    } catch (error) {
+      console.log(error);
     }
-  ];
+  }
 
   function updateParams(groupId: number, year: string, month: number) {
     setSelectedYear(year);
     setSelectedMonth(month);
     setSelectedGroupId(groupId);
   }
-
-  const [rows, setRows] = useState(initialRows);
-  const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
-
-  const columns: GridColumns = [
-    { field: 'name', headerName: 'Name', width: 180, editable: true },
-    { field: 'age', headerName: 'Age', type: 'number', editable: true }
-  ];
 
   const processRowUpdate = (newRow: GridRowModel) => {
     setRows(rows.map((row) => (row.id === newRow.id ? newRow : row)));
@@ -116,22 +139,31 @@ export default function BaseControll(props: GenControllProps) {
       <Filter isYearSelectable period={props.period} onSubmit={updateParams} />
 
       <Box className="bg-white p-3  mx-2 rounded">
-        <div className="mb-2">
-          <DataGrid
-            autoHeight
-            rows={rows}
-            columns={columns}
-            editMode="row"
-            rowModesModel={rowModesModel}
-            onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-            processRowUpdate={processRowUpdate}
-            experimentalFeatures={{ newEditingApi: true }}
-          />
-        </div>
-        <div>
-          <Button color="success" variant="contained" onClick={() => console.log(rows)}>
-            Сохранить
-          </Button>
+        <div className="mb-2 d-flex flex-column justify-content-center">
+          {!selectedGroupId || selectedGroupId === 0 ? (
+            <p className="fw-bold text-secondary">Группа не выбрана</p>
+          ) : rows.length ? (
+            <>
+              <DataGrid
+                autoHeight
+                rows={rows}
+                columns={columns}
+                editMode="row"
+                rowModesModel={rowModesModel}
+                onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+                processRowUpdate={processRowUpdate}
+                experimentalFeatures={{ newEditingApi: true }}
+                disableColumnMenu
+              />
+              <div>
+                <Button color="success" variant="contained" onClick={() => console.log(rows)}>
+                  Сохранить
+                </Button>
+              </div>
+            </>
+          ) : (
+            <CircularProgress />
+          )}
         </div>
       </Box>
     </>
@@ -139,6 +171,11 @@ export default function BaseControll(props: GenControllProps) {
 }
 
 interface GenControllProps {
-  disc: string[];
+  type: number;
   period: 'none' | 'half' | 'monthly';
+}
+interface inputData {
+  studentId: number;
+  studentFio: string;
+  disciplines: { id: number; value: string }[];
 }
