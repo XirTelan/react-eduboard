@@ -11,6 +11,9 @@ import {
   GridRowModesModel,
   GridRowParams,
   GridRowsProp,
+  GridToolbarColumnsButton,
+  GridToolbarContainer,
+  GridToolbarDensitySelector,
   MuiEvent,
   ruRU
 } from '@mui/x-data-grid';
@@ -25,22 +28,15 @@ interface ControllerProps {
   name: string;
 }
 
-// function CustomToolbar() {
-//   return (
-//     <GridToolbarContainer>
-//       <GridToolbarColumnsButton />
-//       <GridToolbarDensitySelector />
-//     </GridToolbarContainer>
-//   );
-// }
-const initialRows: GridRowsProp = [
-  {
-    id: 1,
-    fio: 'ОченьОченьОчень Длинноеееееееее ФИООООООО',
-    1: 1,
-    2: 5
-  }
-];
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarDensitySelector />
+    </GridToolbarContainer>
+  );
+}
+
 const columnsDefault: GridColumns = [
   { field: 'indx', headerName: '№', maxWidth: 50 },
   { field: 'fio', headerName: 'ФИО', flex: 1, minWidth: 200, maxWidth: 400 }
@@ -145,7 +141,11 @@ export default function BaseControll(props: GenControllProps) {
           ) : rows.length ? (
             <>
               <DataGrid
+                components={{
+                  Toolbar: CustomToolbar
+                }}
                 autoHeight
+                localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
                 rows={rows}
                 columns={columns}
                 editMode="row"
