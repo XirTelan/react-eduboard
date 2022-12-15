@@ -23,6 +23,7 @@ import axios from 'axios';
 import { urlControll, urlDisciplines, urlSpecialities, urlStudents } from '../../endpoints';
 import { disciplineDTO, studentDTO } from '../../types';
 import Filter from '../Filter';
+import formatDataToGridRows from '../../utils/formatDataToGridRows';
 
 interface ControllerProps {
   name: string;
@@ -39,21 +40,8 @@ function CustomToolbar() {
 
 const columnsDefault: GridColumns = [
   { field: 'indx', headerName: '№', maxWidth: 50 },
-  { field: 'fio', headerName: 'ФИО', flex: 1, minWidth: 200, maxWidth: 400 }
+  { field: 'title', headerName: 'ФИО', flex: 1, minWidth: 200, maxWidth: 400 }
 ];
-function formatData(data: inputData[]) {
-  return data.map((elem) => {
-    const newElem: { [k: string]: any } = {
-      id: elem.studentId,
-      indx: elem.studentId,
-      fio: elem.studentFio
-    };
-    elem.disciplines?.forEach((element) => {
-      newElem[`${element.id}`] = element.value;
-    });
-    return newElem;
-  });
-}
 
 export default function BaseControll(props: GenControllProps) {
   const [rows, setRows] = useState<GridRowsProp>([]);
@@ -95,7 +83,7 @@ export default function BaseControll(props: GenControllProps) {
       });
       console.log('Data response', response);
 
-      const data = formatData(response.data);
+      const data = formatDataToGridRows(response.data);
       console.log('Data', data);
       setRows(data);
     } catch (error) {
@@ -173,9 +161,4 @@ export default function BaseControll(props: GenControllProps) {
 interface GenControllProps {
   type: number;
   period: 'none' | 'half' | 'monthly';
-}
-interface inputData {
-  studentId: number;
-  studentFio: string;
-  disciplines: { id: number; value: string }[];
 }

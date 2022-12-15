@@ -12,21 +12,10 @@ import Filter from '../components/Filter';
 import Header from '../components/UI/Header';
 import { urlAttendance } from '../endpoints';
 import { AttendanceCreationDTO } from '../types';
+import formatDataToGridRows from '../utils/formatDataToGridRows';
 import { Toast } from '../utils/swalToast';
 
-function formatData(data: inputData[]) {
-  return data.map((elem) => {
-    const newElem: { [k: string]: any } = {
-      id: elem.studentId,
-      indx: elem.studentId,
-      fio: elem.studentFio
-    };
-    elem.days?.forEach((element) => {
-      newElem[`${element.day}`] = element.value;
-    });
-    return newElem;
-  });
-}
+
 
 const columnGroupingModel: GridColumnGroupingModel = [
   {
@@ -70,7 +59,7 @@ const columnGroupingModel: GridColumnGroupingModel = [
 
 const columnsDefault: GridColDef[] = [
   { field: 'indx', headerName: '№', maxWidth: 50 },
-  { field: 'fio', headerName: 'ФИО', flex: 1, minWidth: 200 }
+  { field: 'title', headerName: 'ФИО', flex: 1, minWidth: 200 }
 ];
 
 export default function Attendance() {
@@ -129,7 +118,7 @@ export default function Attendance() {
       const response = await axios.get(urlAttendance, {
         params: { groupId, year, month }
       });
-      const data = formatData(response.data);
+      const data = formatDataToGridRows(response.data);
       setGridData(data);
     } catch (error) {
       console.log(error);
@@ -163,8 +152,3 @@ export default function Attendance() {
   );
 }
 
-interface inputData {
-  studentId: number;
-  studentFio: string;
-  days: { day: number; value: string }[];
-}

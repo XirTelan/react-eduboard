@@ -60,3 +60,8 @@ export interface userDTO {
   fio: string;
   role: string;
 }
+export interface inputData {
+  id: number;
+  title: string;
+  dataGridCells: { id: number; value: string }[];
+}
