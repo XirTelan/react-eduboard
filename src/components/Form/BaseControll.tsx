@@ -1,29 +1,23 @@
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
   DataGrid,
-  GridColDef,
   GridColumns,
-  GridEditRowsModel,
-  GridEventListener,
-  GridRowId,
   GridRowModel,
-  GridRowModes,
   GridRowModesModel,
-  GridRowParams,
   GridRowsProp,
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarDensitySelector,
-  MuiEvent,
   ruRU
 } from '@mui/x-data-grid';
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Box, Button, CircularProgress, Switch } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { urlControll, urlDisciplines, urlSpecialities, urlStudents } from '../../endpoints';
-import { disciplineDTO, studentDTO } from '../../types';
+import { disciplineDTO, inputData, studentDTO } from '../../types';
 import Filter from '../Filter';
 import formatDataToGridRows from '../../utils/formatDataToGridRows';
+import StatisticTable from '../StatisticTable';
 
 interface ControllerProps {
   name: string;
@@ -45,6 +39,8 @@ const columnsDefault: GridColumns = [
 
 export default function BaseControll(props: GenControllProps) {
   const [rows, setRows] = useState<GridRowsProp>([]);
+  const [isMainView, setIsMainView] = useState<boolean>(true);
+  const [statisticRows, setStatisticRows] = useState<inputData[]>([]);
   const [columns, setColumns] = useState<GridColumns>([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
   const [selectedYear, setSelectedYear] = useState<string>('0000');
@@ -57,6 +53,7 @@ export default function BaseControll(props: GenControllProps) {
       setRows([]);
       getGridColumns();
       loadData(props.type, selectedGroupId, selectedYear, selectedMonth);
+      loadStatisticData(props.type, selectedGroupId, selectedYear, selectedMonth);
     }
   }, [selectedGroupId, selectedYear, selectedMonth]);
 
@@ -95,6 +92,24 @@ export default function BaseControll(props: GenControllProps) {
       console.log(error);
     }
   }
+  async function loadStatisticData(typeId: number, groupId: number, year: string, month: number) {
+    try {
+      const response = await axios.get(`${urlControll}/statistic`, {
+        params: { typeId, groupId, year, month }
+      });
+      console.log('Data response', response);
+      // const data = formatDataToGridRows(response.data);
+      setStatisticRows(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      console.log('Loading data controll');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // serviceStudents.getStudents()
 
   async function getGroupDisciplines(groupId: number) {
@@ -128,26 +143,31 @@ export default function BaseControll(props: GenControllProps) {
             <p className="fw-bold text-secondary">Группа не выбрана</p>
           ) : rows.length ? (
             <>
-              <DataGrid
-                components={{
-                  Toolbar: CustomToolbar
-                }}
-                autoHeight
-                localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
-                rows={rows}
-                columns={columns}
-                editMode="row"
-                rowModesModel={rowModesModel}
-                onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-                processRowUpdate={processRowUpdate}
-                experimentalFeatures={{ newEditingApi: true }}
-                disableColumnMenu
-              />
-              <div>
+              <div className="d-flex justify-content-between mb-3">
+                <Switch defaultChecked onChange={() => setIsMainView((prevVal) => !prevVal)} />
                 <Button color="success" variant="contained" onClick={() => console.log(rows)}>
                   Сохранить
                 </Button>
               </div>
+              {isMainView ? (
+                <DataGrid
+                  components={{
+                    Toolbar: CustomToolbar
+                  }}
+                  autoHeight
+                  localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+                  rows={rows}
+                  columns={columns}
+                  editMode="row"
+                  rowModesModel={rowModesModel}
+                  onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+                  processRowUpdate={processRowUpdate}
+                  experimentalFeatures={{ newEditingApi: true }}
+                  disableColumnMenu
+                />
+              ) : (
+                statisticRows && statisticRows.length > 0 && <StatisticTable rows={statisticRows} />
+              )}
             </>
           ) : (
             <CircularProgress />
