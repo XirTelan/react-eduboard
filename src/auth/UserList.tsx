@@ -18,6 +18,7 @@ import IndexEntity from '../components/Entities/IndexEntity';
 import Header from '../components/UI/Header';
 import { urlAccounts } from '../endpoints';
 import { userDTO } from '../types';
+import Authorized from './Authorized';
 
 function createData(
   login: string,
@@ -63,7 +64,7 @@ export default function UserList() {
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <TableHead>
-                    <TableRow sx={{ width: 200, backgroundColor: 'primary.light' }}>
+                    <TableRow sx={{ width: 200, backgroundColor: 'primary.main' }}>
                       <TableCell
                         sx={{ color: 'common.white', fontWeight: 'bold', fontSize: '1.125rem' }}
                         width="50px"
@@ -91,6 +92,16 @@ export default function UserList() {
                         align="center">
                         Роль
                       </TableCell>
+                      <TableCell
+                        sx={{
+                          color: 'common.white',
+                          fontWeight: 'bold',
+                          fontSize: '1.125rem',
+                          width: '10%'
+                        }}
+                        align="center">
+                        Действия
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -108,6 +119,7 @@ export default function UserList() {
                           <TableCell align="center">
                             <Select
                               sx={{ width: 200 }}
+                              disabled={user.userName === 'admin'}
                               value={user.role ? user.role : 'user'}
                               onChange={(e) =>
                                 changeRole({ userId: user.id, role: e.target.value.toString() })
@@ -120,23 +132,13 @@ export default function UserList() {
                               </MenuItem>
                             </Select>
                           </TableCell>
+                          <TableCell align="left">
+                            <div></div>
+                          </TableCell>
                         </TableRow>
                       );
                     })}
                   </TableBody>
-                  <TableFooter sx={{ backgroundColor: 'primary.light' }}>
-                    <TableRow>
-                      <TableCell
-                        sx={{
-                          height: '3rem',
-                          color: 'common.white',
-                          fontWeight: 'bold',
-                          fontSize: '1.125rem'
-                        }}
-                        colSpan={4}
-                      />
-                    </TableRow>
-                  </TableFooter>
                 </Table>
               </TableContainer>
             </>

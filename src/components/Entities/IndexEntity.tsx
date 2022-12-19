@@ -1,13 +1,21 @@
-import { Box, IconButton, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  TextField
+} from '@mui/material';
 import axios, { AxiosResponse } from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 import _debounce from 'lodash/debounce';
 import ClearIcon from '@mui/icons-material/Clear';
 import Pagination from '../UI/Pagination';
 
 export default function IndexEntity<T>(props: indexEntityProps<T>) {
   const debounceFn = useCallback(_debounce(fetchData, 1000), []);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [entities, setEntities] = useState<T[]>();
   const [query, setQuery] = useState('');
   const [totalAmountOfPages, setTotalAmountOfPages] = useState(0);
@@ -23,6 +31,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
   }, [page, recordsPerPage, query]);
 
   async function fetchData({ url, params }: fetchDataProps) {
+    setIsLoading(true);
     try {
       const response = await axios.get(url, {
         params: params
@@ -34,6 +43,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   }
 
   async function deleteEntity(id: number) {
@@ -55,9 +65,9 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
                 label="Поиск..."
                 variant="standard"
                 value={query}
-                onChange={(e: SelectChangeEvent) => {
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   console.log('trigger setQuery');
-                  setQuery(e.target.value);
+                  setQuery(event.target.value);
                 }}
               />
               {query == null || query.trim() === '' ? (
@@ -77,7 +87,9 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
         )}
 
         <Box sx={{ overflow: 'hidden', overflowY: 'auto' }} className="bg-white mx-2 p-1 rounded">
-          {props.isCustom ? (
+          {isLoading ? (
+            <CircularProgress />
+          ) : props.isCustom ? (
             <>{entities ? props.children(entities!, deleteEntity) : 'Loading'}</>
           ) : (
             <>

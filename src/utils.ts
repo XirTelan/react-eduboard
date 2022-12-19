@@ -12,3 +12,7 @@ export function customAlert(title: string, confirmButtonText: string, onCofirm: 
     if (res.isConfirmed) onCofirm();
   });
 }
+
+export function formatYearValue(year: string) {
+  return year.length <= 4 ? year.toString() : year.toString().split(' ')[3];
+}

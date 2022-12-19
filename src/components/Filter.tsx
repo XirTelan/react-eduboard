@@ -27,6 +27,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import { months } from '../data/data';
 import { urlGroups } from '../endpoints';
+import { formatYearValue } from '../utils';
 
 export default function Filter(props: FilterProps) {
   const [groupsList, setGroupsList] = useState<{ id: number; name: string }[]>([]);
@@ -57,6 +58,7 @@ export default function Filter(props: FilterProps) {
           initialValues={initialValue}
           onSubmit={(submitValue) => {
             console.log(submitValue);
+            submitValue.year = formatYearValue(submitValue.year);
             props.onSubmit(submitValue.groupId, submitValue.year, submitValue.month);
           }}
           validationSchema={Yup.object({

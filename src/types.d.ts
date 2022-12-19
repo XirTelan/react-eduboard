@@ -6,6 +6,15 @@ export interface AttendanceCreationDTO {
   Value: string;
 }
 
+export interface controllRecordCreationDTO {
+  StudentId: number;
+  ControllTypeId: number;
+  DisciplineId: number;
+  Month: number;
+  Year: string;
+  Value: string;
+}
+
 export interface disciplineDTO {
   id: number;
   name: string;
