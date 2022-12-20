@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Icon,
   IconButton,
   Paper,
   Table,
@@ -20,27 +21,35 @@ import Header from '../components/UI/Header';
 import { urlStudents } from '../endpoints';
 import { studentDTO } from '../types';
 import { customAlert } from '../utils';
-import { excelImport } from '../utils/handleExcel';
+import { convertJsonToStudentDTO, excelImport } from '../utils/handleExcel';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
+import { swalLoading, Toast } from '../utils/swalToast';
+import axios, { AxiosError } from 'axios';
+import Swal from 'sweetalert2';
 
 export default function StudentsList() {
   const [seacrhString, setSearchString] = useState('');
   const navigate = useNavigate();
 
+  async function postStudents(file: File) {
+    try {
+      swalLoading();
+      const result = await excelImport(file, 'students');
+      const students = convertJsonToStudentDTO(result);
+      const response = await axios.post(`${urlStudents}/excel`, students);
+      await Toast.fire('Успешно', `Добавлено ${students.length - 1} студентов`, 'success'); //TODO
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      console.log(axiosError);
+      await Toast.fire('Error', axiosError.message, 'error'); //TODO
+    }
+  }
   return (
     <>
       <Header title="Список студентов" buttonLink="create" buttonText="Добавить студента">
-        <DragDropFile handleFiles={excelImport} />
-        {/* <Button
-          className="me-1"
-          onClick={() => console.log('Custom')}
-          color="success"
-          variant="contained"
-          size="large">
-          Импорт
-        </Button> */}
+        <DragDropFile handleFiles={postStudents} />
       </Header>
 
       <IndexEntity<studentDTO> urlEntity={urlStudents} isCustom>

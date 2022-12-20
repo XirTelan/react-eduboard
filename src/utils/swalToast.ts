@@ -11,3 +11,15 @@ export const Toast = Swal.mixin({
   timer: 1500,
   timerProgressBar: true
 });
+
+export function swalLoading() {
+  Swal.fire({
+    title: 'Сохраняем...',
+    html: 'Пожалуйста подождите...',
+    allowEscapeKey: false,
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading(null);
+    }
+  });
+}

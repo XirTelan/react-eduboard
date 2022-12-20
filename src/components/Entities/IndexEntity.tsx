@@ -12,6 +12,7 @@ import React, { ChangeEventHandler, useCallback, useEffect, useState } from 'rea
 import _debounce from 'lodash/debounce';
 import ClearIcon from '@mui/icons-material/Clear';
 import Pagination from '../UI/Pagination';
+import { Toast } from '../../utils/swalToast';
 
 export default function IndexEntity<T>(props: indexEntityProps<T>) {
   const debounceFn = useCallback(_debounce(fetchData, 1000), []);
@@ -19,7 +20,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
   const [entities, setEntities] = useState<T[]>();
   const [query, setQuery] = useState('');
   const [totalAmountOfPages, setTotalAmountOfPages] = useState(0);
-  const [recordsPerPage, setRecordsPerPage] = useState(5);
+  const [recordsPerPage, setRecordsPerPage] = useState(10);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -50,6 +51,10 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
     try {
       await axios.delete(`${props.urlEntity}/${id}`);
       fetchData({ url: props.urlEntity, params: { page, recordsPerPage } });
+      await Toast.fire({
+        icon: 'success',
+        title: 'Успех'
+      });
     } catch (error) {
       console.log(error);
     }
@@ -113,9 +118,9 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
               setRecordsPerPage(e.target.value as number);
               setPage(1);
             }}>
-            <MenuItem value={5}>5</MenuItem>
             <MenuItem value={10}>10</MenuItem>
             <MenuItem value={20}>20</MenuItem>
+            <MenuItem value={50}>50</MenuItem>
           </Select>
         </div>
       </Box>

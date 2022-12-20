@@ -63,6 +63,12 @@ export interface studentCreationDTO {
   middleName: string;
   groupId?: number;
 }
+export interface studentExcelCreationDTO {
+  firstName: string;
+  secondName: string;
+  middleName: string;
+  groupName: string;
+}
 export interface userDTO {
   id: string;
   userName: string;

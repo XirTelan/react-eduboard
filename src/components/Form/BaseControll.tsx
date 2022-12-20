@@ -18,7 +18,7 @@ import { controllRecordCreationDTO, disciplineDTO, inputData, studentDTO } from 
 import Filter from '../Filter';
 import formatDataToGridRows, { formatGridRowsToData } from '../../utils/formatDataToGridRows';
 import StatisticTable from '../StatisticTable';
-import { Toast } from '../../utils/swalToast';
+import { swalLoading, Toast } from '../../utils/swalToast';
 import Swal from 'sweetalert2';
 
 interface ControllerProps {
@@ -127,17 +127,7 @@ export default function BaseControll(props: GenControllProps) {
     setSelectedMonth(month);
     setSelectedGroupId(groupId);
   }
-  function swalLoading() {
-    Swal.fire({
-      title: 'Сохраняем...',
-      html: 'Пожалуйста подождите...',
-      allowEscapeKey: false,
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading(null);
-      }
-    });
-  }
+
   async function saveGridDataChanges() {
     swalLoading();
     const result = formatGridRowsToData(props.type, selectedMonth, selectedYear, rows);
@@ -149,7 +139,8 @@ export default function BaseControll(props: GenControllProps) {
       const response = await axios.post(urlControll, formatData);
       await Toast.fire({
         icon: 'success',
-        title: 'Успех'
+        title: 'Успех',
+        text: response.data
       });
     } catch (error) {
       const axiosError = error as AxiosError;

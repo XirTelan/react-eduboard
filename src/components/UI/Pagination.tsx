@@ -69,4 +69,5 @@ interface PaginationProps {
 
 Pagination.defaultProps = {
   radio: 5
+  
 };
