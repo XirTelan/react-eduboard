@@ -13,9 +13,7 @@ import Header from '../components/UI/Header';
 import { urlAttendance } from '../endpoints';
 import { AttendanceCreationDTO } from '../types';
 import formatDataToGridRows from '../utils/formatDataToGridRows';
-import { Toast } from '../utils/swalToast';
-
-
+import { displayErrorToast, displaySuccessToast, Toast } from '../utils/swalToast';
 
 const columnGroupingModel: GridColumnGroupingModel = [
   {
@@ -88,15 +86,9 @@ export default function Attendance() {
     };
     try {
       const response = await axios.post(urlAttendance, formatData);
-      await Toast.fire({
-        icon: 'success',
-        title: 'Успех'
-      });
+      displaySuccessToast();
     } catch (error) {
-      await Toast.fire({
-        icon: 'error',
-        title: 'Ошибка'
-      });
+      displayErrorToast(error);
     }
   }
 
@@ -106,7 +98,6 @@ export default function Attendance() {
     setSelectedGroupId(groupId);
   }
   useEffect(() => {
-    console.log('Fire useEffect');
     if (selectedGroupId && selectedGroupId != 0) {
       setGridData([]);
       loadData(selectedGroupId, selectedYear, selectedMonth);
@@ -121,7 +112,7 @@ export default function Attendance() {
       const data = formatDataToGridRows(response.data);
       setGridData(data);
     } catch (error) {
-      console.log(error);
+      displayErrorToast(error);
     }
   }
 
@@ -151,4 +142,3 @@ export default function Attendance() {
     </>
   );
 }
-

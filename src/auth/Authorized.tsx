@@ -21,6 +21,6 @@ export default function Authorized(props: authorizedProps) {
 
 interface authorizedProps {
   authorized: React.ReactElement;
-  notAuthorized: React.ReactElement;
+  notAuthorized?: React.ReactElement;
   role?: string;
 }

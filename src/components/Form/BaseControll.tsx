@@ -8,6 +8,8 @@ import {
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarDensitySelector,
+  GridToolbarFilterButton,
+  GridToolbarQuickFilter,
   ruRU
 } from '@mui/x-data-grid';
 import { Box, Button, CircularProgress, Switch } from '@mui/material';
@@ -18,7 +20,7 @@ import { controllRecordCreationDTO, disciplineDTO, inputData, studentDTO } from 
 import Filter from '../Filter';
 import formatDataToGridRows, { formatGridRowsToData } from '../../utils/formatDataToGridRows';
 import StatisticTable from '../StatisticTable';
-import { swalLoading, Toast } from '../../utils/swalToast';
+import { displayErrorToast, displaySuccessToast, swalLoading, Toast } from '../../utils/swalToast';
 import Swal from 'sweetalert2';
 
 interface ControllerProps {
@@ -29,6 +31,7 @@ function CustomToolbar() {
   return (
     <GridToolbarContainer>
       <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
       <GridToolbarDensitySelector />
     </GridToolbarContainer>
   );
@@ -52,7 +55,6 @@ export default function BaseControll(props: GenControllProps) {
   const [selectedGroupId, setSelectedGroupId] = useState<number>(0);
 
   useEffect(() => {
-    console.log('Fire useEffect');
     if (selectedGroupId && selectedGroupId != 0) {
       setRows([]);
       getGridColumns();
@@ -75,9 +77,7 @@ export default function BaseControll(props: GenControllProps) {
       editable: true,
       flex: 1
     }));
-    console.log('asd', discColumn);
     setColumns([...columnsDefault, ...discColumn]);
-    console.log(columns);
   }
 
   async function loadData(typeId: number, groupId: number, year: string, month: number) {
@@ -85,13 +85,11 @@ export default function BaseControll(props: GenControllProps) {
       const response = await axios.get(urlControll, {
         params: { typeId, groupId, year, month }
       });
-      console.log('Data response', response);
-
       const data = formatDataToGridRows(response.data);
       setRows(data);
       setDataLoaded(true);
     } catch (error) {
-      console.log(error);
+      displayErrorToast(error);
     }
   }
   async function loadStatisticData(typeId: number, groupId: number, year: string, month: number) {
@@ -99,26 +97,18 @@ export default function BaseControll(props: GenControllProps) {
       const response = await axios.get(`${urlControll}/statistic`, {
         params: { typeId, groupId, year, month }
       });
-      console.log('Data response', response);
-      // const data = formatDataToGridRows(response.data);
       setStatisticRows(response.data);
     } catch (error) {
-      console.log(error);
-    }
-    try {
-      console.log('Loading data controll');
-    } catch (error) {
-      console.log(error);
+      displayErrorToast(error);
     }
   }
 
   async function getGroupDisciplines(groupId: number) {
     try {
       const responce = await axios.get(`${urlDisciplines}/group/${groupId}`);
-      console.log('Loading specialitites', responce.data);
       return responce;
     } catch (error) {
-      console.log(error);
+      displayErrorToast(error);
     }
   }
 
@@ -131,25 +121,13 @@ export default function BaseControll(props: GenControllProps) {
   async function saveGridDataChanges() {
     swalLoading();
     const result = formatGridRowsToData(props.type, selectedMonth, selectedYear, rows);
-    console.log('Result', result);
     if (result === undefined || result.length === 0) return;
     const formatData = result;
-    console.log(formatData);
     try {
       const response = await axios.post(urlControll, formatData);
-      await Toast.fire({
-        icon: 'success',
-        title: 'Успех',
-        text: response.data
-      });
+      displaySuccessToast();
     } catch (error) {
-      const axiosError = error as AxiosError;
-      console.log(axiosError);
-      await Toast.fire({
-        icon: 'error',
-        title: 'Ошибка',
-        text: axiosError.message
-      });
+      displayErrorToast(error);
     }
     Swal.close();
     updateData(props.type, selectedGroupId, selectedYear, selectedMonth);
@@ -164,7 +142,7 @@ export default function BaseControll(props: GenControllProps) {
       <Filter isYearSelectable period={props.period} onSubmit={updateParams} />
 
       <Box className="bg-white p-3  mx-2 rounded">
-        <div className="mb-2 d-flex flex-column justify-content-center">
+        <div className="mb-2 d-flex flex-column justify-content-center text-center">
           {!selectedGroupId || selectedGroupId === 0 ? (
             <p className="fw-bold text-secondary">Группа не выбрана</p>
           ) : dataLoaded ? (
@@ -175,7 +153,6 @@ export default function BaseControll(props: GenControllProps) {
                   color="success"
                   variant="contained"
                   onClick={() => {
-                    console.log(rows);
                     saveGridDataChanges();
                   }}>
                   Сохранить

@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import Swal from 'sweetalert2';
 
 export const Toast = Swal.mixin({
@@ -21,5 +22,20 @@ export function swalLoading() {
     didOpen: () => {
       Swal.showLoading(null);
     }
+  });
+}
+
+export async function displayErrorToast(error: any) {
+  const axiosError = error as AxiosError;
+  await Toast.fire({
+    icon: 'error',
+    title: 'Ошибка',
+    text: axiosError.message
+  });
+}
+export async function displaySuccessToast() {
+  await Toast.fire({
+    icon: 'success',
+    title: 'Успех'
   });
 }

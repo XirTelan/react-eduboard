@@ -30,7 +30,6 @@ export default function Login() {
       navigate('/');
     } catch (error) {
       const errors = error as AxiosError;
-      console.log(errors);
       setIsSubmitting(false);
       Swal.fire('Ошибка', errors.message, 'error');
     }

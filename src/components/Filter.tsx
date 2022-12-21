@@ -28,6 +28,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { months } from '../data/data';
 import { urlGroups } from '../endpoints';
 import { formatYearValue } from '../utils';
+import { displayErrorToast } from '../utils/swalToast';
 
 export default function Filter(props: FilterProps) {
   const [groupsList, setGroupsList] = useState<{ id: number; name: string }[]>([]);
@@ -36,10 +37,9 @@ export default function Filter(props: FilterProps) {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${urlGroups}/getindexlist`);
-        console.log(response.data);
         setGroupsList(response.data);
       } catch (error) {
-        console.log(error);
+       displayErrorToast(error);
       }
     };
     fetchData();
@@ -57,7 +57,6 @@ export default function Filter(props: FilterProps) {
         <Formik
           initialValues={initialValue}
           onSubmit={(submitValue) => {
-            console.log(submitValue);
             submitValue.year = formatYearValue(submitValue.year);
             props.onSubmit(submitValue.groupId, submitValue.year, submitValue.month);
           }}
@@ -83,7 +82,6 @@ export default function Filter(props: FilterProps) {
                             getOptionLabel={(elem) => elem.name}
                             placeholder="asd"
                             onChange={(event, value) => {
-                              console.log(value);
                               formikProps.setFieldValue('groupId', value?.id);
                             }}
                             renderInput={(params) => (
@@ -109,7 +107,6 @@ export default function Filter(props: FilterProps) {
                               label="Год "
                               value={formikProps.values.year}
                               onChange={(newValue) => {
-                                console.log('newValue', newValue);
                                 formikProps.setFieldValue('year', newValue);
                               }}
                               renderInput={(params) => <TextField {...params} helperText={null} />}

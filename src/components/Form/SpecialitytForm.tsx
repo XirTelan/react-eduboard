@@ -29,7 +29,6 @@ export default function SpecialityForm(props: SpecialityFormProps) {
   };
 
   function mapToModel(items: { id: number; name: string }[]): autocompleteFieldModel[] {
-    console.log('map', items);
     return items.map((item) => {
       return { key: item.id, name: item.name };
     });
@@ -40,7 +39,6 @@ export default function SpecialityForm(props: SpecialityFormProps) {
       onSubmit={async (val, actions) => {
         val.disciplineIds = selectedDisc.map((item) => item.key);
         props.onSubmit(val, actions);
-        console.log(val);
       }}
       validationSchema={Yup.object({
         name: Yup.string().required('This field is required')

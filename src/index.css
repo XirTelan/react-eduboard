@@ -9,8 +9,9 @@ p {
   margin-bottom: 0;
 }
 
-a:hover {
-  color: #fff;
+.nav-link:hover {
+  background-color: var(--bs-link-hover-color);
+  color: white;
 }
 
 #drag-file-element {

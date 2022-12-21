@@ -5,6 +5,7 @@ import GroupForm from '../components/Form/GroupForm';
 import Header from '../components/UI/Header';
 import { urlGroups, urlSpecialities } from '../endpoints';
 import { groupCreationDTO, groupDTO, specialityCreationDTO } from '../types';
+import { displayErrorToast } from '../utils/swalToast';
 
 export default function GroupCreate() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function GroupCreate() {
       await axios.post(urlGroups, group);
       navigate('/groups');
     } catch (error) {
-      console.error(error);
+      displayErrorToast(error);
     }
   }
   return (

@@ -25,7 +25,6 @@ export default function Register() {
         `Ошибка ${axiosError.code}`,
         `Не удалось создать пользователя ${axiosError.message}`
       );
-      console.log(error);
     }
   }
   return (

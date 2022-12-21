@@ -5,12 +5,14 @@ import Header from '../components/UI/Header';
 import IndexEntity from '../components/Entities/IndexEntity';
 import { urlDisciplines } from '../endpoints';
 import { disciplineCreationDTO, disciplineDTO } from '../types';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { customAlert } from '../utils';
-import { Toast } from '../utils/swalToast';
+import { displayErrorToast, displaySuccessToast, Toast } from '../utils/swalToast';
 import { useEffect, useState } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
+import Authorized from '../auth/Authorized';
 
 export default function DiscplinesList() {
   const [update, setUpdate] = useState(false);
@@ -19,21 +21,16 @@ export default function DiscplinesList() {
   const initialValues: disciplineCreationDTO = {
     name: ''
   };
-  useEffect(() => {
-    setUpdate(false);
-  }, [update]);
 
   async function create(discipline: disciplineCreationDTO) {
+    setUpdate(true);
     try {
       const response = await axios.post(`${urlDisciplines}`, discipline);
-      await Toast.fire({
-        icon: 'success',
-        title: 'Успешно добавлено'
-      });
-      setUpdate(true);
+      displaySuccessToast();
     } catch (error) {
-      console.log(error);
+      displayErrorToast(error);
     }
+    setUpdate(false);
   }
 
   return (
@@ -43,7 +40,6 @@ export default function DiscplinesList() {
         <Formik
           initialValues={initialValues}
           onSubmit={(val) => {
-            console.log(val);
             create(val);
           }}>
           {(formikProps) => (
@@ -64,29 +60,42 @@ export default function DiscplinesList() {
           )}
         </Formik>
       </Box>
-      <IndexEntity<disciplineDTO> urlEntity={urlDisciplines}>
-        {(disciplines, deleteEntity) => (
-          <>
-            {disciplines.map((elem, index) => {
-              return (
-                <li
-                  key={elem.id}
-                  className="list-group-item d-flex border mt-1 rounded align-items-center justify-content-between ">
-                  <span className="ms-1">{elem.name}</span>
-                  <Button
-                    onClick={() =>
-                      customAlert(`Удалить ${elem.name}?`, 'Удалить', () => deleteEntity(elem.id))
-                    }
-                    className="btn "
-                    color="warning">
-                    <DeleteForeverSharpIcon className="fs-5 " />
-                  </Button>
-                </li>
-              );
-            })}
-          </>
-        )}
-      </IndexEntity>
+      {update ? (
+        <Box className="bg-white p-3 mx-2 align-item-center text-center mb-1 rounded">
+          <CircularProgress />
+        </Box>
+      ) : (
+        <IndexEntity<disciplineDTO> urlEntity={urlDisciplines}>
+          {(disciplines, deleteEntity) => (
+            <>
+              {disciplines.map((elem, index) => {
+                return (
+                  <li
+                    key={elem.id}
+                    className="list-group-item d-flex border mt-1 rounded align-items-center justify-content-between ">
+                    <span className="ms-1">{elem.name}</span>
+                    <Authorized
+                      role="admin"
+                      authorized={
+                        <Button
+                          onClick={() =>
+                            customAlert(`Удалить ${elem.name}?`, 'Удалить', () =>
+                              deleteEntity(elem.id)
+                            )
+                          }
+                          className="btn "
+                          color="warning">
+                          <DeleteForeverSharpIcon className="fs-5 " />
+                        </Button>
+                      }
+                    />
+                  </li>
+                );
+              })}
+            </>
+          )}
+        </IndexEntity>
+      )}
     </>
   );
 }

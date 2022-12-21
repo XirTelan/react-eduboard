@@ -12,13 +12,13 @@ import axios from 'axios';
 import { urlSpecialities } from '../../endpoints';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { formatYearValue } from '../../utils';
+import { displayErrorToast } from '../../utils/swalToast';
 
 function handleDebounceFn(
   query: string,
   urlFilter: string,
   setState: React.Dispatch<React.SetStateAction<any>>
 ) {
-  console.log(query);
   if (query == null || query.trim() === '') return;
   try {
     axios
@@ -26,11 +26,10 @@ function handleDebounceFn(
         params: { query }
       })
       .then((response) => {
-        console.log(response.data);
         setState(response.data);
       });
   } catch (error) {
-    console.log(error);
+    displayErrorToast(error);
   }
 }
 
@@ -48,9 +47,7 @@ export default function GroupForm(props: groupFormProps) {
       initialValues={props.model}
       onSubmit={(value, actions) => {
         value.year = formatYearValue(value.year);
-        console.log('year', value.year);
         props.onSubmit(value, actions);
-        console.log(value);
       }}
       validationSchema={Yup.object({
         name: Yup.string().required('Данное поле обязательно'),
@@ -76,7 +73,6 @@ export default function GroupForm(props: groupFormProps) {
                   label="Год начала обучения"
                   value={formikProps.values.year}
                   onChange={(newValue) => {
-                    console.log('newValue', newValue);
                     formikProps.setFieldValue('year', newValue);
                   }}
                   renderInput={(params) => <TextField {...params} helperText={null} />}

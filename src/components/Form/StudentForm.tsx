@@ -8,6 +8,7 @@ import { Autocomplete, Box, Button, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { urlGroups } from '../../endpoints';
+import { displayErrorToast } from '../../utils/swalToast';
 
 export default function StudentForm(props: studentFormProps) {
   const [groups, setGroups] = useState<groupDTO[]>([]);
@@ -17,10 +18,9 @@ export default function StudentForm(props: studentFormProps) {
     const fetchData = async () => {
       try {
         const response = await axios.get(`${urlGroups}/getindexlist`);
-        console.log(response.data);
         setGroups(response.data);
       } catch (error) {
-        console.log(error);
+        displayErrorToast(error);
       }
     };
     fetchData();
@@ -30,7 +30,6 @@ export default function StudentForm(props: studentFormProps) {
     <Formik
       initialValues={props.model}
       onSubmit={(val, actions) => {
-        console.log(val);
         props.onSubmit(val, actions);
       }}
       validationSchema={Yup.object({

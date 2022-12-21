@@ -7,12 +7,12 @@ import {
   SelectChangeEvent,
   TextField
 } from '@mui/material';
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import React, { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 import _debounce from 'lodash/debounce';
 import ClearIcon from '@mui/icons-material/Clear';
 import Pagination from '../UI/Pagination';
-import { Toast } from '../../utils/swalToast';
+import { displayErrorToast, displaySuccessToast, Toast } from '../../utils/swalToast';
 
 export default function IndexEntity<T>(props: indexEntityProps<T>) {
   const debounceFn = useCallback(_debounce(fetchData, 1000), []);
@@ -24,8 +24,6 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    console.log('trigger useEffect');
-    console.log(query);
     if (query == null || query.trim() === '')
       fetchData({ url: props.urlEntity, params: { page, recordsPerPage } });
     else debounceFn({ url: `${props.urlEntity}/filter`, params: { page, recordsPerPage, query } });
@@ -42,7 +40,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
       setTotalAmountOfPages(Math.ceil(totalAmountOfRecords / recordsPerPage));
       setEntities(response.data);
     } catch (error) {
-      console.log(error);
+      displayErrorToast(error);
     }
     setIsLoading(false);
   }
@@ -51,12 +49,9 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
     try {
       await axios.delete(`${props.urlEntity}/${id}`);
       fetchData({ url: props.urlEntity, params: { page, recordsPerPage } });
-      await Toast.fire({
-        icon: 'success',
-        title: 'Успех'
-      });
+      displaySuccessToast();
     } catch (error) {
-      console.log(error);
+      displayErrorToast(error);
     }
   }
   return (
@@ -71,7 +66,6 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
                 variant="standard"
                 value={query}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  console.log('trigger setQuery');
                   setQuery(event.target.value);
                 }}
               />

@@ -17,9 +17,8 @@ export default function DragDropFile(props: dragDropFileProps) {
   };
   const handleChange = async function (e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
-    console.log('handleChangeTrigger');
     if (e.target.files && e.target.files[0]) {
-      handleFile(e.target.files[0]);
+      props.handleFiles(e.target.files[0]);
     }
   };
 
@@ -27,17 +26,8 @@ export default function DragDropFile(props: dragDropFileProps) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    console.log('drop');
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFile(e.dataTransfer.files[0]);
-    }
-  };
-  const handleFile = async function (file: File) {
-    try {
-      const result = await props.handleFiles(file);
-      console.log('Resolve', result);
-    } catch (error) {
-      console.log('Error:', error);
+      props.handleFiles(e.dataTransfer.files[0]);
     }
   };
 

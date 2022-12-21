@@ -22,7 +22,6 @@ export default function GroupList() {
       <IndexEntity<groupDTO> urlEntity={urlGroups}>
         {(groups, deleteEntity) => (
           <>
-            {console.log(groups)}
             {groups.map((group) => {
               return (
                 <CollapseListItem

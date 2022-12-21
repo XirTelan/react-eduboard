@@ -19,6 +19,7 @@ import Header from '../components/UI/Header';
 import { urlAccounts } from '../endpoints';
 import { userDTO } from '../types';
 import Authorized from './Authorized';
+import { displayErrorToast } from '../utils/swalToast';
 
 function createData(
   login: string,
@@ -46,7 +47,7 @@ export default function UserList() {
         const response = await axios.post(`${urlAccounts}/role`, userRole);
         Swal.fire(`${response.data}`);
       } catch (error) {
-        console.log(error);
+        displayErrorToast(error);
       }
   }
 
@@ -106,7 +107,6 @@ export default function UserList() {
                   </TableHead>
                   <TableBody>
                     {users.map((user, index) => {
-                      console.log(user);
                       return (
                         <TableRow
                           key={user.id}

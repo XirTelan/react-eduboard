@@ -7,6 +7,7 @@ import SpecialityForm from '../components/Form/SpecialitytForm';
 import Header from '../components/UI/Header';
 import { urlDisciplines, urlSpecialities } from '../endpoints';
 import { disciplineDTO, specialityCreationDTO, specialityDTO, specialityEditDTO } from '../types';
+import { displayErrorToast } from '../utils/swalToast';
 
 export default function SpecialityEdit() {
   const { id } = useParams();
@@ -27,7 +28,6 @@ export default function SpecialityEdit() {
         specialityEditDTO,
         any
       >;
-      console.log('response data', response.data);
       const model: specialityCreationDTO = {
         name: response.data.speciality.name
       };
@@ -37,13 +37,10 @@ export default function SpecialityEdit() {
     } catch (error) {}
   }
   async function edit(speciality: specialityCreationDTO) {
-    console.log('submit edit', speciality);
     try {
       await axios.put(`${urlSpecialities}/${id}`, speciality).then(() => navigate('/specialities'));
     } catch (error) {
-      if (error) {
-        console.log(error);
-      }
+      displayErrorToast(error);
     }
   }
 

@@ -1,7 +1,7 @@
-aside {
+#sidebar {
   transition: width 0.2s ease-in-out;
   width: 300px;
 }
-aside.active {
-  width: 3vw;
+#sidebar.active {
+  width: 5rem;
 }

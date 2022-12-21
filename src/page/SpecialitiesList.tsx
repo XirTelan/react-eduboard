@@ -33,7 +33,6 @@ export default function SpecialitiesList() {
           <>
             {entities &&
               entities.map((entity) => {
-                console.log(entity.disciplines);
                 return (
                   <CollapseListItem
                     id={entity.id}

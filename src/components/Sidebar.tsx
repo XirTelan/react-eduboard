@@ -39,10 +39,7 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
     return claims.filter((x) => x.name === 'type')[0]?.value;
   }
   useEffect(() => {
-    console.log('isanimated', isAnimated);
-    console.log('isOpen', isOpen);
     promiseAnimated(isOpen).then((val) => {
-      console.log('Promise is here', val);
       setIsAnimated(val);
     });
   }, [isOpen]);
@@ -51,11 +48,9 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
     return new Promise<boolean>((resolve) => {
       if (isOpen)
         setTimeout(() => {
-          console.log('5s response');
           resolve(false);
         }, 200);
       else {
-        console.log('fast response');
         resolve(false);
       }
     });
@@ -67,11 +62,14 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
   }
   return (
     <>
-      <aside
+      <div id='sidebar'
         className={`d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100 ${
           isOpen ? '' : 'active'
         } `}>
-        <div className="d-flex gap-2 align-items-center flex-column  mx-auto me-md-auto text-decoration-none">
+        <div
+          className={`d-flex gap-2 align-items-center flex-column  mx-auto me-md-auto text-decoration-none ${
+            isOpen && ''
+          }`}>
           <Authorized
             authorized={
               <>
@@ -81,7 +79,7 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
                     <>{getUserName()}</>
                   </span>
                 )}
-                <div className="d-flex align-items-center">
+                <div className={`d-flex align-items-center ${!isOpen && 'flex-column '}`}>
                   {userRole === 'admin' && (
                     <>
                       <Link to="/users">
@@ -111,7 +109,7 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
 
         <hr className="w-100 text-secondary" />
         <ul
-          className="nav nav-pills w-100 flex-column mb-sm-auto mb-0 align-text-center align-items-center align-items-sm-start"
+          className="nav nav-pills w-100 flex-column gap-1 mb-sm-auto mb-0 align-text-center align-items-center align-items-sm-start"
           id="menu">
           <NavListItem
             isOpen={isOpen}
@@ -171,7 +169,7 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
         <IconButton onClick={handleSidebar}>
           {isOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
         </IconButton>
-      </aside>
+      </div>
     </>
   );
 }

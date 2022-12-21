@@ -11,7 +11,6 @@ export default function GroupEdit() {
       entityName="группу">
       {(entity, edit) => (
         <>
-          {console.log("Entity" ,entity)}
           {entity && <GroupForm model={entity}  onSubmit={async (values) => await edit(values)} />}
         </>
       )}

@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 import axios, { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { displayErrorToast } from '../../utils/swalToast';
 import Header from '../UI/Header';
 
 export default function EditEntity<TCreation, TRead>(props: editEntityProps<TCreation, TRead>) {
@@ -15,9 +16,7 @@ export default function EditEntity<TCreation, TRead>(props: editEntityProps<TCre
       await axios.put(`${props.urlEntity}/${id}`, entityToEdit);
       navigate(props.urlListPage);
     } catch (error) {
-      if (error) {
-        console.log(error);
-      }
+      displayErrorToast(error);
     }
   }
 
@@ -28,7 +27,7 @@ export default function EditEntity<TCreation, TRead>(props: editEntityProps<TCre
         setEntity(props.transform(response.data));
       })
       .catch((error) => {
-        console.log(error);
+        displayErrorToast(error);
       });
   }, [id]);
 

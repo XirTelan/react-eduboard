@@ -25,7 +25,7 @@ import { convertJsonToStudentDTO, excelImport } from '../utils/handleExcel';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
-import { swalLoading, Toast } from '../utils/swalToast';
+import { displayErrorToast, swalLoading, Toast } from '../utils/swalToast';
 import axios, { AxiosError } from 'axios';
 import Swal from 'sweetalert2';
 
@@ -41,9 +41,7 @@ export default function StudentsList() {
       const response = await axios.post(`${urlStudents}/excel`, students);
       await Toast.fire('Успешно', `Добавлено ${students.length - 1} студентов`, 'success'); //TODO
     } catch (error) {
-      const axiosError = error as AxiosError;
-      console.log(axiosError);
-      await Toast.fire('Error', axiosError.message, 'error'); //TODO
+      displayErrorToast(error);
     }
   }
   return (

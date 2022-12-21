@@ -25,8 +25,6 @@ export function formatGridRowsToData(
   const result: controllRecordCreationDTO[] = [];
   data.forEach((element) => {
     const { id, indx, title, ...obj2 } = element;
-    console.log('id', id);
-    console.log('obj2', obj2);
     Object.keys(obj2).forEach((key) => {
       if (obj2[key] === undefined) return;
       const newRecord: controllRecordCreationDTO = {
