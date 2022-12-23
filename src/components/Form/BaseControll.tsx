@@ -41,6 +41,10 @@ const columnsDefault: GridColumns = [
   { field: 'indx', headerName: '№', maxWidth: 50 },
   { field: 'title', headerName: 'ФИО', flex: 1, minWidth: 200, maxWidth: 400 }
 ];
+const columnsSticky: GridColumns = [
+  { field: 'indx', headerName: '№', maxWidth: 50 },
+  { field: 'title', headerName: 'ФИО', flex: 1, minWidth: 200, maxWidth: 400 }
+];
 
 export default function BaseControll(props: GenControllProps) {
   const [rows, setRows] = useState<GridRowsProp>([]);
@@ -72,10 +76,9 @@ export default function BaseControll(props: GenControllProps) {
     const discColumn: GridColumns = response.data.map((elem: disciplineDTO) => ({
       field: `${elem.id}`,
       headerName: elem.name,
-      width: 20,
+      width: 550,
       sortable: false,
       editable: true,
-      flex: 1
     }));
     setColumns([...columnsDefault, ...discColumn]);
   }
@@ -146,7 +149,7 @@ export default function BaseControll(props: GenControllProps) {
           {!selectedGroupId || selectedGroupId === 0 ? (
             <p className="fw-bold text-secondary">Группа не выбрана</p>
           ) : dataLoaded ? (
-            <>
+            <div>
               <div className="d-flex justify-content-between mb-3">
                 <Switch defaultChecked onChange={() => setIsMainView((prevVal) => !prevVal)} />
                 <Button
@@ -158,26 +161,46 @@ export default function BaseControll(props: GenControllProps) {
                   Сохранить
                 </Button>
               </div>
-              {isMainView ? (
-                <DataGrid
-                  components={{
-                    Toolbar: CustomToolbar
-                  }}
-                  autoHeight
-                  localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
-                  rows={rows}
-                  columns={columns}
-                  editMode="row"
-                  rowModesModel={rowModesModel}
-                  onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-                  processRowUpdate={processRowUpdate}
-                  experimentalFeatures={{ newEditingApi: true }}
-                  disableColumnMenu
-                />
-              ) : (
-                statisticRows && statisticRows.length > 0 && <StatisticTable rows={statisticRows} />
-              )}
-            </>
+              <div className="position-relative">
+                <div id="mainDataGrid">
+                  {isMainView ? (
+                    <DataGrid
+                      components={{
+                        Toolbar: CustomToolbar
+                      }}
+                      autoHeight
+                      localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+                      rows={rows}
+                      columns={columns}
+                      editMode="row"
+                      rowModesModel={rowModesModel}
+                      onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+                      processRowUpdate={processRowUpdate}
+                      experimentalFeatures={{ newEditingApi: true }}
+                      disableColumnMenu
+                    />
+                  ) : (
+                    statisticRows &&
+                    statisticRows.length > 0 && <StatisticTable rows={statisticRows} />
+                  )}
+                </div>
+                <div className="position-absolute">
+                  <DataGrid
+                 
+                    autoHeight
+                    localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+                    rows={rows}
+                    columns={columnsDefault}
+                    editMode="row"
+                    rowModesModel={rowModesModel}
+                    onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+                    processRowUpdate={processRowUpdate}
+                    experimentalFeatures={{ newEditingApi: true }}
+                    disableColumnMenu
+                  />
+                </div>
+              </div>
+            </div>
           ) : (
             <CircularProgress />
           )}

@@ -20,15 +20,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import Authorized from '../auth/Authorized';
 import { getClaims, logout } from '../auth/handleJWT';
 import AuthenticationContext from '../auth/AuthenticationContext';
+import useAuth from '../hooks/useAuth';
 
 interface SidebarProps {
   isOpen: boolean;
   setOpen: (setState: React.SetStateAction<boolean>) => void;
-  authorize: (state: boolean) => void;
 }
 
-export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
+export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
   const [isAnimated, setIsAnimated] = useState(false);
+  const { auth, setAuth } = useAuth();
   const { claims, update } = useContext(AuthenticationContext);
   const userRole = getUserRole();
 
@@ -62,7 +63,8 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
   }
   return (
     <>
-      <div id='sidebar'
+      <div
+        id="sidebar"
         className={`d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100 ${
           isOpen ? '' : 'active'
         } `}>
@@ -70,41 +72,32 @@ export default function Sidebar({ isOpen, setOpen, authorize }: SidebarProps) {
           className={`d-flex gap-2 align-items-center flex-column  mx-auto me-md-auto text-decoration-none ${
             isOpen && ''
           }`}>
-          <Authorized
-            authorized={
-              <>
-                <AccountCircleIcon />
-                {isOpen && !isAnimated && (
-                  <span className="ms-1 fw-bold d-flex align-content-center ">
-                    <>{getUserName()}</>
-                  </span>
-                )}
-                <div className={`d-flex align-items-center ${!isOpen && 'flex-column '}`}>
-                  {userRole === 'admin' && (
-                    <>
-                      <Link to="/users">
-                        <ViewListIcon />
-                      </Link>
-                    </>
-                  )}
-                  <IconButton
-                    color="primary"
-                    aria-label="logout"
-                    onClick={() => {
-                      logout();
-                      update(getClaims());
-                    }}>
-                    <LogoutIcon />
-                  </IconButton>
-                </div>
-              </>
-            }
-            notAuthorized={
-              <>
-                <h5>NotAuthorized</h5>
-              </>
-            }
-          />
+          <>
+            <AccountCircleIcon />
+            {isOpen && !isAnimated && (
+              <span className="ms-1 fw-bold d-flex align-content-center ">
+                <>{getUserName()}</>
+              </span>
+            )}
+            <div className={`d-flex align-items-center ${!isOpen && 'flex-column '}`}>
+              {userRole === 'admin' && (
+                <>
+                  <Link to="/users">
+                    <ViewListIcon />
+                  </Link>
+                </>
+              )}
+              <IconButton
+                color="primary"
+                aria-label="logout"
+                onClick={() => {
+                  setAuth({ token: '' });
+                  update(getClaims());
+                }}>
+                <LogoutIcon />
+              </IconButton>
+            </div>
+          </>
         </div>
 
         <hr className="w-100 text-secondary" />

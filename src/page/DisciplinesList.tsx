@@ -74,21 +74,15 @@ export default function DiscplinesList() {
                     key={elem.id}
                     className="list-group-item d-flex border mt-1 rounded align-items-center justify-content-between ">
                     <span className="ms-1">{elem.name}</span>
-                    <Authorized
-                      role="admin"
-                      authorized={
-                        <Button
-                          onClick={() =>
-                            customAlert(`Удалить ${elem.name}?`, 'Удалить', () =>
-                              deleteEntity(elem.id)
-                            )
-                          }
-                          className="btn "
-                          color="warning">
-                          <DeleteForeverSharpIcon className="fs-5 " />
-                        </Button>
+
+                    <Button
+                      onClick={() =>
+                        customAlert(`Удалить ${elem.name}?`, 'Удалить', () => deleteEntity(elem.id))
                       }
-                    />
+                      className="btn "
+                      color="warning">
+                      <DeleteForeverSharpIcon className="fs-5 " />
+                    </Button>
                   </li>
                 );
               })}

@@ -1,7 +1,7 @@
 import { Button, TextField } from '@mui/material';
 import { Form, Formik } from 'formik';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
-import { squreBackground } from '../App';
+// import { squreBackground } from '../App';
 import './Login.css';
 import { useContext, useState } from 'react';
 import { authenticationResponse, userCredentials } from './auth.model';
@@ -9,13 +9,17 @@ import axios, { AxiosError } from 'axios';
 import { urlAccounts } from '../endpoints';
 import { getClaims, saveToken } from './handleJWT';
 import AuthenticationContext from './AuthenticationContext';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import useAuth from '../hooks/useAuth';
+import BgStyle from '../components/UI/BgStyle';
 
 export default function Login() {
-  const { update } = useContext(AuthenticationContext);
+  const { setAuth } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
   async function login(credentials: userCredentials) {
     setIsSubmitting(true);
@@ -24,10 +28,11 @@ export default function Login() {
         `${urlAccounts}/login`,
         credentials
       );
+      console.log('JSON string', JSON.stringify(response?.data));
       saveToken(response.data);
-      update(getClaims());
+      setAuth(response.data);
       setIsSubmitting(false);
-      navigate('/');
+      navigate(from, { replace: true });
     } catch (error) {
       const errors = error as AxiosError;
       setIsSubmitting(false);
@@ -38,8 +43,8 @@ export default function Login() {
   return (
     <>
       <div className="vh-100 vw-100 d-flex overflow-hidden align-items-center position-relative justify-content-center">
-        {squreBackground('45deg', '0', '50px')}
-        {squreBackground('225deg', undefined, undefined, 0, 0)}
+        {/* {squreBackground('45deg', '0', '50px')}
+        {squreBackground('225deg', undefined, undefined, 0, 0)} */}
         {/* {squreBackground('225deg')} */}
 
         <Formik
@@ -94,6 +99,7 @@ export default function Login() {
             </Form>
           )}
         </Formik>
+        <BgStyle />
       </div>
     </>
   );
