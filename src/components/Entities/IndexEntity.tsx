@@ -7,14 +7,15 @@ import {
   SelectChangeEvent,
   TextField
 } from '@mui/material';
-import axios, { AxiosError, AxiosResponse } from 'axios';
 import React, { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
 import _debounce from 'lodash/debounce';
 import ClearIcon from '@mui/icons-material/Clear';
 import Pagination from '../UI/Pagination';
 import { displayErrorToast, displaySuccessToast, Toast } from '../../utils/swalToast';
+import useAxios from '../../hooks/useAxios';
 
 export default function IndexEntity<T>(props: indexEntityProps<T>) {
+  const axiosPrivate = useAxios();
   const debounceFn = useCallback(_debounce(fetchData, 1000), []);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [entities, setEntities] = useState<T[]>();
@@ -32,7 +33,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
   async function fetchData({ url, params }: fetchDataProps) {
     setIsLoading(true);
     try {
-      const response = await axios.get(url, {
+      const response = await axiosPrivate.get(url, {
         params: params
       });
       const responseHeader = response.headers['totalamountofrecords'];
@@ -47,7 +48,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
 
   async function deleteEntity(id: number) {
     try {
-      await axios.delete(`${props.urlEntity}/${id}`);
+      await axiosPrivate.delete(`${props.urlEntity}/${id}`);
       fetchData({ url: props.urlEntity, params: { page, recordsPerPage } });
       displaySuccessToast();
     } catch (error) {

@@ -29,7 +29,6 @@ export default function Login() {
         credentials
       );
       console.log('JSON string', JSON.stringify(response?.data));
-      saveToken(response.data);
       setAuth(response.data);
       setIsSubmitting(false);
       navigate(from, { replace: true });

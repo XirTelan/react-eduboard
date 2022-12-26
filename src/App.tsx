@@ -46,7 +46,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route element={<Authorized />}>
           <Route path="/" element={<Layout />}>
-            <Route path="/" element={<Statistic />} />
+            {/* <Route path="/" element={<Statistic />} /> */}
             <Route path="/attendance" element={<Attendance />} />
             <Route path="/entrance-controll" element={<ControllEntrance />} />
             <Route path="/intersessional-controll" element={<ControllIntersessional />} />

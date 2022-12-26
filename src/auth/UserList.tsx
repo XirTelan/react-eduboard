@@ -20,6 +20,8 @@ import { urlAccounts } from '../endpoints';
 import { userDTO } from '../types';
 import Authorized from './Authorized';
 import { displayErrorToast } from '../utils/swalToast';
+import { useEffect, useState } from 'react';
+import useRefreshToken from '../hooks/useRefreshToken';
 
 function createData(
   login: string,
@@ -41,6 +43,8 @@ const rows = [
 ];
 
 export default function UserList() {
+  const [users, setUsers] = useState();
+  const refresh = useRefreshToken();
   async function changeRole(userRole: userRoleDTO) {
     if (userRole.role !== '')
       try {
@@ -59,6 +63,7 @@ export default function UserList() {
           buttonText="Cоздать пользователя"
           buttonLink="/users/create"
         />
+        <button onClick={() => refresh()}>Refresh</button>
         <IndexEntity<userDTO> urlEntity={`${urlAccounts}/users`} filterIsEnabled={false}>
           {(users) => (
             <>

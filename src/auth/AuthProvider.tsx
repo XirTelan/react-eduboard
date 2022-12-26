@@ -3,13 +3,13 @@ import { string } from 'yup/lib/locale';
 import { claim } from './auth.model';
 
 const AuthContext = createContext<{ auth: authUser; setAuth: React.SetStateAction<any> }>({
-  auth: { token: '' },
+  auth: { accessToken: '', user: { username: '', role: '' } },
   setAuth: () => {}
 });
 
 export const AuthProvider = ({ children }: authProviderProps) => {
-  const [auth, setAuth] = useState({ token: '' });
-  console.log('Get Auth', auth.token);
+  const [auth, setAuth] = useState({ accessToken: '', user: { username: '', role: '' } });
+  console.log('Get Auth', auth.accessToken);
   return <AuthContext.Provider value={{ auth, setAuth }}>{children}</AuthContext.Provider>;
 };
 
@@ -20,6 +20,12 @@ interface authProviderProps {
 }
 
 interface authUser {
-  token: string;
+  accessToken: string;
+  user: user;
   // claims: claim[];
+}
+
+interface user {
+  username: string;
+  role: string;
 }

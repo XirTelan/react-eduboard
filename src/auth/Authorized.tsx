@@ -8,7 +8,7 @@ export default function Authorized() {
   const { auth } = useAuth();
   const location = useLocation();
   console.log('auth trigger', auth);
-  return auth?.token ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />;
+  return auth?.accessToken ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />;
 }
 
 interface authorizedProps {
