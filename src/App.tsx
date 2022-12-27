@@ -22,24 +22,11 @@ import Statistic from './page/Statistic';
 import StudentEdit from './page/StudentEdit';
 import StudentCreate from './page/StudentCreate';
 import GroupEdit from './page/GroupEdit';
-import { claim } from './auth/auth.model';
-import AuthenticationContext from './auth/AuthenticationContext';
 import Register from './auth/Register';
-import { getClaims } from './auth/handleJWT';
 import Authorized from './auth/Authorized';
-import configureInterceptor from './httpinterceptor';
 import Layout from './components/Layout';
-const drawerWidth = 240;
-
-configureInterceptor();
 
 function App() {
-  const [claims, setClaims] = useState<claim[]>([]);
-
-  useEffect(() => {
-    setClaims(getClaims());
-  }, []);
-
   return (
     <>
       <Routes>

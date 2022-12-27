@@ -7,8 +7,6 @@ import { useContext, useState } from 'react';
 import { authenticationResponse, userCredentials } from './auth.model';
 import axios, { AxiosError } from 'axios';
 import { urlAccounts } from '../endpoints';
-import { getClaims, saveToken } from './handleJWT';
-import AuthenticationContext from './AuthenticationContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import useAuth from '../hooks/useAuth';
@@ -26,9 +24,9 @@ export default function Login() {
     try {
       const response = await axios.post<authenticationResponse>(
         `${urlAccounts}/login`,
-        credentials
+        credentials,
+        { withCredentials: true }
       );
-      console.log('JSON string', JSON.stringify(response?.data));
       setAuth(response.data);
       setIsSubmitting(false);
       navigate(from, { replace: true });

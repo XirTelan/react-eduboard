@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react';
 import Filter from '../components/Filter';
 import Header from '../components/UI/Header';
 import { urlAttendance } from '../endpoints';
-import useAxios from '../hooks/useAxios';
 import { AttendanceCreationDTO } from '../types';
 import formatDataToGridRows from '../utils/formatDataToGridRows';
 import { displayErrorToast, displaySuccessToast, Toast } from '../utils/swalToast';
@@ -62,7 +61,6 @@ const columnsDefault: GridColDef[] = [
 ];
 
 export default function Attendance() {
-  const axios = useAxios();
   const [gridData, setGridData] = useState<GridRowsProp>([]);
   const [selectedYear, setSelectedYear] = useState<string>('0000');
   const [selectedMonth, setSelectedMonth] = useState<number>(1);

@@ -18,8 +18,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import './Sidebar.css';
 import React, { useContext, useEffect, useState } from 'react';
 import Authorized from '../auth/Authorized';
-import { getClaims, logout } from '../auth/handleJWT';
-import AuthenticationContext from '../auth/AuthenticationContext';
 import useAuth from '../hooks/useAuth';
 
 interface SidebarProps {
@@ -30,14 +28,13 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
   const [isAnimated, setIsAnimated] = useState(false);
   const { auth, setAuth } = useAuth();
-  const { claims, update } = useContext(AuthenticationContext);
   const userRole = getUserRole();
 
   function getUserName(): string {
-    return claims.filter((x) => x.name === 'name')[0]?.value;
+    return '';
   }
   function getUserRole(): string {
-    return claims.filter((x) => x.name === 'type')[0]?.value;
+    return '';
   }
   useEffect(() => {
     promiseAnimated(isOpen).then((val) => {
@@ -92,7 +89,6 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
                 aria-label="logout"
                 onClick={() => {
                   setAuth({ token: '' });
-                  update(getClaims());
                 }}>
                 <LogoutIcon />
               </IconButton>
@@ -165,7 +161,4 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
       </div>
     </>
   );
-}
-function setState(): [any, any] {
-  throw new Error('Function not implemented.');
 }

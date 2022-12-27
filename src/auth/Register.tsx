@@ -4,11 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { urlAccounts } from '../endpoints';
 import { authenticationResponse, userCredentials, userRegisterCredentials } from './auth.model';
-import AuthenticationContext from './AuthenticationContext';
 import AuthForm from './AuthForm';
 
 export default function Register() {
-  const { update } = useContext(AuthenticationContext);
   const navigate = useNavigate();
 
   async function register(credentials: userRegisterCredentials) {
