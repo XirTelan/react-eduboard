@@ -29,17 +29,19 @@ import { months } from '../data/data';
 import { urlGroups } from '../endpoints';
 import { formatYearValue } from '../utils';
 import { displayErrorToast } from '../utils/swalToast';
+import useAxios from '../hooks/useAxios';
 
 export default function Filter(props: FilterProps) {
   const [groupsList, setGroupsList] = useState<{ id: number; name: string }[]>([]);
+  const axiosPrivate = useAxios();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${urlGroups}/getindexlist`);
+        const response = await axiosPrivate.get(`${urlGroups}/getindexlist`);
         setGroupsList(response.data);
       } catch (error) {
-       displayErrorToast(error);
+        displayErrorToast(error);
       }
     };
     fetchData();

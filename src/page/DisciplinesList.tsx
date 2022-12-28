@@ -28,6 +28,7 @@ export default function DiscplinesList() {
       const response = await axios.post(`${urlDisciplines}`, discipline);
       displaySuccessToast();
     } catch (error) {
+      console.log('disc error', error);
       displayErrorToast(error);
     }
     setUpdate(false);

@@ -1,18 +1,19 @@
 import axios, { AxiosError } from 'axios';
 import React, { useEffect } from 'react';
+import Swal from 'sweetalert2';
 import { axiosPrivate } from '../api/axios';
 import useAuth from './useAuth';
 import useRefreshToken from './useRefreshToken';
 
 export default function useAxios() {
   const refresh = useRefreshToken();
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
 
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
-      function (config) {
-        if (auth.accessToken) {
-          config.headers!.Authorization = `Bearer ${auth.accessToken}`;
+      (config) => {
+        if (!config.headers!['Authorization']) {
+          config.headers!['Authorization'] = `Bearer ${auth.accessToken}`;
         }
         return config;
       },
@@ -26,10 +27,8 @@ export default function useAxios() {
       async (error: any) => {
         const prevRequest = error?.config;
         if (error?.response?.status === 401 && !prevRequest?.sent) {
+          Swal.fire('Update page', 'Please udpate page', 'warning');
           prevRequest.sent = true;
-          const newAccessToken = await refresh();
-          prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-          return axiosPrivate(prevRequest);
         }
         return Promise.reject(error);
       }

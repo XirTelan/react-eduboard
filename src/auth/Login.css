@@ -1,15 +1,17 @@
 :root {
   --login-circle-size: 8rem;
+  --border-radius: 0.25rem;
 }
+
 #login-form {
-  height: auto;
-  border-radius: 1rem;
+  height: 100vh;
+  border-radius: var(--border-radius);
   display: flex;
 }
 .login-form-inner {
   width: auto;
   height: auto;
-  border-radius: 1rem;
+  border-radius: var(--border-radius);
 }
 
 .login-form-inner.active {
@@ -31,15 +33,16 @@
   animation-duration: 2s;
 }
 
+#login-form.active label,
 #login-form input.active,
 #login-form .input-field.active {
   display: none;
 }
 @media screen and (min-width: 900px) {
   #login-form {
-    width: min(40vw, 400px);
+    width: min(40vw, 300px);
     height: auto;
-    border-radius: 1rem;
+    border-radius: var(--border-radius);
   }
 }
 @keyframes rotationCircle {

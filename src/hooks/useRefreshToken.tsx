@@ -7,14 +7,18 @@ export default function useRefreshToken() {
   const { setAuth } = useAuth();
 
   const refresh = async () => {
-    const response = await axios.get(`${urlAccounts}/refresh`, {
-      withCredentials: true
-    });
-    setAuth((prev: any) => {
-      console.log('response', JSON.stringify(prev));
-      return { ...prev, accessToken: response.data.accessToken };
-    });
-    return response.data.accessToken;
+    try {
+      const response = await axios.get(`${urlAccounts}/refresh`, {
+        withCredentials: true
+      });
+      setAuth((prev: any) => {
+        console.log('response', JSON.stringify(prev));
+        return { ...prev, accessToken: response.data.accessToken, roles: response.data.roles };
+      });
+      return response.data.accessToken;
+    } catch (error) {
+      console.log('refresh error', error);
+    }
   };
 
   return refresh;

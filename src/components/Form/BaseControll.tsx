@@ -22,6 +22,7 @@ import formatDataToGridRows, { formatGridRowsToData } from '../../utils/formatDa
 import StatisticTable from '../StatisticTable';
 import { displayErrorToast, displaySuccessToast, swalLoading, Toast } from '../../utils/swalToast';
 import Swal from 'sweetalert2';
+import useAxios from '../../hooks/useAxios';
 
 interface ControllerProps {
   name: string;
@@ -48,6 +49,7 @@ const columnsSticky: GridColumns = [
 
 export default function BaseControll(props: GenControllProps) {
   const [rows, setRows] = useState<GridRowsProp>([]);
+  const axiosPrivate = useAxios();
   const changedRows = [];
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isMainView, setIsMainView] = useState<boolean>(true);
@@ -78,14 +80,14 @@ export default function BaseControll(props: GenControllProps) {
       headerName: elem.name,
       width: 550,
       sortable: false,
-      editable: true,
+      editable: true
     }));
     setColumns([...columnsDefault, ...discColumn]);
   }
 
   async function loadData(typeId: number, groupId: number, year: string, month: number) {
     try {
-      const response = await axios.get(urlControll, {
+      const response = await axiosPrivate.get(urlControll, {
         params: { typeId, groupId, year, month }
       });
       const data = formatDataToGridRows(response.data);
@@ -97,7 +99,7 @@ export default function BaseControll(props: GenControllProps) {
   }
   async function loadStatisticData(typeId: number, groupId: number, year: string, month: number) {
     try {
-      const response = await axios.get(`${urlControll}/statistic`, {
+      const response = await axiosPrivate.get(`${urlControll}/statistic`, {
         params: { typeId, groupId, year, month }
       });
       setStatisticRows(response.data);
@@ -108,7 +110,7 @@ export default function BaseControll(props: GenControllProps) {
 
   async function getGroupDisciplines(groupId: number) {
     try {
-      const responce = await axios.get(`${urlDisciplines}/group/${groupId}`);
+      const responce = await axiosPrivate.get(`${urlDisciplines}/group/${groupId}`);
       return responce;
     } catch (error) {
       displayErrorToast(error);
@@ -185,19 +187,11 @@ export default function BaseControll(props: GenControllProps) {
                   )}
                 </div>
                 <div className="position-absolute">
-                  <DataGrid
-                 
-                    autoHeight
-                    localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
-                    rows={rows}
-                    columns={columnsDefault}
-                    editMode="row"
-                    rowModesModel={rowModesModel}
-                    onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-                    processRowUpdate={processRowUpdate}
-                    experimentalFeatures={{ newEditingApi: true }}
-                    disableColumnMenu
-                  />
+                  <ul>
+                    {/* {rows.forEach(row, (indx) => (
+                      <li key={indx}>row</li>
+                    ))} */}
+                  </ul>
                 </div>
               </div>
             </div>

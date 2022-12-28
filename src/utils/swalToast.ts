@@ -27,6 +27,7 @@ export function swalLoading() {
 
 export async function displayErrorToast(error: any) {
   const axiosError = error as AxiosError;
+  console.log('Axios error', error);
   await Toast.fire({
     icon: 'error',
     title: 'Ошибка',

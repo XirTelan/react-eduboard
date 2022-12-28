@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import Filter from '../components/Filter';
 import Header from '../components/UI/Header';
 import { urlAttendance } from '../endpoints';
+import useAxios from '../hooks/useAxios';
 import { AttendanceCreationDTO } from '../types';
 import formatDataToGridRows from '../utils/formatDataToGridRows';
 import { displayErrorToast, displaySuccessToast, Toast } from '../utils/swalToast';
@@ -65,6 +66,7 @@ export default function Attendance() {
   const [selectedYear, setSelectedYear] = useState<string>('0000');
   const [selectedMonth, setSelectedMonth] = useState<number>(1);
   const [selectedGroupId, setSelectedGroupId] = useState<number>(0);
+  const axiosPrivate = useAxios();
   const days: string[] = [...Array(31).keys()].map((e) => '' + (e + 1));
   const daysColumn: GridColDef[] = days.map((elem, index) => ({
     field: `${index + 1}`,
@@ -85,7 +87,7 @@ export default function Attendance() {
       Value: value
     };
     try {
-      const response = await axios.post(urlAttendance, formatData);
+      const response = await axiosPrivate.post(urlAttendance, formatData);
       displaySuccessToast();
     } catch (error) {
       displayErrorToast(error);
@@ -106,7 +108,7 @@ export default function Attendance() {
 
   async function loadData(groupId: number, year: string, month: number) {
     try {
-      const response = await axios.get(urlAttendance, {
+      const response = await axiosPrivate.get(urlAttendance, {
         params: { groupId, year, month }
       });
       const data = formatDataToGridRows(response.data);

@@ -1,5 +1,5 @@
 import { Divider, IconButton } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import NavListItem from './UI/NavListItem';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
@@ -17,8 +17,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './Sidebar.css';
 import React, { useContext, useEffect, useState } from 'react';
-import Authorized from '../auth/Authorized';
-import useAuth from '../hooks/useAuth';
+import useLogout from '../hooks/useLogout';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -27,7 +26,8 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
   const [isAnimated, setIsAnimated] = useState(false);
-  const { auth, setAuth } = useAuth();
+  const logout = useLogout();
+  const navigate = useNavigate();
   const userRole = getUserRole();
 
   function getUserName(): string {
@@ -35,6 +35,10 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
   }
   function getUserRole(): string {
     return '';
+  }
+  async function signOut() {
+    await logout();
+    navigate('/login');
   }
   useEffect(() => {
     promiseAnimated(isOpen).then((val) => {
@@ -84,12 +88,7 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
                   </Link>
                 </>
               )}
-              <IconButton
-                color="primary"
-                aria-label="logout"
-                onClick={() => {
-                  setAuth({ token: '' });
-                }}>
+              <IconButton color="primary" aria-label="logout" onClick={() => signOut()}>
                 <LogoutIcon />
               </IconButton>
             </div>

@@ -3,15 +3,20 @@ import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import Login from './Login';
 
-export default function Authorized() {
+export default function Authorized({ requiredRoles }: authorizedProps) {
   const { auth } = useAuth();
   const location = useLocation();
   console.log('auth trigger', auth);
-  return auth?.accessToken ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />;
+  console.log('requiredRoles', requiredRoles);
+  return Array.isArray(requiredRoles) && auth?.roles?.find((role) => requiredRoles?.includes(role)) ? (
+    <Outlet />
+  ) : auth?.accessToken ? (
+    <h1>not auth</h1>
+  ) : (
+    <Navigate to="/login" state={{ from: location }} replace />
+  );
 }
 
 interface authorizedProps {
-  authorized: React.ReactElement;
-  notAuthorized?: React.ReactElement;
-  role?: string;
+  requiredRoles: string[];
 }
