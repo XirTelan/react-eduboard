@@ -120,7 +120,7 @@ export default function Attendance() {
 
   return (
     <>
-      <Header title="Посещяемость" />
+      <Header title="Посещаемость" />
       <Filter isYearSelectable period="monthly" onSubmit={updateParams} />
       <Box className="bg-white p-3 mx-2 rounded">
         <div className="d-flex align-items-center justify-content-center">

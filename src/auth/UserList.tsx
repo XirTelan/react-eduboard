@@ -22,6 +22,7 @@ import Authorized from './Authorized';
 import { displayErrorToast } from '../utils/swalToast';
 import { useEffect, useState } from 'react';
 import useRefreshToken from '../hooks/useRefreshToken';
+import useAxios from '../hooks/useAxios';
 
 function createData(
   login: string,
@@ -34,21 +35,13 @@ function createData(
   return { login, name, calories, fat, carbs, role };
 }
 
-const rows = [
-  createData('asdasd', 'Frozen yoghurt', 159, 6.0, 24, 1),
-  createData('Gajfa', 'Ice cream sandwich', 237, 9.0, 37, 2),
-  createData('Oxaw3', 'Eclair', 262, 16.0, 24, 1),
-  createData('Elasdn', 'Cupcake', 305, 3.7, 67, 3),
-  createData('asRqxcv', 'Gingerbread', 356, 16.0, 49, 1)
-];
-
 export default function UserList() {
   const [users, setUsers] = useState();
-  const refresh = useRefreshToken();
+  const axiosPrivate = useAxios();
   async function changeRole(userRole: userRoleDTO) {
     if (userRole.role !== '')
       try {
-        const response = await axios.post(`${urlAccounts}/role`, userRole);
+        const response = await axiosPrivate.post(`${urlAccounts}/role`, userRole);
         Swal.fire(`${response.data}`);
       } catch (error) {
         displayErrorToast(error);
@@ -63,10 +56,10 @@ export default function UserList() {
           buttonText="Cоздать пользователя"
           buttonLink="/users/create"
         />
-        <button onClick={() => refresh()}>Refresh</button>
         <IndexEntity<userDTO> urlEntity={`${urlAccounts}/users`} filterIsEnabled={false}>
           {(users) => (
             <>
+              {console.log('User:', users)}
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <TableHead>
@@ -124,15 +117,15 @@ export default function UserList() {
                           <TableCell align="center">
                             <Select
                               sx={{ width: 200 }}
-                              disabled={user.userName === 'admin'}
-                              value={user.role ? user.role : 'user'}
+                              disabled={user.userName === 'Admin'}
+                              value={user.role ? user.role : 'User'}
                               onChange={(e) =>
                                 changeRole({ userId: user.id, role: e.target.value.toString() })
                               }>
-                              <MenuItem value="admin">
+                              <MenuItem value="Admin">
                                 <span className="fw-bold">ADMIN</span>
                               </MenuItem>
-                              <MenuItem value="user">
+                              <MenuItem value="User">
                                 <span className="fw-bold">КУРАТОР</span>
                               </MenuItem>
                             </Select>

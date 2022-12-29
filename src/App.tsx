@@ -5,14 +5,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import UserList from './auth/UserList';
 
 import Attendance from './page/Attendance';
-import ControllEntrance from './page/ControllEntrance';
 import Login from './auth/Login';
 import DiscplinesList from './page/DisciplinesList';
 import SpecialitiesList from './page/SpecialitiesList';
 import GroupList from './page/GroupList';
-import ControllIntersessional from './page/ControllIntersessional';
-import ControllIntermediate from './page/ControllIntermediate';
-import ControllCurrent from './page/ControllCurrent';
 import { Box, CssBaseline } from '@mui/material';
 import SpecialityCreate from './page/SpecialityCreate';
 import GroupCreate from './page/GroupCreate';
@@ -26,6 +22,7 @@ import Register from './auth/Register';
 import Authorized from './auth/Authorized';
 import Layout from './components/Layout';
 import PersistLogin from './auth/PersistLogin';
+import Controll from './page/Controll';
 
 function App() {
   return (
@@ -37,10 +34,7 @@ function App() {
             <Route path="/" element={<Layout />}>
               {/* <Route path="/" element={<Statistic />} /> */}
               <Route path="/attendance" element={<Attendance />} />
-              <Route path="/entrance-controll" element={<ControllEntrance />} />
-              <Route path="/intersessional-controll" element={<ControllIntersessional />} />
-              <Route path="/intermediate-controll" element={<ControllIntermediate />} />
-              <Route path="/current-controll" element={<ControllCurrent />} />
+              <Route path="/controll/:id" element={<Controll />} />
               <Route path="/disciplines" element={<DiscplinesList />} />
               <Route path="/groups" element={<GroupList />} />
               <Route path="/specialities" element={<SpecialitiesList />} />

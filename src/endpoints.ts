@@ -8,3 +8,4 @@ export const urlAccounts = `${baseURL}/accounts`;
 
 export const urlAttendance = `${baseURL}/attendance`;
 export const urlControll = `${baseURL}/controll`;
+export const urlControllTypes = `${baseURL}/controlltype`;

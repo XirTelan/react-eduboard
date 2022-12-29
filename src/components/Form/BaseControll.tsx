@@ -129,12 +129,12 @@ export default function BaseControll(props: GenControllProps) {
     if (result === undefined || result.length === 0) return;
     const formatData = result;
     try {
-      const response = await axios.post(urlControll, formatData);
+      const response = await axiosPrivate.post(urlControll, formatData);
+      Swal.close();
       displaySuccessToast();
     } catch (error) {
       displayErrorToast(error);
     }
-    Swal.close();
     updateData(props.type, selectedGroupId, selectedYear, selectedMonth);
   }
   const processRowUpdate = (newRow: GridRowModel) => {

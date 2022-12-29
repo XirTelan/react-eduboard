@@ -18,6 +18,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import './Sidebar.css';
 import React, { useContext, useEffect, useState } from 'react';
 import useLogout from '../hooks/useLogout';
+import useAuth from '../hooks/useAuth';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
   const [isAnimated, setIsAnimated] = useState(false);
+  const { auth } = useAuth();
   const logout = useLogout();
   const navigate = useNavigate();
   const userRole = getUserRole();
@@ -81,7 +83,7 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
               </span>
             )}
             <div className={`d-flex align-items-center ${!isOpen && 'flex-column '}`}>
-              {userRole === 'admin' && (
+              {auth.roles.includes('Admin') && (
                 <>
                   <Link to="/users">
                     <ViewListIcon />
@@ -109,28 +111,28 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
           <NavListItem
             isOpen={isOpen}
             isAnimated={isAnimated}
-            to="/current-controll"
+            to="/controll/1"
             title="Текущий контроль">
             <EventRepeatIcon />
           </NavListItem>
           <NavListItem
             isOpen={isOpen}
             isAnimated={isAnimated}
-            to="/intersessional-controll"
+            to="/controll/2"
             title="Межсессионный контроль">
             <TodayIcon />
           </NavListItem>
           <NavListItem
             isOpen={isOpen}
             isAnimated={isAnimated}
-            to="/intermediate-controll"
+            to="/controll/3"
             title="Промежуточная аттестация">
             <EventIcon />
           </NavListItem>
           <NavListItem
             isOpen={isOpen}
             isAnimated={isAnimated}
-            to="/entrance-controll"
+            to="/controll/4"
             title="Входной контроль">
             <EventAvailableIcon />
           </NavListItem>
