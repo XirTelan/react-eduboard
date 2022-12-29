@@ -69,10 +69,6 @@ export default function Login() {
   return (
     <>
       <div className="vh-100 vw-100 d-flex overflow-hidden align-items-center position-relative justify-content-center">
-        {/* {squreBackground('45deg', '0', '50px')}
-        {squreBackground('225deg', undefined, undefined, 0, 0)} */}
-        {/* {squreBackground('225deg')} */}
-
         <Formik
           initialValues={{ userName: '', password: '' }}
           onSubmit={async (values) => {

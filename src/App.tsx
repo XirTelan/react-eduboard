@@ -23,6 +23,7 @@ import Authorized from './auth/Authorized';
 import Layout from './components/Layout';
 import PersistLogin from './auth/PersistLogin';
 import Controll from './page/Controll';
+import NotFound from './page/NotFound';
 
 function App() {
   return (
@@ -53,7 +54,7 @@ function App() {
             </Route>
           </Route>
         </Route>
-        <Route path="*" element={<h1>Not Found</h1>} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

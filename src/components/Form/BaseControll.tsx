@@ -12,7 +12,9 @@ import {
   GridToolbarQuickFilter,
   ruRU
 } from '@mui/x-data-grid';
-import { Box, Button, CircularProgress, Switch } from '@mui/material';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import { Box, Button, CircularProgress, IconButton, Switch } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { urlControll, urlDisciplines, urlSpecialities, urlStudents } from '../../endpoints';
@@ -23,6 +25,8 @@ import StatisticTable from '../StatisticTable';
 import { displayErrorToast, displaySuccessToast, swalLoading, Toast } from '../../utils/swalToast';
 import Swal from 'sweetalert2';
 import useAxios from '../../hooks/useAxios';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from '@mui/icons-material/Visibility';
 
 interface ControllerProps {
   name: string;
@@ -33,23 +37,27 @@ function CustomToolbar() {
     <GridToolbarContainer>
       <GridToolbarColumnsButton />
       <GridToolbarFilterButton />
-      <GridToolbarDensitySelector />
     </GridToolbarContainer>
   );
 }
 
 const columnsDefault: GridColumns = [
   { field: 'indx', headerName: '№', maxWidth: 50 },
-  { field: 'title', headerName: 'ФИО', flex: 1, minWidth: 200, maxWidth: 400 }
-];
-const columnsSticky: GridColumns = [
-  { field: 'indx', headerName: '№', maxWidth: 50 },
-  { field: 'title', headerName: 'ФИО', flex: 1, minWidth: 200, maxWidth: 400 }
+  {
+    field: 'title',
+    headerName: 'ФИО',
+    flex: 1,
+    minWidth: 200,
+    maxWidth: 400,
+    cellClassName: 'column-sticky',
+    headerClassName: 'column-sticky'
+  }
 ];
 
 export default function BaseControll(props: GenControllProps) {
   const [rows, setRows] = useState<GridRowsProp>([]);
   const axiosPrivate = useAxios();
+  const [isFullView, setIsFullView] = useState(false);
   const changedRows = [];
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isMainView, setIsMainView] = useState<boolean>(true);
@@ -78,7 +86,7 @@ export default function BaseControll(props: GenControllProps) {
     const discColumn: GridColumns = response.data.map((elem: disciplineDTO) => ({
       field: `${elem.id}`,
       headerName: elem.name,
-      width: 550,
+      flex: 1,
       sortable: false,
       editable: true
     }));
@@ -151,9 +159,23 @@ export default function BaseControll(props: GenControllProps) {
           {!selectedGroupId || selectedGroupId === 0 ? (
             <p className="fw-bold text-secondary">Группа не выбрана</p>
           ) : dataLoaded ? (
-            <div>
+            <div
+              className={`${
+                isFullView
+                  ? 'position-absolute top-0 start-0  end-0 bottom-0 bg-white p-3 overflow-auto ms-1'
+                  : ''
+              }`}>
               <div className="d-flex justify-content-between mb-3">
-                <Switch defaultChecked onChange={() => setIsMainView((prevVal) => !prevVal)} />
+                <div>
+                  <Switch defaultChecked onChange={() => setIsMainView((prevVal) => !prevVal)} />
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setIsFullView((prev) => !prev)}
+                    onMouseDown={(e) => e.preventDefault()}
+                    edge="end">
+                    {isFullView ? <FullscreenExitIcon /> : <FullscreenIcon />}
+                  </IconButton>
+                </div>
                 <Button
                   color="success"
                   variant="contained"
@@ -163,36 +185,28 @@ export default function BaseControll(props: GenControllProps) {
                   Сохранить
                 </Button>
               </div>
-              <div className="position-relative">
-                <div id="mainDataGrid">
-                  {isMainView ? (
-                    <DataGrid
-                      components={{
-                        Toolbar: CustomToolbar
-                      }}
-                      autoHeight
-                      localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
-                      rows={rows}
-                      columns={columns}
-                      editMode="row"
-                      rowModesModel={rowModesModel}
-                      onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
-                      processRowUpdate={processRowUpdate}
-                      experimentalFeatures={{ newEditingApi: true }}
-                      disableColumnMenu
-                    />
-                  ) : (
-                    statisticRows &&
-                    statisticRows.length > 0 && <StatisticTable rows={statisticRows} />
-                  )}
-                </div>
-                <div className="position-absolute">
-                  <ul>
-                    {/* {rows.forEach(row, (indx) => (
-                      <li key={indx}>row</li>
-                    ))} */}
-                  </ul>
-                </div>
+              <div id="mainDataGrid">
+                {isMainView ? (
+                  <DataGrid
+                    components={{
+                      Toolbar: CustomToolbar
+                    }}
+                    rowHeight={25}
+                    autoHeight
+                    localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+                    rows={rows}
+                    columns={columns}
+                    editMode="row"
+                    rowModesModel={rowModesModel}
+                    onRowModesModelChange={(newModel) => setRowModesModel(newModel)}
+                    processRowUpdate={processRowUpdate}
+                    experimentalFeatures={{ newEditingApi: true }}
+                    disableColumnMenu
+                  />
+                ) : (
+                  statisticRows &&
+                  statisticRows.length > 0 && <StatisticTable rows={statisticRows} />
+                )}
               </div>
             </div>
           ) : (

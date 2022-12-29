@@ -1,11 +1,23 @@
 import { Box, CssBaseline } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import BgStyle from './UI/BgStyle';
 export default function Layout() {
   const [open, setOpen] = useState(true);
 
+  useEffect(() => {
+    console.log('trigger effect disebar');
+    const isOpen = localStorage.getItem('sidebarIsOpen');
+    console.log('trigger effect isOpen:', isOpen);
+
+    setOpen(isOpen === 'true' ? true : false);
+  }, []);
+
+  useEffect(() => {
+    console.log('trigger effect change');
+    localStorage.setItem('sidebarIsOpen', open.toString());
+  }, [open]);
   return (
     <>
       <Box sx={{ display: 'flex', width: 'fil-available' }}>

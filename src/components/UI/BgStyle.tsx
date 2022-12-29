@@ -18,6 +18,7 @@ export default function BgStyle() {
     </div>
   );
 }
+const bgColor = 'rgba(255,255,255,0.1)';
 
 const squreBackground = (
   deg: string,
@@ -38,8 +39,8 @@ const squreBackground = (
           left: leftVal,
           columnGap: '10px',
           rowGap: '10px',
-          gridTemplateColumns: 'repeat(8,100px)',
-          gridTemplateRows: 'repeat(6,100px)',
+          gridTemplateColumns: 'repeat(6,100px)',
+          gridTemplateRows: 'repeat(4,100px)',
           transformOrigin: 'center',
           aspectRatio: '1/1',
           rotate: `${deg}`
@@ -49,7 +50,7 @@ const squreBackground = (
           style={{
             gridColumn: '1/ span 2',
             gridRow: 'span 2',
-            backgroundColor: 'rgba(255,255,255,0.1)'
+            backgroundColor: bgColor
           }}
         />
 
@@ -57,30 +58,17 @@ const squreBackground = (
           style={{
             gridColumn: '1',
             gridRow: '3',
-            backgroundColor: 'rgba(255,255,255,0.1)'
+            backgroundColor: bgColor
           }}
         />
         <div
           style={{
             gridColumn: '3',
             gridRow: '2',
-            backgroundColor: 'rgba(255,255,255,0.1)'
+            backgroundColor: bgColor
           }}
         />
-        <div
-          style={{
-            gridColumn: '1',
-            gridRow: '5',
-            backgroundColor: 'rgba(255,255,255,0.1)'
-          }}
-        />
-        <div
-          style={{
-            gridColumn: '4',
-            gridRow: '5',
-            backgroundColor: 'rgba(255,255,255,0.1)'
-          }}
-        />
+
         <div
           style={{
             gridColumn: '2 / span 2',
@@ -92,14 +80,14 @@ const squreBackground = (
         <div
           style={{
             gridColumn: '1',
-            backgroundColor: 'rgba(255,255,255,0.1)'
+            backgroundColor: bgColor
           }}
         />
         <div
           style={{
             gridColumn: '4 / span 4',
             gridRow: '1 / span 4',
-            backgroundColor: 'rgba(255,255,255,0.1)'
+            backgroundColor: bgColor
           }}
         />
       </div>

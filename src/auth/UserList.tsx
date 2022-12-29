@@ -50,7 +50,7 @@ export default function UserList() {
 
   return (
     <>
-      <Box className="bg-white p-3 m-3 rounded">
+      <Box className="bg-white p-3 mt-1 mx-2 rounded">
         <Header
           title="Список Пользователей"
           buttonText="Cоздать пользователя"

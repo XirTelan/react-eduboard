@@ -58,7 +58,14 @@ const columnGroupingModel: GridColumnGroupingModel = [
 
 const columnsDefault: GridColDef[] = [
   { field: 'indx', headerName: '№', maxWidth: 50 },
-  { field: 'title', headerName: 'ФИО', flex: 1, minWidth: 200 }
+  {
+    field: 'title',
+    headerName: 'ФИО',
+    flex: 1,
+    minWidth: 200,
+    cellClassName: 'column-sticky',
+    headerClassName: 'column-sticky'
+  }
 ];
 
 export default function Attendance() {

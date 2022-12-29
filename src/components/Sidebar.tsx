@@ -32,6 +32,8 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
   const navigate = useNavigate();
   const userRole = getUserRole();
 
+  
+
   function getUserName(): string {
     return '';
   }

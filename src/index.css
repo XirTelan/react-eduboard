@@ -8,7 +8,11 @@ body {
 p {
   margin-bottom: 0;
 }
-
+.column-sticky {
+  position: sticky;
+  left: 0;
+  background-color: white;
+}
 .nav-link:hover {
   background-color: var(--bs-link-hover-color);
   color: white;
