@@ -1,8 +1,4 @@
-import {
-  Box,
-  Button,
-  TextField
-} from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import { Form, Formik, FormikHelpers, useFormikContext, validateYupSchema } from 'formik';
 import { ReactNode, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -47,7 +43,7 @@ export default function SpecialityForm(props: SpecialityFormProps) {
         return (
           <>
             <Form onSubmit={formikProps.handleSubmit}>
-              <Box className="bg-white px-3 pb-3 mx-2 mb-1 rounded">
+              <Box className="box-main pb-3  mb-1 ">
                 <TextField
                   {...formikProps.getFieldProps('name')}
                   margin="normal"
@@ -62,7 +58,7 @@ export default function SpecialityForm(props: SpecialityFormProps) {
                 />
               </Box>
 
-              <Box className="bg-white  p-1 mx-2 rounded d-flex justify-content-between">
+              <Box className="box-main d-flex justify-content-between">
                 <Link className="btn btn-secondary fw-bold " to="/specialities">
                   Назад
                 </Link>
@@ -70,7 +66,8 @@ export default function SpecialityForm(props: SpecialityFormProps) {
                   variant="contained"
                   color="success"
                   disabled={formikProps.isSubmitting}
-                  type="submit" className='fw-bold'>
+                  type="submit"
+                  className="fw-bold">
                   {props.specialityEdit ? 'Сохранить изменения' : 'Создать'}
                 </Button>
               </Box>

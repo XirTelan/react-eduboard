@@ -21,7 +21,7 @@ export default function Layout() {
   return (
     <>
       <Box sx={{ display: 'flex', width: 'fil-available' }}>
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         <Sidebar isOpen={open} setOpen={setOpen} />
         <Box
           style={{}}
@@ -29,12 +29,11 @@ export default function Layout() {
           sx={{
             flex: '1 1 0'
           }}>
-          <main>
-            <Box component="main" sx={{ overflow: 'auto', maxWidth: '100vw', maxHeight: '100vh' }}>
+          <BgStyle>
+            <div className="d-flex flex-grow-1 overflow-auto flex-column">
               <Outlet />
-            </Box>
-            <BgStyle />
-          </main>
+            </div>
+          </BgStyle>
         </Box>
       </Box>
     </>

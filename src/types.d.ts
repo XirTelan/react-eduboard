@@ -73,7 +73,7 @@ export interface userDTO {
   id: string;
   userName: string;
   fio: string;
-  role: string;
+  roles: string[];
 }
 export interface inputData {
   id: number;

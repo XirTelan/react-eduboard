@@ -1,7 +1,4 @@
 import {
-  Box,
-  Button,
-  Icon,
   IconButton,
   Paper,
   Table,
@@ -10,10 +7,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField
 } from '@mui/material';
-import { id } from 'date-fns/locale';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DragDropFile from '../components/DragDropFile';
 import IndexEntity from '../components/Entities/IndexEntity';
@@ -27,10 +21,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import { displayErrorToast, swalLoading, Toast } from '../utils/swalToast';
 import axios, { AxiosError } from 'axios';
-import Swal from 'sweetalert2';
 
 export default function StudentsList() {
-  const [seacrhString, setSearchString] = useState('');
   const navigate = useNavigate();
 
   async function postStudents(file: File) {
@@ -50,7 +42,7 @@ export default function StudentsList() {
         <DragDropFile handleFiles={postStudents} />
       </Header>
 
-      <IndexEntity<studentDTO> urlEntity={urlStudents} isCustom>
+      <IndexEntity<studentDTO> urlEntity={urlStudents}>
         {(students, deleteEntity) => (
           <>
             <TableContainer className="mt-3" component={Paper}>

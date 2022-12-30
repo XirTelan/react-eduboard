@@ -3,7 +3,7 @@ import Header from '../components/UI/Header';
 
 export default function Statistic() {
   return (
-    <Box className="bg-white p-3 m-3 rounded">
+    <Box className="box-main">
       <Header title="Статистика" />
       
     </Box>

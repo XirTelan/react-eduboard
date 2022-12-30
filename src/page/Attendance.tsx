@@ -129,7 +129,7 @@ export default function Attendance() {
     <>
       <Header title="Посещаемость" />
       <Filter isYearSelectable period="monthly" onSubmit={updateParams} />
-      <Box className="bg-white p-3 mx-2 rounded">
+      <Box className="box-main">
         <div className="d-flex align-items-center justify-content-center">
           {!selectedGroupId || selectedGroupId === 0 ? (
             <p className="fw-bold text-secondary">Группа не выбрана</p>

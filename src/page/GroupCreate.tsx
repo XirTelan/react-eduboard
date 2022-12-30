@@ -21,7 +21,7 @@ export default function GroupCreate() {
   return (
     <>
       <Header title=" Создать группу" />
-      <Box className="bg-white p-3 mx-2 rounded">
+      <Box className="box-main">
         <GroupForm model={{ name: '', year: '' }} onSubmit={(values) => create(values)} />
       </Box>
     </>

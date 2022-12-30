@@ -50,7 +50,7 @@ export default function Filter(props: FilterProps) {
   const initialValue: FiterGroupForm = {
     groupId: 0,
     year: new Date().getFullYear().toString(),
-    month: props.period === 'monthly' ? 9 : 1
+    month: props.period === 'monthly' ? new Date().getMonth() + 1 : 1
   };
 
   return (
@@ -74,7 +74,7 @@ export default function Filter(props: FilterProps) {
               ) : (
                 <div className="d-flex align-items-center">
                   <div className="d-flex flex-column ">
-                    <div className="d-flex  gap-3  justify-content-center">
+                    <div className="d-flex  gap-3 align-items-center  justify-content-center">
                       <div className="w-50">
                         <FormControl fullWidth sx={{ minWidth: 220 }}>
                           <Autocomplete
@@ -99,6 +99,38 @@ export default function Filter(props: FilterProps) {
                           <ErrorMessage name="groupId" />
                         </FormControl>
                       </div>
+                      {props.period != 'none' && (
+                        <div className="col-auto">
+                          <FormControl sx={{ m: 1, minWidth: 120 }}>
+                            <InputLabel id="month-select">
+                              {props.period === 'monthly' ? 'Месяц' : 'Период'}
+                            </InputLabel>
+                            <Select
+                              labelId="month-select"
+                              id="month-select"
+                              value={formikProps.values.month}
+                              label={props.period === 'monthly' ? 'Месяц' : 'Период'}
+                              onChange={(val, newValue) => {
+                                formikProps.setFieldValue('month', val.target.value);
+                              }}>
+                              {props.period === 'monthly' &&
+                                months.map((elem, index) => (
+                                  <MenuItem key={index} value={elem.id}>
+                                    {elem.label}
+                                  </MenuItem>
+                                ))}
+                              {props.period === 'half' && [
+                                <MenuItem key={1} value={1}>
+                                  1-я половина
+                                </MenuItem>,
+                                <MenuItem key={2} value={2}>
+                                  2-я половина
+                                </MenuItem>
+                              ]}
+                            </Select>
+                          </FormControl>
+                        </div>
+                      )}
                       <div className="col-auto">
                         {props.isYearSelectable && (
                           <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -117,59 +149,8 @@ export default function Filter(props: FilterProps) {
                         )}
                       </div>
                     </div>
-                    <div>
-                      {props.period === 'monthly' && (
-                        <div className="d-flex justify-content-center">
-                          <div className="d-flex ">
-                            <RadioGroup
-                              row
-                              value={formikProps.values.month}
-                              onChange={(_, newValue) => {
-                                formikProps.setFieldValue('month', newValue);
-                              }}
-                              name="radio-buttons-group">
-                              {months.map((elem, index) => (
-                                <div key={index}>
-                                  <FormControlLabel
-                                    value={elem.id}
-                                    control={<Radio />}
-                                    label={elem.label}
-                                  />
-                                </div>
-                              ))}
-                            </RadioGroup>
-                          </div>
-                        </div>
-                      )}
-                      {props.period === 'half' && (
-                        <div className="d-flex justify-content-center align-items-center">
-                          <RadioGroup
-                            row
-                            value={formikProps.values.month}
-                            onChange={(_, newValue) => {
-                              formikProps.setFieldValue('month', newValue);
-                            }}
-                            name="radio-buttons-group">
-                            <div>
-                              <FormControlLabel
-                                value={1}
-                                control={<Radio />}
-                                label="1-я половина"
-                              />
-                            </div>
-                            <div>
-                              <FormControlLabel
-                                value={2}
-                                control={<Radio />}
-                                label="2-я половина"
-                              />
-                            </div>
-                          </RadioGroup>
-                        </div>
-                      )}
-                    </div>
                   </div>
-                  <div className="d-flex ms-3" style={{ width: '80px', height: '80px' }}>
+                  <div className="d-flex ms-3" style={{ width: '80px' }}>
                     <Button fullWidth variant="contained" color="success" type="submit">
                       <SearchIcon className="fs-1" />
                     </Button>

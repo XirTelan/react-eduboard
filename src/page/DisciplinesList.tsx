@@ -1,18 +1,29 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
-import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
+import {
+  Box,
+  Button,
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField
+} from '@mui/material';
 import { Formik } from 'formik';
 import Header from '../components/UI/Header';
 import IndexEntity from '../components/Entities/IndexEntity';
 import { urlDisciplines } from '../endpoints';
 import { disciplineCreationDTO, disciplineDTO } from '../types';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import { customAlert } from '../utils';
 import { displayErrorToast, displaySuccessToast, Toast } from '../utils/swalToast';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import Authorized from '../auth/Authorized';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
+import { customAlert } from '../utils';
 
 export default function DiscplinesList() {
   const [update, setUpdate] = useState(false);
@@ -37,7 +48,7 @@ export default function DiscplinesList() {
   return (
     <>
       <Header title="Дисциплины" />
-      <Box className="bg-white p-3 mx-2 mb-1 rounded">
+      <Box className="box-main mb-1">
         <Formik
           initialValues={initialValues}
           onSubmit={(val) => {
@@ -62,31 +73,63 @@ export default function DiscplinesList() {
         </Formik>
       </Box>
       {update ? (
-        <Box className="bg-white p-3 mx-2 align-item-center text-center mb-1 rounded">
+        <Box className="box-main align-item-center text-center mb-1">
           <CircularProgress />
         </Box>
       ) : (
         <IndexEntity<disciplineDTO> urlEntity={urlDisciplines}>
           {(disciplines, deleteEntity) => (
             <>
-              {disciplines.map((elem, index) => {
-                return (
-                  <li
-                    key={elem.id}
-                    className="list-group-item d-flex border mt-1 rounded align-items-center justify-content-between ">
-                    <span className="ms-1">{elem.name}</span>
-
-                    <Button
-                      onClick={() =>
-                        customAlert(`Удалить ${elem.name}?`, 'Удалить', () => deleteEntity(elem.id))
-                      }
-                      className="btn "
-                      color="warning">
-                      <DeleteForeverSharpIcon className="fs-5 " />
-                    </Button>
-                  </li>
-                );
-              })}
+              <TableContainer className="mt-3" component={Paper}>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableHead>
+                    <TableRow sx={{ width: 200 }}>
+                      <TableCell
+                        sx={{ fontWeight: 'bold', fontSize: '1rem' }}
+                        width="50px"
+                        align="center">
+                        №
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', fontSize: '1.125rem' }} align="left">
+                        Наименование
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', fontSize: '1.125rem' }} align="right">
+                        Действия
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {disciplines.map((discipline, index) => {
+                      return (
+                        <TableRow
+                          key={discipline.id}
+                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                          <TableCell align="left">{index + 1}</TableCell>
+                          <TableCell align="left">{discipline.name}</TableCell>
+                          <TableCell align="right">
+                            <div className="align-self-center">
+                              <IconButton
+                                color="success"
+                                onClick={() => navigate(`edit/${discipline.id}`)}>
+                                <EditIcon />
+                              </IconButton>
+                              <IconButton
+                                color="error"
+                                onClick={() =>
+                                  customAlert(`Удалить ${discipline.name}?`, 'Удалить', () =>
+                                    deleteEntity(discipline.id)
+                                  )
+                                }>
+                                <DeleteForeverSharpIcon />
+                              </IconButton>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </>
           )}
         </IndexEntity>

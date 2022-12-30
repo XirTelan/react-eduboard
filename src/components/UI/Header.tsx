@@ -11,7 +11,7 @@ export default function Header({
   const navigate = useNavigate();
   return (
     <>
-      <Box className="p-3 d-flex align-items-center justify-content-between mt-2 mb-1 mx-2 rounded bg-white">
+      <Box className="box-main d-flex align-items-center justify-content-between mt-2 mb-1 ">
         <Typography variant="h5" color="primary.main">
           {title}
         </Typography>

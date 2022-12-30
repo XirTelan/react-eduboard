@@ -55,6 +55,8 @@ const columnsDefault: GridColumns = [
 ];
 
 export default function BaseControll(props: GenControllProps) {
+  const { typeId, month, year, groupId } = props;
+
   const [rows, setRows] = useState<GridRowsProp>([]);
   const axiosPrivate = useAxios();
   const [isFullView, setIsFullView] = useState(false);
@@ -64,24 +66,21 @@ export default function BaseControll(props: GenControllProps) {
   const [statisticRows, setStatisticRows] = useState<inputData[]>([]);
   const [columns, setColumns] = useState<GridColumns>([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
-  const [selectedYear, setSelectedYear] = useState<string>('0000');
-  const [selectedMonth, setSelectedMonth] = useState<number>(1);
-  const [selectedGroupId, setSelectedGroupId] = useState<number>(0);
 
   useEffect(() => {
-    if (selectedGroupId && selectedGroupId != 0) {
+    if (groupId && groupId != 0) {
       setRows([]);
       getGridColumns();
-      updateData(props.type, selectedGroupId, selectedYear, selectedMonth);
+      updateData(typeId, groupId, year, month);
     }
-  }, [selectedGroupId, selectedYear, selectedMonth]);
+  }, [groupId, year, month]);
 
   function updateData(typeId: number, groupId: number, year: string, month: number) {
     loadData(typeId, groupId, year, month);
     loadStatisticData(typeId, groupId, year, month);
   }
   async function getGridColumns() {
-    const response = await getGroupDisciplines(selectedGroupId);
+    const response = await getGroupDisciplines(groupId);
     if (!response) return;
     const discColumn: GridColumns = response.data.map((elem: disciplineDTO) => ({
       field: `${elem.id}`,
@@ -125,15 +124,9 @@ export default function BaseControll(props: GenControllProps) {
     }
   }
 
-  function updateParams(groupId: number, year: string, month: number) {
-    setSelectedYear(year);
-    setSelectedMonth(month);
-    setSelectedGroupId(groupId);
-  }
-
   async function saveGridDataChanges() {
     swalLoading();
-    const result = formatGridRowsToData(props.type, selectedMonth, selectedYear, rows);
+    const result = formatGridRowsToData(typeId, month, year, rows);
     if (result === undefined || result.length === 0) return;
     const formatData = result;
     try {
@@ -143,7 +136,7 @@ export default function BaseControll(props: GenControllProps) {
     } catch (error) {
       displayErrorToast(error);
     }
-    updateData(props.type, selectedGroupId, selectedYear, selectedMonth);
+    updateData(typeId, groupId, year, month);
   }
   const processRowUpdate = (newRow: GridRowModel) => {
     setRows(rows.map((row) => (row.id === newRow.id ? newRow : row)));
@@ -152,17 +145,15 @@ export default function BaseControll(props: GenControllProps) {
 
   return (
     <>
-      <Filter isYearSelectable period={props.period} onSubmit={updateParams} />
-
       <Box className="bg-white p-3  mx-2 rounded">
         <div className="mb-2 d-flex flex-column justify-content-center text-center">
-          {!selectedGroupId || selectedGroupId === 0 ? (
+          {!groupId || groupId === 0 ? (
             <p className="fw-bold text-secondary">Группа не выбрана</p>
           ) : dataLoaded ? (
             <div
               className={`${
                 isFullView
-                  ? 'position-absolute top-0 start-0  end-0 bottom-0 bg-white p-3 overflow-auto ms-1'
+                  ? 'position-absolute top-0 start-0 z-10 end-0 bottom-0 bg-white p-3 overflow-auto ms-1'
                   : ''
               }`}>
               <div className="d-flex justify-content-between mb-3">
@@ -219,6 +210,8 @@ export default function BaseControll(props: GenControllProps) {
 }
 
 interface GenControllProps {
-  type: number;
-  period: 'none' | 'half' | 'monthly';
+  typeId: number;
+  groupId: number;
+  month: number;
+  year: string;
 }

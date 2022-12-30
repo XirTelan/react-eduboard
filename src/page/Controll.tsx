@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import Filter from '../components/Filter';
 import BaseControll from '../components/Form/BaseControll';
 import Header from '../components/UI/Header';
 import { urlControllTypes } from '../endpoints';
@@ -11,10 +12,21 @@ export default function Controll() {
   const navigate = useNavigate();
   const [typeData, setTypeData] = useState<{ id: number; period: string; name: string }>();
 
+  const [selectedYear, setSelectedYear] = useState<string>('0000');
+  const [selectedMonth, setSelectedMonth] = useState<number>(1);
+  const [selectedGroupId, setSelectedGroupId] = useState<number>(0);
+
+  function updateParams(groupId: number, year: string, month: number) {
+    setSelectedYear(year);
+    setSelectedMonth(month);
+    setSelectedGroupId(groupId);
+  }
+
   async function loadData() {
+    setTypeData(undefined);
+    updateParams(0, '', 0);
     try {
       const response = await axios.get(`${urlControllTypes}/${id}`);
-      console.log('????', response);
       setTypeData(response.data);
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -23,6 +35,7 @@ export default function Controll() {
       }
     }
   }
+
   useEffect(() => {
     loadData();
   }, [id]);
@@ -32,11 +45,23 @@ export default function Controll() {
       {typeData && (
         <>
           <Header title={typeData.name} />
-          <BaseControll period={typeData.period as period} type={typeData.id} />
+          <Filter isYearSelectable period={typeData.period as period} onSubmit={updateParams} />
+          <BaseControll
+            typeId={typeData.id}
+            groupId={selectedGroupId}
+            month={selectedMonth}
+            year={selectedYear}
+          />
         </>
       )}
     </>
   );
 
   type period = 'none' | 'half' | 'monthly';
+
+  interface dateData {
+    month: string;
+    groupId: string;
+    year: string;
+  }
 }

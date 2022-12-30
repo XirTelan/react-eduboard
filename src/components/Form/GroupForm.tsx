@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import _debounce from 'lodash/debounce';
 import { Autocomplete, Button, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -9,38 +9,32 @@ import { ErrorMessage, Form, Formik, FormikHelpers, useFormikContext } from 'for
 import { Link } from 'react-router-dom';
 import { groupCreationDTO, specialityDTO } from '../../types';
 import axios from 'axios';
-import { urlSpecialities } from '../../endpoints';
+import { urlGroups, urlSpecialities } from '../../endpoints';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { formatYearValue } from '../../utils';
 import { displayErrorToast } from '../../utils/swalToast';
-
-function handleDebounceFn(
-  query: string,
-  urlFilter: string,
-  setState: React.Dispatch<React.SetStateAction<any>>
-) {
-  if (query == null || query.trim() === '') return;
-  try {
-    axios
-      .get(`${urlFilter}/filter`, {
-        params: { query }
-      })
-      .then((response) => {
-        setState(response.data);
-      });
-  } catch (error) {
-    displayErrorToast(error);
-  }
-}
+import useAxios from '../../hooks/useAxios';
 
 export default function GroupForm(props: groupFormProps) {
-  const debounceFn = useCallback(_debounce(handleDebounceFn, 1000), []);
   const [queryUser, setUserQuery] = useState(
     props.selectedSpeciality ? props.selectedSpeciality : ''
   );
+  const axiosPrivate = useAxios();
   const [querySpeciality, setSpecialityQuery] = useState('');
   const [specialityOptions, setSpecialityOptions] = useState<specialityDTO[]>([]);
   const [userOptions, setUserOptions] = useState<autocompleteFieldModel[]>([]);
+
+  useEffect(() => {
+    async function loadSpecialities() {
+      try {
+        const response = await axiosPrivate.get(`${urlSpecialities}`);
+        setSpecialityOptions(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    loadSpecialities();
+  }, []);
 
   return (
     <Formik
@@ -88,18 +82,13 @@ export default function GroupForm(props: groupFormProps) {
               onChange={(e, value) => {
                 formikProps.setFieldValue('curatorId', value!.id);
               }}
-              onInputChange={(e, value) => {
-                setUserQuery(value);
-                debounceFn(value, '/users', setUserOptions);
-              }}
-              // getOptionLabel={(elem) => elem.name}
               placeholder="asd"
               renderInput={(params) => <TextField {...params} label="Выбрать куратора" />}
               sx={{ margin: '10px 0' }}
             />
             <Autocomplete
               id="speciality"
-              inputValue={querySpeciality}
+              {...formikProps.getFieldProps('speciality')}
               onBlur={formikProps.handleBlur}
               options={specialityOptions}
               isOptionEqualToValue={(elem, val) => elem.id == val.id}
@@ -107,10 +96,6 @@ export default function GroupForm(props: groupFormProps) {
               placeholder="asd"
               onChange={(e, value) => {
                 formikProps.setFieldValue('specialityId', value!.id);
-              }}
-              onInputChange={(e, value) => {
-                setSpecialityQuery(value);
-                debounceFn(value, urlSpecialities, setSpecialityOptions);
               }}
               renderInput={(params) => <TextField {...params} label="Выбрать специальность" />}
               sx={{ margin: '10px 0' }}

@@ -9,15 +9,18 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { urlGroups } from '../../endpoints';
 import { displayErrorToast } from '../../utils/swalToast';
+import useAxios from '../../hooks/useAxios';
 
 export default function StudentForm(props: studentFormProps) {
   const [groups, setGroups] = useState<groupDTO[]>([]);
+  const [selectedId, setSelectedId] = useState<number>();
+  const axiosPrivate = useAxios();
   let filterTimeout: ReturnType<typeof setTimeout>;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${urlGroups}/getindexlist`);
+        const response = await axiosPrivate.get(`${urlGroups}/getindexlist`);
         setGroups(response.data);
       } catch (error) {
         displayErrorToast(error);
@@ -30,6 +33,7 @@ export default function StudentForm(props: studentFormProps) {
     <Formik
       initialValues={props.model}
       onSubmit={(val, actions) => {
+        val.groupId = selectedId;
         props.onSubmit(val, actions);
       }}
       validationSchema={Yup.object({
@@ -70,11 +74,12 @@ export default function StudentForm(props: studentFormProps) {
                   label="Отчество"
                 />
                 <Autocomplete
+                  {...formikProps.getFieldProps('groupId')}
                   options={groups}
                   onBlur={formikProps.handleBlur}
                   isOptionEqualToValue={(elem, val) => elem.id == val.id}
                   getOptionLabel={(elem) => elem.name}
-                  onChange={(e, value) => value && formikProps.setFieldValue('groupId', value!.id)}
+                  onChange={(e, value) => value && setSelectedId(value!.id)}
                   renderInput={(params) => (
                     <TextField {...params} error={!!formikProps.errors.groupId} label="Группа" />
                   )}

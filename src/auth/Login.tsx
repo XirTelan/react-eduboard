@@ -68,7 +68,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="vh-100 vw-100 d-flex overflow-hidden align-items-center position-relative justify-content-center">
+      <BgStyle position="center">
         <Formik
           initialValues={{ userName: '', password: '' }}
           onSubmit={async (values) => {
@@ -146,8 +146,7 @@ export default function Login() {
             </Form>
           )}
         </Formik>
-        <BgStyle />
-      </div>
+      </BgStyle>
     </>
   );
 }

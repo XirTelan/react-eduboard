@@ -1,5 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
+  IconButton,
   MenuItem,
   Paper,
   Select,
@@ -7,37 +9,26 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableFooter,
   TableHead,
   TableRow
 } from '@mui/material';
-import axios from 'axios';
 import Swal from 'sweetalert2';
-import { userRoleDTO } from './auth.model';
+import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
+import EditIcon from '@mui/icons-material/Edit';
+
+import useAxios from '../hooks/useAxios';
 import IndexEntity from '../components/Entities/IndexEntity';
 import Header from '../components/UI/Header';
 import { urlAccounts } from '../endpoints';
 import { userDTO } from '../types';
-import Authorized from './Authorized';
 import { displayErrorToast } from '../utils/swalToast';
-import { useEffect, useState } from 'react';
-import useRefreshToken from '../hooks/useRefreshToken';
-import useAxios from '../hooks/useAxios';
-
-function createData(
-  login: string,
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  role: number
-) {
-  return { login, name, calories, fat, carbs, role };
-}
+import { userRoleDTO } from './auth.model';
+import { customAlert } from '../utils';
 
 export default function UserList() {
-  const [users, setUsers] = useState();
+  const navigate = useNavigate();
   const axiosPrivate = useAxios();
+
   async function changeRole(userRole: userRoleDTO) {
     if (userRole.role !== '')
       try {
@@ -48,6 +39,14 @@ export default function UserList() {
       }
   }
 
+  async function deleteUser(id: string) {
+    try {
+      const response = await axiosPrivate.delete(`${urlAccounts}/${id}`);
+      Swal.fire(`${response.data}`);
+    } catch (error) {
+      displayErrorToast(error);
+    }
+  }
   return (
     <>
       <Box className="bg-white p-3 mt-1 mx-2 rounded">
@@ -104,38 +103,52 @@ export default function UserList() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {users.map((user, index) => {
-                      return (
-                        <TableRow
-                          key={user.id}
-                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                          <TableCell align="center">{index + 1}</TableCell>
-                          <TableCell component="th" scope="row" align="center">
-                            {user.userName}
-                          </TableCell>
-                          <TableCell align="left"> {user.fio}</TableCell>
-                          <TableCell align="center">
-                            <Select
-                              sx={{ width: 200 }}
-                              disabled={user.userName === 'Admin'}
-                              value={user.role ? user.role : 'User'}
-                              onChange={(e) =>
-                                changeRole({ userId: user.id, role: e.target.value.toString() })
+                    {users.map((user, index) => (
+                      <TableRow
+                        key={user.id}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                        <TableCell align="center">{index + 1}</TableCell>
+                        <TableCell component="th" scope="row" align="center">
+                          {user.userName}
+                        </TableCell>
+                        <TableCell align="left"> {user.fio}</TableCell>
+                        <TableCell align="center">
+                          {user.roles.map((role, indx) => (
+                            <p key={indx}>{role}</p>
+                          ))}
+                          <Select
+                            sx={{ width: 200 }}
+                            disabled={user.userName === 'Admin'}
+                            value={'User'}
+                            onChange={(e) =>
+                              changeRole({ userId: user.id, role: e.target.value.toString() })
+                            }>
+                            <MenuItem value="Admin">
+                              <span className="fw-bold">ADMIN</span>
+                            </MenuItem>
+                            <MenuItem value="User">
+                              <span className="fw-bold">КУРАТОР</span>
+                            </MenuItem>
+                          </Select>
+                        </TableCell>
+                        <TableCell align="left">
+                          <div className="align-self-center">
+                            <IconButton color="success" onClick={() => navigate(`edit/${user.id}`)}>
+                              <EditIcon />
+                            </IconButton>
+                            <IconButton
+                              color="error"
+                              onClick={() =>
+                                customAlert(`Удалить ${user.fio}?`, 'Удалить', () =>
+                                  deleteUser(user.id)
+                                )
                               }>
-                              <MenuItem value="Admin">
-                                <span className="fw-bold">ADMIN</span>
-                              </MenuItem>
-                              <MenuItem value="User">
-                                <span className="fw-bold">КУРАТОР</span>
-                              </MenuItem>
-                            </Select>
-                          </TableCell>
-                          <TableCell align="left">
-                            <div></div>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
+                              <DeleteForeverSharpIcon />
+                            </IconButton>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
                   </TableBody>
                 </Table>
               </TableContainer>

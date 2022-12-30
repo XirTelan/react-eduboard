@@ -1,5 +1,7 @@
+import CircularProgress from '@mui/material/CircularProgress';
 import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import BgStyle from '../components/UI/BgStyle';
 import useAuth from '../hooks/useAuth';
 import useRefreshToken from '../hooks/useRefreshToken';
 
@@ -25,5 +27,19 @@ export default function PersistLogin() {
     };
   }, []);
 
-  return <>{!persist ? <Outlet /> : isLoading ? <div>PersistLogin</div> : <Outlet />}</>;
+  return (
+    <>
+      {!persist ? (
+        <Outlet />
+      ) : isLoading ? (
+        <>
+          <BgStyle>
+            <CircularProgress size={'10rem'} color="primary" />
+          </BgStyle>
+        </>
+      ) : (
+        <Outlet />
+      )}
+    </>
+  );
 }

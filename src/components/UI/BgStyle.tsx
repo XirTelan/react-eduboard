@@ -1,21 +1,29 @@
 import React from 'react';
 
-export default function BgStyle() {
+export default function BgStyle({ children, position }: bgStyleProps) {
   return (
-    <div
-      style={{
-        zIndex: -99,
-        height: '100%',
-        width: '100%',
-        top: 0,
-        left: 0,
-        backgroundColor: 'rgba(0, 212, 255)',
-        background: 'linear-gradient(to top, #2F80ED, #56CCF2)'
-      }}
-      className="position-absolute overflow-hidden">
-      {squreBackground('45deg', '75px', '-12%', undefined, undefined)}
-      {squreBackground('225deg', undefined, undefined, '-12%', '75px')}
-    </div>
+    <>
+      <div
+        className={`vh-100 vw-100 mw-100 d-flex  overflow-hidden  position-relative ${
+          position === 'center' && 'align-items-center'
+        } justify-content-center`}>
+        {children}
+      </div>
+      <div
+        style={{
+          zIndex: -99,
+          height: '100%',
+          width: '100%',
+          top: 0,
+          left: 0,
+          backgroundColor: 'rgba(0, 212, 255)',
+          background: 'linear-gradient(to top, #2F80ED, #56CCF2)'
+        }}
+        className="position-absolute overflow-hidden">
+        {squreBackground('45deg', '75px', '-12%', undefined, undefined)}
+        {squreBackground('225deg', undefined, undefined, '-12%', '75px')}
+      </div>
+    </>
   );
 }
 const bgColor = 'rgba(255,255,255,0.1)';
@@ -94,3 +102,11 @@ const squreBackground = (
     </>
   );
 };
+
+BgStyle.DefaultProps = {
+  position: 'top'
+};
+interface bgStyleProps {
+  children: React.ReactElement;
+  position?: 'center' | 'top';
+}

@@ -1,6 +1,4 @@
 import React, { createContext, ReactElement, useState } from 'react';
-import { string } from 'yup/lib/locale';
-import { claim } from './auth.model';
 
 const AuthContext = createContext<{
   auth: authUser;

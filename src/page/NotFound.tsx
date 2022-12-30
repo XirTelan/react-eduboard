@@ -1,14 +1,21 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import BgStyle from '../components/UI/BgStyle';
 export default function NotFound() {
   return (
-    <div className="vh-100 vw-100 d-flex overflow-hidden align-items-center position-relative justify-content-center">
+    <BgStyle position="center">
       <div className="d-flex flex-column align-items-center ">
-        <span style={{ fontSize: '12rem', fontWeight: '700', color: '' }}>404</span>
-        <h2>Страница не найдена</h2>
+        <div
+          className="text-center"
+          style={{ fontSize: '12rem', fontWeight: '700', lineHeight: '12rem' }}>
+          <span>404</span>
+          <div style={{ fontSize: '8rem' }}>Страница не найдена</div>
+        </div>
+        <Button className="fs-2" href="/" variant="contained" color="success">
+          Вернуться на главную
+        </Button>
       </div>
-      <BgStyle />
-    </div>
+    </BgStyle>
   );
 }

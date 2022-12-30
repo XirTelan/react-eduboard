@@ -41,7 +41,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
       setTotalAmountOfPages(Math.ceil(totalAmountOfRecords / recordsPerPage));
       setEntities(response.data);
     } catch (error) {
-      console.log("asd");
+      console.log('asd');
       alert(error);
       console.log('error', error);
     }
@@ -92,14 +92,8 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
         <Box sx={{ overflow: 'hidden', overflowY: 'auto' }} className="bg-white mx-2 p-1 rounded">
           {isLoading ? (
             <CircularProgress />
-          ) : props.isCustom ? (
-            <>{entities ? props.children(entities!, deleteEntity) : 'Loading'}</>
           ) : (
-            <>
-              <ul className="p-0">
-                {entities ? props.children(entities!, deleteEntity) : 'Loading'}
-              </ul>
-            </>
+            <>{entities ? props.children(entities!, deleteEntity) : 'Loading'}</>
           )}
         </Box>
         <div className="d-flex gap-3 my-1 justify-content-center">
@@ -133,12 +127,10 @@ interface fetchDataProps {
 
 interface indexEntityProps<T> {
   urlEntity: string;
-  isCustom?: boolean;
   filterIsEnabled?: boolean;
   children(entities: T[], deleteEntity: (id: number) => void): React.ReactElement;
 }
 
 IndexEntity.defaultProps = {
-  isCustom: false,
   filterIsEnabled: true
 };
