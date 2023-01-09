@@ -16,7 +16,6 @@ import Header from '../components/UI/Header';
 import IndexEntity from '../components/Entities/IndexEntity';
 import { urlDisciplines } from '../endpoints';
 import { disciplineCreationDTO, disciplineDTO } from '../types';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { displayErrorToast, displaySuccessToast, Toast } from '../utils/swalToast';
 import { useState } from 'react';
@@ -24,10 +23,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import { customAlert } from '../utils';
+import useAxios from '../hooks/useAxios';
 
 export default function DiscplinesList() {
   const [update, setUpdate] = useState(false);
   const navigate = useNavigate();
+  const axiosPrivate = useAxios();
 
   const initialValues: disciplineCreationDTO = {
     name: ''
@@ -36,7 +37,7 @@ export default function DiscplinesList() {
   async function create(discipline: disciplineCreationDTO) {
     setUpdate(true);
     try {
-      const response = await axios.post(`${urlDisciplines}`, discipline);
+      const response = await axiosPrivate.post(`${urlDisciplines}`, discipline);
       displaySuccessToast();
     } catch (error) {
       console.log('disc error', error);

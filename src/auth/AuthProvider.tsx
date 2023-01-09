@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }: authProviderProps) => {
     const persistStorage = localStorage.getItem('persist');
     return persistStorage ? JSON.parse(persistStorage) : false;
   });
-  console.log('Get Auth', auth.accessToken);
   return (
     <AuthContext.Provider value={{ auth, setAuth, persist, setPersist }}>
       {children}

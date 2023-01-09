@@ -21,9 +21,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import useAuth from '../hooks/useAuth';
 import BgStyle from '../components/UI/BgStyle';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 
 export default function Login() {
@@ -50,13 +47,11 @@ export default function Login() {
         credentials,
         { withCredentials: true }
       );
-      console.log('response login', response.data);
       setAuth(response.data);
       setIsSubmitting(false);
       navigate(from, { replace: true });
     } catch (error) {
       const errors = error as AxiosError;
-      console.log(errors.response?.data);
       const data = errors.response?.data as {
         status: string;
         message: string;

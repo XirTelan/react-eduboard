@@ -26,7 +26,6 @@ export default function EditEntity<TCreation, TRead>(props: editEntityProps<TCre
     async function loadEntity() {
       try {
         const response = await axiosPrivate.get(`${props.urlEntity}/${id}`);
-        console.log(response.data);
         setEntity(props.transform(response.data));
       } catch (error) {
         displayErrorToast(error);

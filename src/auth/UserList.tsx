@@ -58,7 +58,6 @@ export default function UserList() {
         <IndexEntity<userDTO> urlEntity={`${urlAccounts}/users`} filterIsEnabled={false}>
           {(users) => (
             <>
-              {console.log('User:', users)}
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                   <TableHead>

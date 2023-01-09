@@ -1,9 +1,10 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SpecialitytForm from '../components/Form/SpecialitytForm';
 import Header from '../components/UI/Header';
 import { urlDisciplines, urlSpecialities } from '../endpoints';
+import useAxios from '../hooks/useAxios';
 import { disciplineDTO, specialityCreationDTO, specialityDTO } from '../types';
 import { displayErrorToast } from '../utils/swalToast';
 
@@ -11,17 +12,20 @@ export default function SpecialityCreate() {
   const [disciplines, setDisciplines] = useState<disciplineDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const axiosPrivate = useAxios();
 
   useEffect(() => {
-    axios.get(`${urlDisciplines}/getall`).then((response: AxiosResponse<disciplineDTO[]>) => {
-      setDisciplines(response.data);
-      setLoading(false);
-    });
+    axiosPrivate
+      .get(`${urlDisciplines}/getall`)
+      .then((response: AxiosResponse<disciplineDTO[]>) => {
+        setDisciplines(response.data);
+        setLoading(false);
+      });
   }, []);
 
   async function create(speciality: specialityCreationDTO) {
     try {
-      await axios.post(urlSpecialities, speciality);
+      await axiosPrivate.post(urlSpecialities, speciality);
       navigate('/specialities');
     } catch (error) {
       displayErrorToast(error);

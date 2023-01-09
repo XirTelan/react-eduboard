@@ -8,7 +8,6 @@ import * as Yup from 'yup';
 import { ErrorMessage, Form, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { Link } from 'react-router-dom';
 import { groupCreationDTO, specialityDTO } from '../../types';
-import axios from 'axios';
 import { urlGroups, urlSpecialities } from '../../endpoints';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { formatYearValue } from '../../utils';
@@ -20,15 +19,15 @@ export default function GroupForm(props: groupFormProps) {
     props.selectedSpeciality ? props.selectedSpeciality : ''
   );
   const axiosPrivate = useAxios();
-  const [querySpeciality, setSpecialityQuery] = useState('');
   const [specialityOptions, setSpecialityOptions] = useState<specialityDTO[]>([]);
   const [userOptions, setUserOptions] = useState<autocompleteFieldModel[]>([]);
 
   useEffect(() => {
     async function loadSpecialities() {
       try {
-        const response = await axiosPrivate.get(`${urlSpecialities}`);
+        const response = await axiosPrivate.get(`${urlSpecialities}/getall`);
         setSpecialityOptions(response.data);
+        console.log(response.data);
       } catch (error) {
         console.log(error);
       }

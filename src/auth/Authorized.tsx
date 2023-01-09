@@ -5,8 +5,6 @@ import useAuth from '../hooks/useAuth';
 export default function Authorized({ requiredRoles }: authorizedProps) {
   const { auth } = useAuth();
   const location = useLocation();
-  console.log('auth trigger', auth);
-  console.log('requiredRoles', requiredRoles);
   return Array.isArray(requiredRoles) &&
     auth?.roles?.find((role) => requiredRoles?.includes(role)) ? (
     <Outlet />

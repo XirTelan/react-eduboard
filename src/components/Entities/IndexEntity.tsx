@@ -41,8 +41,6 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
       setTotalAmountOfPages(Math.ceil(totalAmountOfRecords / recordsPerPage));
       setEntities(response.data);
     } catch (error) {
-      console.log('asd');
-      alert(error);
       console.log('error', error);
     }
     setIsLoading(false);

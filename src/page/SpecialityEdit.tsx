@@ -1,18 +1,17 @@
-import { Box } from '@mui/material';
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { JSXElementConstructor, ReactElement, useEffect, useState } from 'react';
+import { AxiosResponse } from 'axios';
+import { useEffect, useState } from 'react';
 import { redirect, useNavigate, useParams } from 'react-router-dom';
-import EditEntity from '../components/Entities/EditEntity';
 import SpecialityForm from '../components/Form/SpecialitytForm';
 import Header from '../components/UI/Header';
-import { urlDisciplines, urlSpecialities } from '../endpoints';
-import { disciplineDTO, specialityCreationDTO, specialityDTO, specialityEditDTO } from '../types';
+import {  urlSpecialities } from '../endpoints';
+import useAxios from '../hooks/useAxios';
+import { specialityCreationDTO,  specialityEditDTO } from '../types';
 import { displayErrorToast } from '../utils/swalToast';
 
 export default function SpecialityEdit() {
   const { id } = useParams();
-  const [disciplines, setDisciplines] = useState<disciplineDTO[]>([]);
   const navigate = useNavigate();
+  const axiosPrivate = useAxios();
 
   const [specialityEdit, setSpecialityEdit] = useState<specialityEditDTO>();
   const [speciality, setSpeciality] = useState<specialityCreationDTO>();
@@ -24,7 +23,7 @@ export default function SpecialityEdit() {
 
   async function get() {
     try {
-      const response = (await axios.get(`${urlSpecialities}/edit/${id}`)) as AxiosResponse<
+      const response = (await axiosPrivate.get(`${urlSpecialities}/edit/${id}`)) as AxiosResponse<
         specialityEditDTO,
         any
       >;
@@ -38,7 +37,7 @@ export default function SpecialityEdit() {
   }
   async function edit(speciality: specialityCreationDTO) {
     try {
-      await axios.put(`${urlSpecialities}/${id}`, speciality).then(() => navigate('/specialities'));
+      await axiosPrivate.put(`${urlSpecialities}/${id}`, speciality).then(() => navigate('/specialities'));
     } catch (error) {
       displayErrorToast(error);
     }

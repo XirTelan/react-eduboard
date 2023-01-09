@@ -6,7 +6,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow,
+  TableRow
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import DragDropFile from '../components/DragDropFile';
@@ -21,16 +21,18 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import { displayErrorToast, swalLoading, Toast } from '../utils/swalToast';
 import axios, { AxiosError } from 'axios';
+import useAxios from '../hooks/useAxios';
 
 export default function StudentsList() {
   const navigate = useNavigate();
+  const axiosPrivate = useAxios();
 
   async function postStudents(file: File) {
     try {
       swalLoading();
       const result = await excelImport(file, 'students');
       const students = convertJsonToStudentDTO(result);
-      const response = await axios.post(`${urlStudents}/excel`, students);
+      const response = await axiosPrivate.post(`${urlStudents}/excel`, students);
       await Toast.fire('Успешно', `Добавлено ${students.length - 1} студентов`, 'success'); //TODO
     } catch (error) {
       displayErrorToast(error);

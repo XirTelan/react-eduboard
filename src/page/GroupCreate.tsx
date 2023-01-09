@@ -4,15 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import GroupForm from '../components/Form/GroupForm';
 import Header from '../components/UI/Header';
 import { urlGroups, urlSpecialities } from '../endpoints';
+import useAxios from '../hooks/useAxios';
 import { groupCreationDTO, groupDTO, specialityCreationDTO } from '../types';
 import { displayErrorToast } from '../utils/swalToast';
 
 export default function GroupCreate() {
   const navigate = useNavigate();
-
+  const axiosPrivate = useAxios();
   async function create(group: groupCreationDTO) {
     try {
-      await axios.post(urlGroups, group);
+      await axiosPrivate.post(urlGroups, group);
       navigate('/groups');
     } catch (error) {
       displayErrorToast(error);

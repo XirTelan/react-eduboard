@@ -12,7 +12,6 @@ export default function useRefreshToken() {
         withCredentials: true
       });
       setAuth((prev: any) => {
-        console.log('response', JSON.stringify(prev));
         return { ...prev, accessToken: response.data.accessToken, roles: response.data.roles };
       });
       return response.data.accessToken;
