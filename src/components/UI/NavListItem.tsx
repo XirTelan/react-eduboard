@@ -5,10 +5,10 @@ interface NavListItemProps {
   isAnimated?: boolean;
   to: string;
   title: string;
-  children?: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
-export default function NavListItem({ to, title, children, isOpen, isAnimated }: NavListItemProps) {
+export default function NavListItem({ to, title, icon, isOpen, isAnimated }: NavListItemProps) {
   return (
     <li className="nav-item w-100">
       <NavLink
@@ -16,7 +16,7 @@ export default function NavListItem({ to, title, children, isOpen, isAnimated }:
         className={`nav-link px-0${
           isOpen ? 'ps-1 align-middle' : 'align-middle d-flex justify-content-center'
         }`}>
-        {children}
+        {icon}
         {isOpen && !isAnimated && <span className="px-1 d-none d-sm-inline">{title}</span>}
       </NavLink>
     </li>

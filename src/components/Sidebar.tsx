@@ -1,24 +1,17 @@
 import { Divider, IconButton } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import NavListItem from './UI/NavListItem';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import EventRepeatIcon from '@mui/icons-material/EventRepeat';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import GroupsIcon from '@mui/icons-material/Groups';
-import TodayIcon from '@mui/icons-material/Today';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import EventIcon from '@mui/icons-material/Event';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import TocIcon from '@mui/icons-material/Toc';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import GroupIcon from '@mui/icons-material/Group';
+import ViewListIcon from '@mui/icons-material/ViewList';
 import LogoutIcon from '@mui/icons-material/Logout';
+
 import './Sidebar.css';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useLogout from '../hooks/useLogout';
 import useAuth from '../hooks/useAuth';
+import { dataLinks, mainLinks } from '../data/data';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -30,16 +23,12 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
   const { auth } = useAuth();
   const logout = useLogout();
   const navigate = useNavigate();
-  const userRole = getUserRole();
-
-  
 
   function getUserName(): string {
-    return '';
+    console.log(auth);
+    return auth.fio;
   }
-  function getUserRole(): string {
-    return '';
-  }
+
   async function signOut() {
     await logout();
     navigate('/login');
@@ -103,59 +92,13 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
         <ul
           className="nav nav-pills w-100 flex-column gap-1 mb-sm-auto mb-0 align-text-center align-items-center align-items-sm-start"
           id="menu">
-          <NavListItem
-            isOpen={isOpen}
-            isAnimated={isAnimated}
-            to="/attendance"
-            title="Посещяемость">
-            <CalendarMonthIcon />
-          </NavListItem>
-          <NavListItem
-            isOpen={isOpen}
-            isAnimated={isAnimated}
-            to="/controll/1"
-            title="Текущий контроль">
-            <EventRepeatIcon />
-          </NavListItem>
-          <NavListItem
-            isOpen={isOpen}
-            isAnimated={isAnimated}
-            to="/controll/2"
-            title="Межсессионный контроль">
-            <TodayIcon />
-          </NavListItem>
-          <NavListItem
-            isOpen={isOpen}
-            isAnimated={isAnimated}
-            to="/controll/3"
-            title="Промежуточная аттестация">
-            <EventIcon />
-          </NavListItem>
-          <NavListItem
-            isOpen={isOpen}
-            isAnimated={isAnimated}
-            to="/controll/4"
-            title="Входной контроль">
-            <EventAvailableIcon />
-          </NavListItem>
+          {mainLinks.map((link, indx) => (
+            <NavListItem key={indx} isOpen={isOpen} isAnimated={isAnimated} {...link} />
+          ))}
           <Divider className="w-100" color="primary.main" />
-          <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/groups" title="Группы">
-            <GroupIcon />
-          </NavListItem>
-          <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/students" title="Студенты">
-            <GroupsIcon />
-          </NavListItem>
-          <Divider className="w-100" color="primary.main" />
-          <NavListItem
-            isOpen={isOpen}
-            isAnimated={isAnimated}
-            to="/specialities"
-            title="Специальности">
-            <ListAltIcon />
-          </NavListItem>
-          <NavListItem isOpen={isOpen} isAnimated={isAnimated} to="/disciplines" title="Дисциплины">
-            <TocIcon />
-          </NavListItem>
+          {dataLinks.map((link, indx) => (
+            <NavListItem key={indx} isOpen={isOpen} isAnimated={isAnimated} {...link} />
+          ))}
           <Divider className="w-100" color="primary.main" />
         </ul>
         <IconButton onClick={handleSidebar}>
