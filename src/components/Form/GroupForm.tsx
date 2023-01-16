@@ -1,26 +1,32 @@
-import { ReactNode, useCallback, useEffect, useState } from 'react';
-import _debounce from 'lodash/debounce';
+import {  useEffect, useState } from 'react';
 import { Autocomplete, Button, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import * as Yup from 'yup';
 
-import { ErrorMessage, Form, Formik, FormikHelpers, useFormikContext } from 'formik';
+import { ErrorMessage, Form, Formik, FormikHelpers } from 'formik';
 import { Link } from 'react-router-dom';
-import { groupCreationDTO, specialityDTO } from '../../types';
-import { urlGroups, urlSpecialities } from '../../endpoints';
+import { groupCreationDTO,  specialityDTO,  userViewDTO } from '../../types';
+import { urlAccounts,  urlSpecialities } from '../../endpoints';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { formatYearValue } from '../../utils';
-import { displayErrorToast } from '../../utils/swalToast';
 import useAxios from '../../hooks/useAxios';
 
 export default function GroupForm(props: groupFormProps) {
-  const [queryUser, setUserQuery] = useState(
-    props.selectedSpeciality ? props.selectedSpeciality : ''
-  );
   const axiosPrivate = useAxios();
   const [specialityOptions, setSpecialityOptions] = useState<specialityDTO[]>([]);
-  const [userOptions, setUserOptions] = useState<autocompleteFieldModel[]>([]);
+  const [selectedUser, setSelectedUser] = useState<userViewDTO | null>(() => {
+    const model = props.model as any;
+    console.log(model);
+    if (!model.person) return null;
+    return model.person.id === '' ? null : model.person;
+  });
+  const [selectedSpeciality, setSelectedSpeciality] = useState<specialityDTO | null>(() => {
+    const model = props.model as any;
+    if (!model.speciality) return null;
+    return model.speciality.id === '' ? null : model.speciality;
+  });
+  const [usersOptions, setUsersOptions] = useState<userViewDTO[]>([]);
 
   useEffect(() => {
     async function loadSpecialities() {
@@ -32,14 +38,29 @@ export default function GroupForm(props: groupFormProps) {
         console.log(error);
       }
     }
+    async function loadUsers() {
+      try {
+        const response = await axiosPrivate.get(`${urlAccounts}/getall`);
+        setUsersOptions(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    loadUsers();
     loadSpecialities();
   }, []);
 
+  console.log('Model', props.model);
   return (
     <Formik
       initialValues={props.model}
       onSubmit={(value, actions) => {
+        value.personId = selectedUser?.id;
+        value.specialityId = selectedSpeciality?.id;
         value.year = formatYearValue(value.year);
+        console.log('value', value);
         props.onSubmit(value, actions);
       }}
       validationSchema={Yup.object({
@@ -75,26 +96,34 @@ export default function GroupForm(props: groupFormProps) {
 
             <Autocomplete
               id="teacher"
-              inputValue={queryUser}
+              value={selectedUser}
               onBlur={formikProps.handleBlur}
-              options={userOptions}
+              options={usersOptions}
               onChange={(e, value) => {
-                formikProps.setFieldValue('curatorId', value!.id);
+                console.log('personId', value?.id);
+                setSelectedUser(value);
+                // formikProps.setFieldValue('personId', value?.id);
               }}
+              isOptionEqualToValue={(elem, val) => {
+                console.log('elemid:', elem.id, 'personid:', val.id, '-', elem.id == val.id);
+                return elem.id == val.id;
+              }}
+              getOptionLabel={(elem) => elem.fio}
               placeholder="asd"
               renderInput={(params) => <TextField {...params} label="Выбрать куратора" />}
               sx={{ margin: '10px 0' }}
             />
             <Autocomplete
               id="speciality"
-              {...formikProps.getFieldProps('speciality')}
+              value={selectedSpeciality}
               onBlur={formikProps.handleBlur}
               options={specialityOptions}
               isOptionEqualToValue={(elem, val) => elem.id == val.id}
               getOptionLabel={(elem) => elem.name}
-              placeholder="asd"
               onChange={(e, value) => {
-                formikProps.setFieldValue('specialityId', value!.id);
+                // formikProps.setFieldValue('specialityId', value?.id);
+
+                setSelectedSpeciality(value);
               }}
               renderInput={(params) => <TextField {...params} label="Выбрать специальность" />}
               sx={{ margin: '10px 0' }}
@@ -120,10 +149,6 @@ export default function GroupForm(props: groupFormProps) {
       }}
     </Formik>
   );
-}
-interface autocompleteFieldModel {
-  id: number;
-  name: string;
 }
 
 interface groupFormProps {
