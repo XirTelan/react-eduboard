@@ -1,17 +1,3 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  MenuItem,
-  Select,
-  Typography
-} from '@mui/material';
-
 import CollapseListItem from '../components/UI/CollapseListItem';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Header from '../components/UI/Header';

@@ -1,7 +1,5 @@
 import { Button } from '@mui/material';
 import { useState } from 'react';
-import { read, utils, writeFileXLSX } from 'xlsx';
-import { excelImport } from '../utils/handleExcel';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 
 export default function DragDropFile(props: dragDropFileProps) {

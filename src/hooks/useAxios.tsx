@@ -1,19 +1,17 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
-import React, { useEffect } from 'react';
-import Swal from 'sweetalert2';
+import { useEffect } from 'react';
 import { axiosPrivate } from '../api/axios';
 import useAuth from './useAuth';
 import useRefreshToken from './useRefreshToken';
 
 export default function useAxios() {
   const refresh = useRefreshToken();
-  const { auth, setAuth } = useAuth();
+  const { auth } = useAuth();
 
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
-        if (!config.headers!['Authorization']) {
-          config.headers!['Authorization'] = `Bearer ${auth.accessToken}`;
+        if (config.headers && !config.headers['Authorization']) {
+          config.headers['Authorization'] = `Bearer ${auth.accessToken}`;
         }
         return config;
       },
@@ -34,8 +32,7 @@ export default function useAxios() {
           // Which then cannot be read and leads to an invalid header error
           // Fix:  Either clear the headers or use the following method from  "https://github.com/axios/axios/issues/5089" :
           prevRequest.headers = JSON.parse(JSON.stringify(error.config.headers));
-
-          prevRequest.headers!['Authorization'] = `Bearer ${newAccessToken}`;
+          prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
           return axiosPrivate(prevRequest);
         }
         return Promise.reject(error);

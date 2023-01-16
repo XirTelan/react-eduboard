@@ -1,21 +1,18 @@
-import { ErrorMessage, Form, Formik, FormikHelpers } from 'formik';
-import React, { useCallback, useEffect, useState } from 'react';
-import _debounce from 'lodash/debounce';
+import { Form, Formik, FormikHelpers } from 'formik';
+import React, { useEffect, useState } from 'react';
 
-import { groupDTO, studentCreationDTO, studentDTO } from '../../types';
-import * as Yup from 'yup';
+import { groupDTO, studentCreationDTO } from '../../types';
 import { Autocomplete, Box, Button, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { urlGroups } from '../../endpoints';
 import { displayErrorToast } from '../../utils/swalToast';
 import useAxios from '../../hooks/useAxios';
+import * as Yup from 'yup';
 
 export default function StudentForm(props: studentFormProps) {
   const [groups, setGroups] = useState<groupDTO[]>([]);
   const [selectedId, setSelectedId] = useState<number>();
   const axiosPrivate = useAxios();
-  let filterTimeout: ReturnType<typeof setTimeout>;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,7 +76,7 @@ export default function StudentForm(props: studentFormProps) {
                   onBlur={formikProps.handleBlur}
                   isOptionEqualToValue={(elem, val) => elem.id == val.id}
                   getOptionLabel={(elem) => elem.name}
-                  onChange={(e, value) => value && setSelectedId(value!.id)}
+                  onChange={(e, value) => value && setSelectedId(value.id)}
                   renderInput={(params) => (
                     <TextField {...params} error={!!formikProps.errors.groupId} label="Группа" />
                   )}

@@ -4,14 +4,13 @@ import {
   IconButton,
   MenuItem,
   Select,
-  SelectChangeEvent,
   TextField
 } from '@mui/material';
-import React, { ChangeEventHandler, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import _debounce from 'lodash/debounce';
 import ClearIcon from '@mui/icons-material/Clear';
 import Pagination from '../UI/Pagination';
-import { displayErrorToast, displaySuccessToast, Toast } from '../../utils/swalToast';
+import { displayErrorToast, displaySuccessToast } from '../../utils/swalToast';
 import useAxios from '../../hooks/useAxios';
 
 export default function IndexEntity<T>(props: indexEntityProps<T>) {
@@ -91,7 +90,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
           {isLoading ? (
             <CircularProgress />
           ) : (
-            <>{entities ? props.children(entities!, deleteEntity) : 'Loading'}</>
+            <>{entities ? props.children(entities, deleteEntity) : 'Loading'}</>
           )}
         </Box>
         <div className="d-flex gap-3 my-1 justify-content-center">

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, ReactElement, useState } from 'react';
 
 const AuthContext = createContext<{
@@ -6,14 +8,15 @@ const AuthContext = createContext<{
   persist: boolean;
   setPersist: React.SetStateAction<any>;
 }>({
-  auth: { accessToken: '', roles: [] },
+  auth: { fio: '', accessToken: '', roles: [] },
   setAuth: () => {},
   persist: false,
-  setPersist: () => {},
+  setPersist: () => {}
 });
 
 export const AuthProvider = ({ children }: authProviderProps) => {
   const [auth, setAuth] = useState({
+    fio: '',
     accessToken: '',
     roles: []
   });
@@ -35,6 +38,7 @@ interface authProviderProps {
 }
 
 interface authUser {
+  fio: string;
   accessToken: string;
   roles: string[];
 }

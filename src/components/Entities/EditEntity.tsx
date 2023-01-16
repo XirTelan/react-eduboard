@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import axios, { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import useAxios from '../../hooks/useAxios';
@@ -50,5 +49,6 @@ interface editEntityProps<TCreation, TRead> {
   children(entity: TCreation, edit: (entity: TCreation) => void): React.ReactElement;
 }
 EditEntity.defaultProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   transform: (entity: any) => entity
 };

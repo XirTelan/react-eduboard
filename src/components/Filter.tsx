@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { ErrorMessage, Form, Formik } from 'formik';
-import axios from 'axios';
 import * as Yup from 'yup';
 
 import {
@@ -9,16 +8,10 @@ import {
   Button,
   CircularProgress,
   FormControl,
-  FormControlLabel,
   InputLabel,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select,
-  SelectChangeEvent,
-  Switch,
-  TextField,
-  Typography
+  TextField
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -110,7 +103,7 @@ export default function Filter(props: FilterProps) {
                               id="month-select"
                               value={formikProps.values.month}
                               label={props.period === 'monthly' ? 'Месяц' : 'Период'}
-                              onChange={(val, newValue) => {
+                              onChange={(val) => {
                                 formikProps.setFieldValue('month', val.target.value);
                               }}>
                               {props.period === 'monthly' &&

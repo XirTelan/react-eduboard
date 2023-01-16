@@ -1,18 +1,16 @@
 import { Box, Button, TextField } from '@mui/material';
-import { Form, Formik, FormikHelpers, useFormikContext, validateYupSchema } from 'formik';
-import { ReactNode, useEffect, useState } from 'react';
+import { Form, Formik, FormikHelpers } from 'formik';
+import {useState } from 'react';
 import { Link } from 'react-router-dom';
 import { disciplineDTO, specialityCreationDTO, specialityDTO } from '../../types';
 import AutocompleteField, { autocompleteFieldModel } from '../UI/AutocompleteField';
 import * as Yup from 'yup';
 
 export default function SpecialityForm(props: SpecialityFormProps) {
-  const [inputValue, setInputValue] = useState('');
   const [selectedDisc, setSelectedDisc] = useState(mapToModel(props.seletedDisciplined));
   const [nonSelectedDisciplines, setNonSelectedDisciplines] = useState(
     mapToModel(props.nonSelectedDisciplines)
   );
-  const [value, setValue] = useState<disciplineDTO | null>();
 
   const handleChange = (
     seleted: autocompleteFieldModel[],
@@ -20,8 +18,6 @@ export default function SpecialityForm(props: SpecialityFormProps) {
   ) => {
     setNonSelectedDisciplines(nonSelected);
     setSelectedDisc(seleted);
-    setValue(null);
-    setInputValue('');
   };
 
   function mapToModel(items: { id: number; name: string }[]): autocompleteFieldModel[] {

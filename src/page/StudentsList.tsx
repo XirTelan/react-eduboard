@@ -20,7 +20,6 @@ import { convertJsonToStudentDTO, excelImport } from '../utils/handleExcel';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import { displayErrorToast, swalLoading, Toast } from '../utils/swalToast';
-import axios, { AxiosError } from 'axios';
 import useAxios from '../hooks/useAxios';
 
 export default function StudentsList() {
@@ -32,7 +31,7 @@ export default function StudentsList() {
       swalLoading();
       const result = await excelImport(file, 'students');
       const students = convertJsonToStudentDTO(result);
-      const response = await axiosPrivate.post(`${urlStudents}/excel`, students);
+      await axiosPrivate.post(`${urlStudents}/excel`, students);
       await Toast.fire('Успешно', `Добавлено ${students.length - 1} студентов`, 'success'); //TODO
     } catch (error) {
       displayErrorToast(error);

@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import { read, utils } from 'xlsx';
-import { studentCreationDTO, studentExcelCreationDTO } from '../types';
+import { studentExcelCreationDTO } from '../types';
 
 export function excelImport(file: File, type: 'any' | 'students' = 'any'): Promise<any> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const fileReader = new FileReader();
     fileReader.readAsBinaryString(file);
     fileReader.onload = (event) => {
-      const data = event.target!.result;
+      const data = event.target?.result;
       const workbook = read(data, { type: 'binary' });
       workbook.SheetNames.forEach((sheet) => {
         const rowObjects =

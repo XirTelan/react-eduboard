@@ -1,5 +1,4 @@
 import { GridValidRowModel } from '@mui/x-data-grid';
-import React from 'react';
 import { controllRecordCreationDTO, inputData } from '../types';
 
 export default function formatDataToGridRows(data: inputData[]) {
@@ -24,6 +23,7 @@ export function formatGridRowsToData(
 ) {
   const result: controllRecordCreationDTO[] = [];
   data.forEach((element) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, indx, title, ...obj2 } = element;
     Object.keys(obj2).forEach((key) => {
       if (obj2[key] === undefined) return;

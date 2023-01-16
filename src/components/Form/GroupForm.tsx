@@ -17,7 +17,6 @@ export default function GroupForm(props: groupFormProps) {
   const [specialityOptions, setSpecialityOptions] = useState<specialityDTO[]>([]);
   const [selectedUser, setSelectedUser] = useState<userViewDTO | null>(() => {
     const model = props.model as any;
-    console.log(model);
     if (!model.person) return null;
     return model.person.id === '' ? null : model.person;
   });
@@ -33,7 +32,6 @@ export default function GroupForm(props: groupFormProps) {
       try {
         const response = await axiosPrivate.get(`${urlSpecialities}/getall`);
         setSpecialityOptions(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -42,7 +40,6 @@ export default function GroupForm(props: groupFormProps) {
       try {
         const response = await axiosPrivate.get(`${urlAccounts}/getall`);
         setUsersOptions(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -52,7 +49,6 @@ export default function GroupForm(props: groupFormProps) {
     loadSpecialities();
   }, []);
 
-  console.log('Model', props.model);
   return (
     <Formik
       initialValues={props.model}
@@ -60,7 +56,6 @@ export default function GroupForm(props: groupFormProps) {
         value.personId = selectedUser?.id;
         value.specialityId = selectedSpeciality?.id;
         value.year = formatYearValue(value.year);
-        console.log('value', value);
         props.onSubmit(value, actions);
       }}
       validationSchema={Yup.object({
@@ -100,12 +95,10 @@ export default function GroupForm(props: groupFormProps) {
               onBlur={formikProps.handleBlur}
               options={usersOptions}
               onChange={(e, value) => {
-                console.log('personId', value?.id);
                 setSelectedUser(value);
                 // formikProps.setFieldValue('personId', value?.id);
               }}
               isOptionEqualToValue={(elem, val) => {
-                console.log('elemid:', elem.id, 'personid:', val.id, '-', elem.id == val.id);
                 return elem.id == val.id;
               }}
               getOptionLabel={(elem) => elem.fio}

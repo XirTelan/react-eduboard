@@ -1,5 +1,4 @@
 import axios from 'axios';
-import React from 'react';
 import { urlAccounts } from '../endpoints';
 import useAuth from './useAuth';
 

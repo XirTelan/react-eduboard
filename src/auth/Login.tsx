@@ -13,7 +13,7 @@ import { Form, Formik } from 'formik';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 // import { squreBackground } from '../App';
 import './Login.css';
-import { useContext, useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { authenticationResponse, userCredentials } from './auth.model';
 import axios, { AxiosError } from 'axios';
 import { urlAccounts } from '../endpoints';
@@ -146,6 +146,3 @@ export default function Login() {
   );
 }
 
-interface LoginProps {
-  onChange(login: string, password: string): Promise<boolean>;
-}

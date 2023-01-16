@@ -25,7 +25,6 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
   const navigate = useNavigate();
 
   function getUserName(): string {
-    console.log(auth);
     return auth.fio;
   }
 

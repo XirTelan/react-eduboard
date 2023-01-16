@@ -1,6 +1,5 @@
 import React from 'react';
 import EditEntity from '../components/Entities/EditEntity';
-import SpecialityForm from '../components/Form/SpecialitytForm';
 import StudentForm from '../components/Form/StudentForm';
 import { urlStudents } from '../endpoints';
 import { studentCreationDTO, studentDTO } from '../types';

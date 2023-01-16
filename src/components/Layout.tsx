@@ -1,4 +1,4 @@
-import { Box, CssBaseline } from '@mui/material';
+import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
@@ -17,7 +17,6 @@ export default function Layout() {
   return (
     <>
       <Box sx={{ display: 'flex', width: 'fil-available' }}>
-        {/* <CssBaseline /> */}
         <Sidebar isOpen={open} setOpen={setOpen} />
         <Box
           style={{}}

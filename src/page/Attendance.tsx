@@ -6,7 +6,6 @@ import {
   GridRowsProp,
   ruRU
 } from '@mui/x-data-grid';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Filter from '../components/Filter';
 import Header from '../components/UI/Header';
@@ -14,7 +13,7 @@ import { urlAttendance } from '../endpoints';
 import useAxios from '../hooks/useAxios';
 import { AttendanceCreationDTO } from '../types';
 import formatDataToGridRows from '../utils/formatDataToGridRows';
-import { displayErrorToast, displaySuccessToast, Toast } from '../utils/swalToast';
+import { displayErrorToast, displaySuccessToast,  } from '../utils/swalToast';
 
 const columnGroupingModel: GridColumnGroupingModel = [
   {
@@ -94,7 +93,7 @@ export default function Attendance() {
       Value: value
     };
     try {
-      const response = await axiosPrivate.post(urlAttendance, formatData);
+      await axiosPrivate.post(urlAttendance, formatData);
       displaySuccessToast();
     } catch (error) {
       displayErrorToast(error);
@@ -107,23 +106,23 @@ export default function Attendance() {
     setSelectedGroupId(groupId);
   }
   useEffect(() => {
+    async function loadData(groupId: number, year: string, month: number) {
+      try {
+        const response = await axiosPrivate.get(urlAttendance, {
+          params: { groupId, year, month }
+        });
+        const data = formatDataToGridRows(response.data);
+        setGridData(data);
+      } catch (error) {
+        displayErrorToast(error);
+      }
+    }
+
     if (selectedGroupId && selectedGroupId != 0) {
       setGridData([]);
       loadData(selectedGroupId, selectedYear, selectedMonth);
     }
   }, [selectedGroupId, selectedYear, selectedMonth]);
-
-  async function loadData(groupId: number, year: string, month: number) {
-    try {
-      const response = await axiosPrivate.get(urlAttendance, {
-        params: { groupId, year, month }
-      });
-      const data = formatDataToGridRows(response.data);
-      setGridData(data);
-    } catch (error) {
-      displayErrorToast(error);
-    }
-  }
 
   return (
     <>

@@ -5,7 +5,7 @@ import SpecialitytForm from '../components/Form/SpecialitytForm';
 import Header from '../components/UI/Header';
 import { urlDisciplines, urlSpecialities } from '../endpoints';
 import useAxios from '../hooks/useAxios';
-import { disciplineDTO, specialityCreationDTO, specialityDTO } from '../types';
+import { disciplineDTO, specialityCreationDTO } from '../types';
 import { displayErrorToast } from '../utils/swalToast';
 
 export default function SpecialityCreate() {

@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
 import './App.css';
-import Sidebar from './components/Sidebar';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import UserList from './auth/UserList';
 
 import Attendance from './page/Attendance';
@@ -9,12 +7,10 @@ import Login from './auth/Login';
 import DiscplinesList from './page/DisciplinesList';
 import SpecialitiesList from './page/SpecialitiesList';
 import GroupList from './page/GroupList';
-import { Box, CssBaseline } from '@mui/material';
 import SpecialityCreate from './page/SpecialityCreate';
 import GroupCreate from './page/GroupCreate';
 import SpecialityEdit from './page/SpecialityEdit';
 import StudentsList from './page/StudentsList';
-import Statistic from './page/Statistic';
 import StudentEdit from './page/StudentEdit';
 import StudentCreate from './page/StudentCreate';
 import GroupEdit from './page/GroupEdit';
@@ -24,6 +20,7 @@ import Layout from './components/Layout';
 import PersistLogin from './auth/PersistLogin';
 import Controll from './page/Controll';
 import NotFound from './page/NotFound';
+import Home from './page/Home';
 
 function App() {
   return (
@@ -32,8 +29,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route element={<PersistLogin />}>
           <Route element={<Authorized requiredRoles={['User']} />}>
-            <Route path="/" element={<Layout />}>
-              {/* <Route path="/" element={<Statistic />} /> */}
+            <Route path="/" element={<Home />} />
+            <Route element={<Layout />}>
               <Route path="/attendance" element={<Attendance />} />
               <Route path="/controll/:id" element={<Controll />} />
               <Route path="/disciplines" element={<DiscplinesList />} />

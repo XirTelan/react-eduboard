@@ -15,6 +15,12 @@ export interface controllRecordCreationDTO {
   Value: string;
 }
 
+export interface linkInfo {
+  to: string;
+  title: string;
+  icon: React.ReactElement;
+}
+
 export interface disciplineDTO {
   id: number;
   name: string;
@@ -26,6 +32,7 @@ export interface groupDTO {
   id: number;
   name: string;
   speciality: specialityDTO;
+  person: userViewDTO;
   students: studentDTO[];
 }
 export interface groupCreationDTO {
@@ -74,6 +81,10 @@ export interface userDTO {
   userName: string;
   fio: string;
   roles: string[];
+}
+export interface userViewDTO {
+  id: string;
+  fio: string;
 }
 export interface inputData {
   id: number;

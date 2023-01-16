@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { AxiosResponse } from 'axios';
 import { useEffect, useState } from 'react';
-import { redirect, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SpecialityForm from '../components/Form/SpecialitytForm';
 import Header from '../components/UI/Header';
-import {  urlSpecialities } from '../endpoints';
+import { urlSpecialities } from '../endpoints';
 import useAxios from '../hooks/useAxios';
-import { specialityCreationDTO,  specialityEditDTO } from '../types';
+import { specialityCreationDTO, specialityEditDTO } from '../types';
 import { displayErrorToast } from '../utils/swalToast';
 
 export default function SpecialityEdit() {
@@ -33,11 +34,15 @@ export default function SpecialityEdit() {
       setSpeciality(model);
       setSpecialityEdit(response.data);
       setLoading(false);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
   async function edit(speciality: specialityCreationDTO) {
     try {
-      await axiosPrivate.put(`${urlSpecialities}/${id}`, speciality).then(() => navigate('/specialities'));
+      await axiosPrivate
+        .put(`${urlSpecialities}/${id}`, speciality)
+        .then(() => navigate('/specialities'));
     } catch (error) {
       displayErrorToast(error);
     }
@@ -48,7 +53,7 @@ export default function SpecialityEdit() {
       <Header title="Редактировать специальность" />
       {!loading ? (
         <SpecialityForm
-          model={speciality!}
+          model={speciality! }
           seletedDisciplined={specialityEdit!.selectedDisciplines}
           nonSelectedDisciplines={specialityEdit!.nonSelectedDisciplines}
           onSubmit={async (values) => await edit(values)}

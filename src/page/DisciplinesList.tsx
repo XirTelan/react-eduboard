@@ -17,7 +17,7 @@ import IndexEntity from '../components/Entities/IndexEntity';
 import { urlDisciplines } from '../endpoints';
 import { disciplineCreationDTO, disciplineDTO } from '../types';
 import { useNavigate } from 'react-router-dom';
-import { displayErrorToast, displaySuccessToast, Toast } from '../utils/swalToast';
+import { displayErrorToast, displaySuccessToast } from '../utils/swalToast';
 import { useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import EditIcon from '@mui/icons-material/Edit';
@@ -37,10 +37,9 @@ export default function DiscplinesList() {
   async function create(discipline: disciplineCreationDTO) {
     setUpdate(true);
     try {
-      const response = await axiosPrivate.post(`${urlDisciplines}`, discipline);
+      await axiosPrivate.post(`${urlDisciplines}`, discipline);
       displaySuccessToast();
     } catch (error) {
-      console.log('disc error', error);
       displayErrorToast(error);
     }
     setUpdate(false);

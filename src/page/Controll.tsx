@@ -1,7 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import Filter from '../components/Filter';
 import BaseControll from '../components/Form/BaseControll';
 import Header from '../components/UI/Header';
@@ -30,7 +29,7 @@ export default function Controll() {
       setTypeData(response.data);
     } catch (error) {
       const axiosError = error as AxiosError;
-      if (axiosError.response!.status == 404) {
+      if (axiosError.response?.status == 404) {
         navigate('/404');
       }
     }
@@ -58,10 +57,4 @@ export default function Controll() {
   );
 
   type period = 'none' | 'half' | 'monthly';
-
-  interface dateData {
-    month: string;
-    groupId: string;
-    year: string;
-  }
 }

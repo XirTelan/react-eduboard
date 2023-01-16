@@ -1,4 +1,3 @@
-import { useParams, useSearchParams } from 'react-router-dom';
 import {
   DataGrid,
   GridColumns,
@@ -7,30 +6,21 @@ import {
   GridRowsProp,
   GridToolbarColumnsButton,
   GridToolbarContainer,
-  GridToolbarDensitySelector,
   GridToolbarFilterButton,
-  GridToolbarQuickFilter,
   ruRU
 } from '@mui/x-data-grid';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { Box, Button, CircularProgress, IconButton, Switch } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
-import axios, { AxiosError } from 'axios';
-import { urlControll, urlDisciplines, urlSpecialities, urlStudents } from '../../endpoints';
-import { controllRecordCreationDTO, disciplineDTO, inputData, studentDTO } from '../../types';
-import Filter from '../Filter';
+import {  useEffect, useState } from 'react';
+import { urlControll, urlDisciplines,} from '../../endpoints';
+import {  disciplineDTO, inputData } from '../../types';
 import formatDataToGridRows, { formatGridRowsToData } from '../../utils/formatDataToGridRows';
 import StatisticTable from '../StatisticTable';
-import { displayErrorToast, displaySuccessToast, swalLoading, Toast } from '../../utils/swalToast';
+import { displayErrorToast, displaySuccessToast, swalLoading } from '../../utils/swalToast';
 import Swal from 'sweetalert2';
 import useAxios from '../../hooks/useAxios';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Visibility from '@mui/icons-material/Visibility';
 
-interface ControllerProps {
-  name: string;
-}
 
 function CustomToolbar() {
   return (
@@ -60,7 +50,6 @@ export default function BaseControll(props: GenControllProps) {
   const [rows, setRows] = useState<GridRowsProp>([]);
   const axiosPrivate = useAxios();
   const [isFullView, setIsFullView] = useState(false);
-  const changedRows = [];
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isMainView, setIsMainView] = useState<boolean>(true);
   const [statisticRows, setStatisticRows] = useState<inputData[]>([]);
@@ -130,7 +119,7 @@ export default function BaseControll(props: GenControllProps) {
     if (result === undefined || result.length === 0) return;
     const formatData = result;
     try {
-      const response = await axiosPrivate.post(urlControll, formatData);
+      await axiosPrivate.post(urlControll, formatData);
       Swal.close();
       displaySuccessToast();
     } catch (error) {
