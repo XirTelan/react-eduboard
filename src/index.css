@@ -26,7 +26,14 @@ p {
   background-color: var(--bs-link-hover-color);
   color: white;
 }
-
+.flat-button {
+  background-color: white;
+  border: 0;
+}
+.flat-button:hover {
+  background-color: var(--bs-link-hover-color);
+  color: white;
+}
 #drag-file-element {
   border-radius: 10px;
   border: 1px solid lightgrey;

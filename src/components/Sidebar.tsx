@@ -66,7 +66,9 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
             isOpen && ''
           }`}>
           <>
-            <AccountCircleIcon />
+            <Link to="/">
+              <AccountCircleIcon />
+            </Link>
             {isOpen && !isAnimated && (
               <span className="ms-1 fw-bold d-flex align-content-center ">
                 <>{getUserName()}</>

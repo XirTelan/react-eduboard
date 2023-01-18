@@ -1,16 +1,14 @@
 import { linkInfo } from '../types';
 import React from 'react';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import EventRepeatIcon from '@mui/icons-material/EventRepeat';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import GroupsIcon from '@mui/icons-material/Groups';
-import TodayIcon from '@mui/icons-material/Today';
-import EventIcon from '@mui/icons-material/Event';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import TocIcon from '@mui/icons-material/Toc';
-import { FaRegCalendarAlt } from 'react-icons/fa';
-
-import GroupIcon from '@mui/icons-material/Group';
+import { FaUserGraduate, FaUsers } from 'react-icons/fa';
+import { TfiLayoutListThumbAlt, TfiList } from 'react-icons/tfi';
+import {
+  BsCalendar3,
+  BsCalendarRange,
+  BsCalendar2Week,
+  BsCalendarCheck,
+  BsCalendar3Event
+} from 'react-icons/bs';
 
 export const months = [
   { id: 9, label: 'Сентябрь' },
@@ -28,48 +26,48 @@ export const mainLinks: linkInfo[] = [
   {
     to: '/attendance',
     title: 'Посещяемость',
-    icon: <FaRegCalendarAlt />
+    icon: <BsCalendar3 />
   },
   {
     to: '/controll/1',
     title: 'Текущий контроль',
-    icon: <EventRepeatIcon />
+    icon: <BsCalendar3Event />
   },
   {
     to: '/controll/2',
     title: 'Межсессионный контроль',
-    icon: <TodayIcon />
+    icon: <BsCalendarRange />
   },
   {
     to: '/controll/3',
     title: 'Промежуточная аттестация',
-    icon: <EventIcon />
+    icon: <BsCalendar2Week />
   },
   {
     to: '/controll/4',
     title: 'Входной контроль',
-    icon: <EventAvailableIcon />
+    icon: <BsCalendarCheck />
   }
 ];
 export const dataLinks: linkInfo[] = [
   {
     to: '/groups',
     title: 'Группы',
-    icon: <GroupIcon />
+    icon: <FaUsers />
   },
   {
     to: '/students',
     title: 'Студенты',
-    icon: <GroupsIcon />
+    icon: <FaUserGraduate />
   },
   {
     to: '/specialities',
     title: 'Специальности',
-    icon: <ListAltIcon />
+    icon: <TfiLayoutListThumbAlt />
   },
   {
     to: '/disciplines',
     title: 'Дисциплины',
-    icon: <TocIcon />
+    icon: <TfiList />
   }
 ];
