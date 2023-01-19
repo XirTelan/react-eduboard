@@ -1,5 +1,5 @@
 import { Divider, IconButton } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import NavListItem from './UI/NavListItem';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -12,26 +12,22 @@ import React, { useEffect, useState } from 'react';
 import useLogout from '../hooks/useLogout';
 import useAuth from '../hooks/useAuth';
 import { dataLinks, mainLinks } from '../data/data';
+import { Roles } from '../auth/auth.model';
 
 interface SidebarProps {
   isOpen: boolean;
-  setOpen: (setState: React.SetStateAction<boolean>) => void;
+  toggle: () => void;
 }
 
-export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
+export default function Sidebar({ isOpen, toggle }: SidebarProps) {
   const [isAnimated, setIsAnimated] = useState(false);
   const { auth } = useAuth();
   const logout = useLogout();
-  const navigate = useNavigate();
 
   function getUserName(): string {
     return auth.fio;
   }
 
-  async function signOut() {
-    await logout();
-    navigate('/login');
-  }
   useEffect(() => {
     promiseAnimated(isOpen).then((val) => {
       setIsAnimated(val);
@@ -52,7 +48,7 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
 
   function handleSidebar() {
     setIsAnimated(true);
-    setOpen(!isOpen);
+    toggle();
   }
   return (
     <>
@@ -75,14 +71,14 @@ export default function Sidebar({ isOpen, setOpen }: SidebarProps) {
               </span>
             )}
             <div className={`d-flex align-items-center ${!isOpen && 'flex-column '}`}>
-              {auth.roles.includes('Admin') && (
+              {auth.roles.includes(Roles.ADMIN) && (
                 <>
                   <Link to="/users">
                     <ViewListIcon />
                   </Link>
                 </>
               )}
-              <IconButton color="primary" aria-label="logout" onClick={() => signOut()}>
+              <IconButton color="primary" aria-label="logout" onClick={logout}>
                 <LogoutIcon />
               </IconButton>
             </div>

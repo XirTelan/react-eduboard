@@ -1,15 +1,19 @@
 import { Box, IconButton } from '@mui/material';
-import React from 'react';
 import { FaCog } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import BgStyle from '../components/UI/BgStyle';
 import FlatButton from '../components/UI/FlatButton';
 import { dataLinks, mainLinks } from '../data/data';
 import useAuth from '../hooks/useAuth';
+import useLogout from '../hooks/useLogout';
+import useToggle from '../hooks/useToggle';
 
 export default function Home() {
   const { auth } = useAuth();
   const flatButtonWidth = 20; //rem
-  const date = new Date();
+  const logout = useLogout();
+  const { isOpen, toggle } = useToggle();
+  const navigate = useNavigate();
   return (
     <>
       <Box sx={{ display: 'flex', width: 'fil-available' }}>
@@ -23,16 +27,24 @@ export default function Home() {
             <>
               <div className="d-flex w-100  overflow-auto  flex-column  ">
                 <div className="position-relative bg-white d-flex align-items-center justify-content-end pe-3 py-1 text-end w-100 mb-1 fs-4 ">
-                  <div>
+                  <div className="d-flex align-items-center">
                     <span className="fs-3">{auth.fio}</span>
-                    <IconButton color="inherit">
+                    <IconButton color="inherit" onClick={toggle}>
                       <FaCog />
                     </IconButton>
                   </div>
-                  <div className="popup position-absolute bg-white p-3 rounded mt-1">
-                    <div> Список пользователей</div>
-                    <div> Список пользователей</div>
-                  </div>
+                  {isOpen && (
+                    <div className="popup position-absolute bg-white p-3 fs-6 rounded  ">
+                      {auth.roles.includes('Admin') && (
+                        <button className="" onClick={() => navigate('/users')}>
+                          Список пользователей
+                        </button>
+                      )}
+                      <button className="" onClick={logout}>
+                        Выход
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <div className="d-flex h-100 align-items-center justify-content-center">

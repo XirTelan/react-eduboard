@@ -2,9 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box,
   IconButton,
-  MenuItem,
   Paper,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -15,14 +13,12 @@ import {
 import Swal from 'sweetalert2';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import EditIcon from '@mui/icons-material/Edit';
-
 import useAxios from '../hooks/useAxios';
 import IndexEntity from '../components/Entities/IndexEntity';
 import Header from '../components/UI/Header';
 import { urlAccounts } from '../endpoints';
-import { userDTO } from '../types';
 import { displayErrorToast } from '../utils/swalToast';
-import { userRoleDTO } from './auth.model';
+import { userDTO, userRoleDTO } from './auth.model';
 import { customAlert } from '../utils';
 
 export default function UserList() {
@@ -87,7 +83,7 @@ export default function UserList() {
                           width: '10%'
                         }}
                         align="center">
-                        Роль
+                        Права
                       </TableCell>
                       <TableCell
                         sx={{
@@ -112,23 +108,16 @@ export default function UserList() {
                         </TableCell>
                         <TableCell align="left"> {user.fio}</TableCell>
                         <TableCell align="center">
-                          {user.roles.map((role, indx) => (
-                            <p key={indx}>{role}</p>
-                          ))}
-                          <Select
-                            sx={{ width: 200 }}
-                            disabled={user.userName === 'Admin'}
-                            value={'User'}
-                            onChange={(e) =>
-                              changeRole({ userId: user.id, role: e.target.value.toString() })
-                            }>
-                            <MenuItem value="Admin">
-                              <span className="fw-bold">ADMIN</span>
-                            </MenuItem>
-                            <MenuItem value="User">
-                              <span className="fw-bold">КУРАТОР</span>
-                            </MenuItem>
-                          </Select>
+                          <div className="d-flex gap-1 align-items-center">
+                            {user.roles.map((role, indx) => (
+                              <div
+                                key={indx}
+                                className="d-flex p-1 align-items-center bg-light
+                            rounded">
+                                <div className="mx-3">{role}</div>
+                              </div>
+                            ))}
+                          </div>
                         </TableCell>
                         <TableCell align="left">
                           <div className="align-self-center">

@@ -13,7 +13,7 @@ import { urlAttendance } from '../endpoints';
 import useAxios from '../hooks/useAxios';
 import { AttendanceCreationDTO } from '../types';
 import formatDataToGridRows from '../utils/formatDataToGridRows';
-import { displayErrorToast, displaySuccessToast,  } from '../utils/swalToast';
+import { displayErrorToast, displaySuccessToast } from '../utils/swalToast';
 
 const columnGroupingModel: GridColumnGroupingModel = [
   {
@@ -69,6 +69,7 @@ const columnsDefault: GridColDef[] = [
 
 export default function Attendance() {
   const [gridData, setGridData] = useState<GridRowsProp>([]);
+  const [isDirty, setIsDirty] = useState(false);
   const [selectedYear, setSelectedYear] = useState<string>('0000');
   const [selectedMonth, setSelectedMonth] = useState<number>(1);
   const [selectedGroupId, setSelectedGroupId] = useState<number>(0);
@@ -96,6 +97,7 @@ export default function Attendance() {
       await axiosPrivate.post(urlAttendance, formatData);
       displaySuccessToast();
     } catch (error) {
+      setIsDirty(true);
       displayErrorToast(error);
     }
   }
@@ -122,7 +124,7 @@ export default function Attendance() {
       setGridData([]);
       loadData(selectedGroupId, selectedYear, selectedMonth);
     }
-  }, [selectedGroupId, selectedYear, selectedMonth]);
+  }, [isDirty, selectedGroupId, selectedYear, selectedMonth]);
 
   return (
     <>

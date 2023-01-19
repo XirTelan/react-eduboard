@@ -13,5 +13,6 @@ export default function useLogout() {
       console.log(error);
     }
   };
+  
   return logout;
 }

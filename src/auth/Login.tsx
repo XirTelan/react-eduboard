@@ -9,19 +9,19 @@ import {
   OutlinedInput,
   TextField
 } from '@mui/material';
-import { Form, Formik } from 'formik';
+import { VisibilityOff, Visibility } from '@mui/icons-material';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
-// import { squreBackground } from '../App';
-import './Login.css';
-import {  useEffect, useState } from 'react';
-import { authenticationResponse, userCredentials } from './auth.model';
-import axios, { AxiosError } from 'axios';
-import { urlAccounts } from '../endpoints';
+import { Form, Formik } from 'formik';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
 import Swal from 'sweetalert2';
+
+import { authenticationResponse, userCredentials } from './auth.model';
+import { urlAccounts } from '../endpoints';
 import useAuth from '../hooks/useAuth';
 import BgStyle from '../components/UI/BgStyle';
-import { VisibilityOff, Visibility } from '@mui/icons-material';
+import './Login.css';
 
 export default function Login() {
   const { setAuth, persist, setPersist } = useAuth();
@@ -145,4 +145,3 @@ export default function Login() {
     </>
   );
 }
-

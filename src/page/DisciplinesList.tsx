@@ -41,8 +41,9 @@ export default function DiscplinesList() {
       displaySuccessToast();
     } catch (error) {
       displayErrorToast(error);
+    } finally {
+      setUpdate(false);
     }
-    setUpdate(false);
   }
 
   return (

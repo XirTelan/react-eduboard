@@ -21,6 +21,7 @@ import PersistLogin from './auth/PersistLogin';
 import Controll from './page/Controll';
 import NotFound from './page/NotFound';
 import Home from './page/Home';
+import { Roles } from './auth/auth.model';
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route element={<PersistLogin />}>
-          <Route element={<Authorized requiredRoles={['User']} />}>
+          <Route element={<Authorized requiredRoles={[Roles.USER]} />}>
             <Route path="/" element={<Home />} />
             <Route element={<Layout />}>
               <Route path="/attendance" element={<Attendance />} />
@@ -37,7 +38,7 @@ function App() {
               <Route path="/groups" element={<GroupList />} />
               <Route path="/specialities" element={<SpecialitiesList />} />
               <Route path="/students" element={<StudentsList />} />
-              <Route element={<Authorized requiredRoles={['Admin']} />}>
+              <Route element={<Authorized requiredRoles={[Roles.ADMIN]} />}>
                 <Route path="/groups/create" element={<GroupCreate />} />
                 <Route path="/groups/edit/:id" element={<GroupEdit />} />
                 <Route path="/specialities/create" element={<SpecialityCreate />} />

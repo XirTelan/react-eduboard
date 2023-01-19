@@ -76,12 +76,7 @@ export interface studentExcelCreationDTO {
   middleName: string;
   groupName: string;
 }
-export interface userDTO {
-  id: string;
-  userName: string;
-  fio: string;
-  roles: string[];
-}
+
 export interface userViewDTO {
   id: string;
   fio: string;

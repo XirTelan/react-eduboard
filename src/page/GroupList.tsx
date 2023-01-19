@@ -5,7 +5,6 @@ import Header from '../components/UI/Header';
 import { groupDTO } from '../types';
 import { urlGroups } from '../endpoints';
 import IndexEntity from '../components/Entities/IndexEntity';
-import { createNonNullChain } from 'typescript';
 
 export default function GroupList() {
   return (
