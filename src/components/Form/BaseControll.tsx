@@ -12,15 +12,14 @@ import {
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { Box, Button, CircularProgress, IconButton, Switch } from '@mui/material';
-import {  useEffect, useState } from 'react';
-import { urlControll, urlDisciplines,} from '../../endpoints';
-import {  disciplineDTO, inputData } from '../../types';
+import { useEffect, useState } from 'react';
+import { urlControll, urlDisciplines } from '../../endpoints';
+import { DisciplineDTO, InputData } from '../../data/types';
 import formatDataToGridRows, { formatGridRowsToData } from '../../utils/formatDataToGridRows';
 import StatisticTable from '../StatisticTable';
 import { displayErrorToast, displaySuccessToast, swalLoading } from '../../utils/swalToast';
 import Swal from 'sweetalert2';
 import useAxios from '../../hooks/useAxios';
-
 
 function CustomToolbar() {
   return (
@@ -52,7 +51,7 @@ export default function BaseControll(props: GenControllProps) {
   const [isFullView, setIsFullView] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isMainView, setIsMainView] = useState<boolean>(true);
-  const [statisticRows, setStatisticRows] = useState<inputData[]>([]);
+  const [statisticRows, setStatisticRows] = useState<InputData[]>([]);
   const [columns, setColumns] = useState<GridColumns>([]);
   const [rowModesModel, setRowModesModel] = useState<GridRowModesModel>({});
 
@@ -71,7 +70,7 @@ export default function BaseControll(props: GenControllProps) {
   async function getGridColumns() {
     const response = await getGroupDisciplines(groupId);
     if (!response) return;
-    const discColumn: GridColumns = response.data.map((elem: disciplineDTO) => ({
+    const discColumn: GridColumns = response.data.map((elem: DisciplineDTO) => ({
       field: `${elem.id}`,
       headerName: elem.name,
       flex: 1,

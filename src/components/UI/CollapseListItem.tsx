@@ -5,7 +5,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { customAlert } from '../../utils';
+import { customAlert } from '../../utils/utils';
 
 export default function CollapseListItem(props: CollapleListItemProps) {
   const {

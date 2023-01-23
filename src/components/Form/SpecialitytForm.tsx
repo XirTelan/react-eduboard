@@ -1,8 +1,8 @@
 import { Box, Button, TextField } from '@mui/material';
 import { Form, Formik, FormikHelpers } from 'formik';
-import {useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { disciplineDTO, specialityCreationDTO, specialityDTO } from '../../types';
+import { DisciplineDTO, SpecialityCreationDTO, SpecialityDTO } from '../../data/types';
 import AutocompleteField, { autocompleteFieldModel } from '../UI/AutocompleteField';
 import * as Yup from 'yup';
 
@@ -76,9 +76,9 @@ export default function SpecialityForm(props: SpecialityFormProps) {
 }
 
 interface SpecialityFormProps {
-  model: specialityCreationDTO;
-  seletedDisciplined: disciplineDTO[];
-  nonSelectedDisciplines: disciplineDTO[];
-  specialityEdit?: specialityDTO;
-  onSubmit(values: specialityCreationDTO, actions: FormikHelpers<specialityCreationDTO>): void;
+  model: SpecialityCreationDTO;
+  seletedDisciplined: DisciplineDTO[];
+  nonSelectedDisciplines: DisciplineDTO[];
+  specialityEdit?: SpecialityDTO;
+  onSubmit(values: SpecialityCreationDTO, actions: FormikHelpers<SpecialityCreationDTO>): void;
 }

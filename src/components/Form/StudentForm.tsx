@@ -1,7 +1,7 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import React, { useEffect, useState } from 'react';
 
-import { groupDTO, studentCreationDTO } from '../../types';
+import { GroupDTO, StudentCreationDTO } from '../../data/types';
 import { Autocomplete, Box, Button, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { urlGroups } from '../../endpoints';
@@ -10,7 +10,7 @@ import useAxios from '../../hooks/useAxios';
 import * as Yup from 'yup';
 
 export default function StudentForm(props: studentFormProps) {
-  const [groups, setGroups] = useState<groupDTO[]>([]);
+  const [groups, setGroups] = useState<GroupDTO[]>([]);
   const [selectedId, setSelectedId] = useState<number>();
   const axiosPrivate = useAxios();
 
@@ -104,6 +104,6 @@ export default function StudentForm(props: studentFormProps) {
 }
 
 interface studentFormProps {
-  model: studentCreationDTO;
-  onSubmit(values: studentCreationDTO, actions: FormikHelpers<studentCreationDTO>): void;
+  model: StudentCreationDTO;
+  onSubmit(values: StudentCreationDTO, actions: FormikHelpers<StudentCreationDTO>): void;
 }

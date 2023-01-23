@@ -34,13 +34,15 @@ export default function Home() {
                     </IconButton>
                   </div>
                   {isOpen && (
-                    <div className="popup position-absolute bg-white p-3 fs-6 rounded  ">
+                    <div className="popup d-flex flex-column position-absolute bg-white p-3 fs-6 rounded  ">
                       {auth.roles.includes('Admin') && (
-                        <button className="" onClick={() => navigate('/users')}>
+                        <button
+                          className="flat-button z-20 p-2 rounded"
+                          onClick={() => navigate('/users')}>
                           Список пользователей
                         </button>
                       )}
-                      <button className="" onClick={logout}>
+                      <button className="flat-button z-20 p-2 rounded" onClick={logout}>
                         Выход
                       </button>
                     </div>

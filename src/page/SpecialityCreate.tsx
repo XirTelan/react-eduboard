@@ -5,11 +5,11 @@ import SpecialitytForm from '../components/Form/SpecialitytForm';
 import Header from '../components/UI/Header';
 import { urlDisciplines, urlSpecialities } from '../endpoints';
 import useAxios from '../hooks/useAxios';
-import { disciplineDTO, specialityCreationDTO } from '../types';
+import { DisciplineDTO, SpecialityCreationDTO } from '../data/types';
 import { displayErrorToast } from '../utils/swalToast';
 
 export default function SpecialityCreate() {
-  const [disciplines, setDisciplines] = useState<disciplineDTO[]>([]);
+  const [disciplines, setDisciplines] = useState<DisciplineDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const axiosPrivate = useAxios();
@@ -17,13 +17,13 @@ export default function SpecialityCreate() {
   useEffect(() => {
     axiosPrivate
       .get(`${urlDisciplines}/getall`)
-      .then((response: AxiosResponse<disciplineDTO[]>) => {
+      .then((response: AxiosResponse<DisciplineDTO[]>) => {
         setDisciplines(response.data);
         setLoading(false);
       });
   }, []);
 
-  async function create(speciality: specialityCreationDTO) {
+  async function create(speciality: SpecialityCreationDTO) {
     try {
       await axiosPrivate.post(urlSpecialities, speciality);
       navigate('/specialities');

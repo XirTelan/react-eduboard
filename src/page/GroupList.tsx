@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import CollapseListItem from '../components/UI/CollapseListItem';
 import Header from '../components/UI/Header';
-import { groupDTO } from '../types';
+import { GroupDTO } from '../data/types';
 import { urlGroups } from '../endpoints';
 import IndexEntity from '../components/Entities/IndexEntity';
 
@@ -16,7 +16,7 @@ export default function GroupList() {
         buttonLink="create"
       />
 
-      <IndexEntity<groupDTO> urlEntity={urlGroups}>
+      <IndexEntity<GroupDTO> urlEntity={urlGroups}>
         {(groups, deleteEntity) => {
           console.log(groups);
           return (

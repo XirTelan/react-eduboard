@@ -15,14 +15,14 @@ import { Formik } from 'formik';
 import Header from '../components/UI/Header';
 import IndexEntity from '../components/Entities/IndexEntity';
 import { urlDisciplines } from '../endpoints';
-import { disciplineCreationDTO, disciplineDTO } from '../types';
+import { DisciplineCreationDTO, DisciplineDTO } from '../data/types';
 import { useNavigate } from 'react-router-dom';
 import { displayErrorToast, displaySuccessToast } from '../utils/swalToast';
 import { useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
-import { customAlert } from '../utils';
+import { customAlert } from '../utils/utils';
 import useAxios from '../hooks/useAxios';
 
 export default function DiscplinesList() {
@@ -30,11 +30,11 @@ export default function DiscplinesList() {
   const navigate = useNavigate();
   const axiosPrivate = useAxios();
 
-  const initialValues: disciplineCreationDTO = {
+  const initialValues: DisciplineCreationDTO = {
     name: ''
   };
 
-  async function create(discipline: disciplineCreationDTO) {
+  async function create(discipline: DisciplineCreationDTO) {
     setUpdate(true);
     try {
       await axiosPrivate.post(`${urlDisciplines}`, discipline);
@@ -78,7 +78,7 @@ export default function DiscplinesList() {
           <CircularProgress />
         </Box>
       ) : (
-        <IndexEntity<disciplineDTO> urlEntity={urlDisciplines}>
+        <IndexEntity<DisciplineDTO> urlEntity={urlDisciplines}>
           {(disciplines, deleteEntity) => (
             <>
               <TableContainer className="mt-3" component={Paper}>

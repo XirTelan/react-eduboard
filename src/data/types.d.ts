@@ -6,7 +6,7 @@ export interface AttendanceCreationDTO {
   Value: string;
 }
 
-export interface controllRecordCreationDTO {
+export interface ControllRecordCreationDTO {
   StudentId: number;
   ControllTypeId: number;
   DisciplineId: number;
@@ -15,73 +15,73 @@ export interface controllRecordCreationDTO {
   Value: string;
 }
 
-export interface linkInfo {
+export interface LinkInfo {
   to: string;
   title: string;
   icon: React.ReactElement;
 }
 
-export interface disciplineDTO {
+export interface DisciplineDTO {
   id: number;
   name: string;
 }
-export interface disciplineCreationDTO {
+export interface DisciplineCreationDTO {
   name: string;
 }
-export interface groupDTO {
+export interface GroupDTO {
   id: number;
   name: string;
-  speciality: specialityDTO;
-  person: userViewDTO;
-  students: studentDTO[];
+  speciality: SpecialityDTO;
+  person: UserViewDTO;
+  students: StudentDTO[];
 }
-export interface groupCreationDTO {
+export interface GroupCreationDTO {
   name: string;
   specialityId?: number;
   year: string;
   personId?: string;
   studentsId?: number[];
 }
-export interface specialityDTO {
+export interface SpecialityDTO {
   id: number;
   name: string;
-  disciplines: disciplineDTO[];
+  disciplines: DisciplineDTO[];
 }
-export interface specialityEditDTO {
-  speciality: specialityDTO;
-  selectedDisciplines: disciplineDTO[];
-  nonSelectedDisciplines: disciplineDTO[];
+export interface SpecialityEditDTO {
+  speciality: SpecialityDTO;
+  selectedDisciplines: DisciplineDTO[];
+  nonSelectedDisciplines: DisciplineDTO[];
 }
-export interface specialityCreationDTO {
+export interface SpecialityCreationDTO {
   name: string;
   disciplineIds?: number[];
 }
 
-export interface studentDTO {
+export interface StudentDTO {
   id: number;
   firstName: string;
   secondName: string;
   middleName: string;
-  group: groupDTO;
+  group: GroupDTO;
 }
-export interface studentCreationDTO {
+export interface StudentCreationDTO {
   firstName: string;
   secondName: string;
   middleName: string;
   groupId?: number;
 }
-export interface studentExcelCreationDTO {
+export interface StudentExcelCreationDTO {
   firstName: string;
   secondName: string;
   middleName: string;
   groupName: string;
 }
 
-export interface userViewDTO {
+export interface UserViewDTO {
   id: string;
   fio: string;
 }
-export interface inputData {
+export interface InputData {
   id: number;
   title: string;
   dataGridCells: { id: number; value: string }[];

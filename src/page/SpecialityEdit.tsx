@@ -6,7 +6,7 @@ import SpecialityForm from '../components/Form/SpecialitytForm';
 import Header from '../components/UI/Header';
 import { urlSpecialities } from '../endpoints';
 import useAxios from '../hooks/useAxios';
-import { specialityCreationDTO, specialityEditDTO } from '../types';
+import { SpecialityCreationDTO, SpecialityEditDTO } from '../data/types';
 import { displayErrorToast } from '../utils/swalToast';
 
 export default function SpecialityEdit() {
@@ -14,8 +14,8 @@ export default function SpecialityEdit() {
   const navigate = useNavigate();
   const axiosPrivate = useAxios();
 
-  const [specialityEdit, setSpecialityEdit] = useState<specialityEditDTO>();
-  const [speciality, setSpeciality] = useState<specialityCreationDTO>();
+  const [specialityEdit, setSpecialityEdit] = useState<SpecialityEditDTO>();
+  const [speciality, setSpeciality] = useState<SpecialityCreationDTO>();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,10 +25,10 @@ export default function SpecialityEdit() {
   async function get() {
     try {
       const response = (await axiosPrivate.get(`${urlSpecialities}/edit/${id}`)) as AxiosResponse<
-        specialityEditDTO,
+        SpecialityEditDTO,
         any
       >;
-      const model: specialityCreationDTO = {
+      const model: SpecialityCreationDTO = {
         name: response.data.speciality.name
       };
       setSpeciality(model);
@@ -38,7 +38,7 @@ export default function SpecialityEdit() {
       console.log(error);
     }
   }
-  async function edit(speciality: specialityCreationDTO) {
+  async function edit(speciality: SpecialityCreationDTO) {
     try {
       await axiosPrivate
         .put(`${urlSpecialities}/${id}`, speciality)
@@ -53,7 +53,7 @@ export default function SpecialityEdit() {
       <Header title="Редактировать специальность" />
       {!loading ? (
         <SpecialityForm
-          model={speciality! }
+          model={speciality!}
           seletedDisciplined={specialityEdit!.selectedDisciplines}
           nonSelectedDisciplines={specialityEdit!.nonSelectedDisciplines}
           onSubmit={async (values) => await edit(values)}

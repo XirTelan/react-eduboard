@@ -11,7 +11,7 @@ import Filter from '../components/Filter';
 import Header from '../components/UI/Header';
 import { urlAttendance } from '../endpoints';
 import useAxios from '../hooks/useAxios';
-import { AttendanceCreationDTO } from '../types';
+import { AttendanceCreationDTO } from '../data/types';
 import formatDataToGridRows from '../utils/formatDataToGridRows';
 import { displayErrorToast, displaySuccessToast } from '../utils/swalToast';
 

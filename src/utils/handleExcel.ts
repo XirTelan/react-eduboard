@@ -1,5 +1,5 @@
 import { read, utils } from 'xlsx';
-import { studentExcelCreationDTO } from '../types';
+import { StudentExcelCreationDTO } from '../data/types';
 
 export function excelImport(file: File, type: 'any' | 'students' = 'any'): Promise<any> {
   return new Promise((resolve) => {
@@ -22,7 +22,7 @@ export function excelImport(file: File, type: 'any' | 'students' = 'any'): Promi
   });
 }
 
-export function convertJsonToStudentDTO(value: any): studentExcelCreationDTO[] {
+export function convertJsonToStudentDTO(value: any): StudentExcelCreationDTO[] {
   const jsonObj = JSON.parse(value);
-  return jsonObj as studentExcelCreationDTO[];
+  return jsonObj as StudentExcelCreationDTO[];
 }

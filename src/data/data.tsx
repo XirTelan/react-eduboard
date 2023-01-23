@@ -1,4 +1,4 @@
-import { linkInfo } from '../types';
+import { LinkInfo } from './types';
 import React from 'react';
 import { FaUserGraduate, FaUsers } from 'react-icons/fa';
 import { TfiLayoutListThumbAlt, TfiList } from 'react-icons/tfi';
@@ -22,7 +22,7 @@ export const months = [
   { id: 5, label: 'Май' }
 ];
 
-export const mainLinks: linkInfo[] = [
+export const mainLinks: LinkInfo[] = [
   {
     to: '/attendance',
     title: 'Посещяемость',
@@ -49,7 +49,7 @@ export const mainLinks: linkInfo[] = [
     icon: <BsCalendarCheck />
   }
 ];
-export const dataLinks: linkInfo[] = [
+export const dataLinks: LinkInfo[] = [
   {
     to: '/groups',
     title: 'Группы',

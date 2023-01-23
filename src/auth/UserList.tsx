@@ -19,7 +19,7 @@ import Header from '../components/UI/Header';
 import { urlAccounts } from '../endpoints';
 import { displayErrorToast } from '../utils/swalToast';
 import { userDTO, userRoleDTO } from './auth.model';
-import { customAlert } from '../utils';
+import { customAlert } from '../utils/utils';
 
 export default function UserList() {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ export default function UserList() {
         <Header
           title="Список Пользователей"
           buttonText="Cоздать пользователя"
-          buttonLink="/users/create"
+          buttonLink="/register"
         />
         <IndexEntity<userDTO> urlEntity={`${urlAccounts}/users`} filterIsEnabled={false}>
           {(users) => (

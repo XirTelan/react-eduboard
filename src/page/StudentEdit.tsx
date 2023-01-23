@@ -2,11 +2,11 @@ import React from 'react';
 import EditEntity from '../components/Entities/EditEntity';
 import StudentForm from '../components/Form/StudentForm';
 import { urlStudents } from '../endpoints';
-import { studentCreationDTO, studentDTO } from '../types';
+import { StudentCreationDTO, StudentDTO } from '../data/types';
 
 export default function StudentEdit() {
   return (
-    <EditEntity<studentCreationDTO, studentDTO>
+    <EditEntity<StudentCreationDTO, StudentDTO>
       urlEntity={urlStudents}
       urlListPage="/students"
       entityName="студента">

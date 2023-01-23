@@ -2,11 +2,7 @@ export interface claim {
   name: string;
   value: string;
 }
-export enum Roles {
-  ADMIN = 'Admin',
-  USER = 'User',
-  MANAGEMENT = 'Management'
-}
+
 export interface userCredentials {
   userName: string;
   password: string;

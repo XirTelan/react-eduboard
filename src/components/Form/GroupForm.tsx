@@ -1,4 +1,4 @@
-import {  useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Autocomplete, Button, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -6,26 +6,26 @@ import * as Yup from 'yup';
 
 import { ErrorMessage, Form, Formik, FormikHelpers } from 'formik';
 import { Link } from 'react-router-dom';
-import { groupCreationDTO,  specialityDTO,  userViewDTO } from '../../types';
-import { urlAccounts,  urlSpecialities } from '../../endpoints';
+import { GroupCreationDTO, SpecialityDTO, UserViewDTO } from '../../data/types';
+import { urlAccounts, urlSpecialities } from '../../endpoints';
 import { LocalizationProvider } from '@mui/x-date-pickers';
-import { formatYearValue } from '../../utils';
+import { formatYearValue } from '../../utils/utils';
 import useAxios from '../../hooks/useAxios';
 
 export default function GroupForm(props: groupFormProps) {
   const axiosPrivate = useAxios();
-  const [specialityOptions, setSpecialityOptions] = useState<specialityDTO[]>([]);
-  const [selectedUser, setSelectedUser] = useState<userViewDTO | null>(() => {
+  const [specialityOptions, setSpecialityOptions] = useState<SpecialityDTO[]>([]);
+  const [selectedUser, setSelectedUser] = useState<UserViewDTO | null>(() => {
     const model = props.model as any;
     if (!model.person) return null;
     return model.person.id === '' ? null : model.person;
   });
-  const [selectedSpeciality, setSelectedSpeciality] = useState<specialityDTO | null>(() => {
+  const [selectedSpeciality, setSelectedSpeciality] = useState<SpecialityDTO | null>(() => {
     const model = props.model as any;
     if (!model.speciality) return null;
     return model.speciality.id === '' ? null : model.speciality;
   });
-  const [usersOptions, setUsersOptions] = useState<userViewDTO[]>([]);
+  const [usersOptions, setUsersOptions] = useState<UserViewDTO[]>([]);
 
   useEffect(() => {
     async function loadSpecialities() {
@@ -145,7 +145,7 @@ export default function GroupForm(props: groupFormProps) {
 }
 
 interface groupFormProps {
-  model: groupCreationDTO;
+  model: GroupCreationDTO;
   selectedSpeciality?: string;
-  onSubmit(values: groupCreationDTO, actions: FormikHelpers<groupCreationDTO>): void;
+  onSubmit(values: GroupCreationDTO, actions: FormikHelpers<GroupCreationDTO>): void;
 }

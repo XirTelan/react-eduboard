@@ -13,8 +13,8 @@ import DragDropFile from '../components/DragDropFile';
 import IndexEntity from '../components/Entities/IndexEntity';
 import Header from '../components/UI/Header';
 import { urlStudents } from '../endpoints';
-import { studentDTO } from '../types';
-import { customAlert } from '../utils';
+import { StudentDTO } from '../data/types';
+import { customAlert } from '../utils/utils';
 import { convertJsonToStudentDTO, excelImport } from '../utils/handleExcel';
 
 import EditIcon from '@mui/icons-material/Edit';
@@ -43,7 +43,7 @@ export default function StudentsList() {
         <DragDropFile handleFiles={postStudents} />
       </Header>
 
-      <IndexEntity<studentDTO> urlEntity={urlStudents}>
+      <IndexEntity<StudentDTO> urlEntity={urlStudents}>
         {(students, deleteEntity) => (
           <>
             <TableContainer className="mt-3" component={Paper}>

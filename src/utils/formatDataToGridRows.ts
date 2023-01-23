@@ -1,7 +1,7 @@
 import { GridValidRowModel } from '@mui/x-data-grid';
-import { controllRecordCreationDTO, inputData } from '../types';
+import { ControllRecordCreationDTO, InputData } from '../data/types';
 
-export default function formatDataToGridRows(data: inputData[]) {
+export default function formatDataToGridRows(data: InputData[]) {
   return data.map((elem) => {
     const newElem: { [k: string]: any } = {
       id: elem.id,
@@ -21,13 +21,13 @@ export function formatGridRowsToData(
   year: string,
   data: readonly GridValidRowModel[]
 ) {
-  const result: controllRecordCreationDTO[] = [];
+  const result: ControllRecordCreationDTO[] = [];
   data.forEach((element) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, indx, title, ...obj2 } = element;
     Object.keys(obj2).forEach((key) => {
       if (obj2[key] === undefined) return;
-      const newRecord: controllRecordCreationDTO = {
+      const newRecord: ControllRecordCreationDTO = {
         StudentId: id,
         DisciplineId: +key,
         Month: month,

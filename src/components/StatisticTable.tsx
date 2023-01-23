@@ -1,9 +1,5 @@
-import {
-  DataGrid,
-  GridColumns,
-  ruRU
-} from '@mui/x-data-grid';
-import { inputData } from '../types';
+import { DataGrid, GridColumns, ruRU } from '@mui/x-data-grid';
+import { InputData } from '../data/types';
 import formatDataToGridRows from '../utils/formatDataToGridRows';
 
 const columns: GridColumns = [
@@ -31,5 +27,5 @@ export default function StatisticTable({ rows }: StatisticTableProps) {
   );
 }
 interface StatisticTableProps {
-  rows: inputData[];
+  rows: InputData[];
 }

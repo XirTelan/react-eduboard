@@ -20,7 +20,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import { months } from '../data/data';
 import { urlGroups } from '../endpoints';
-import { formatYearValue } from '../utils';
+import { formatYearValue } from '../utils/utils';
 import { displayErrorToast } from '../utils/swalToast';
 import useAxios from '../hooks/useAxios';
 

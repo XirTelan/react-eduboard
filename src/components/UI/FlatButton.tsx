@@ -16,7 +16,7 @@ export default function FlatButton(props: flatButtonProps) {
           {icon}
         </div>
         <div
-          className="text-center fw-bold text-decoration-none"
+          className="text-center w-100 px-1 fw-bold text-decoration-none"
           style={{ fontSize: `${size / 16}rem` }}>
           {title.toUpperCase()}
         </div>

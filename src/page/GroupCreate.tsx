@@ -4,13 +4,13 @@ import GroupForm from '../components/Form/GroupForm';
 import Header from '../components/UI/Header';
 import { urlGroups } from '../endpoints';
 import useAxios from '../hooks/useAxios';
-import { groupCreationDTO } from '../types';
+import { GroupCreationDTO } from '../data/types';
 import { displayErrorToast } from '../utils/swalToast';
 
 export default function GroupCreate() {
   const navigate = useNavigate();
   const axiosPrivate = useAxios();
-  async function create(group: groupCreationDTO) {
+  async function create(group: GroupCreationDTO) {
     try {
       await axiosPrivate.post(urlGroups, group);
       navigate('/groups');

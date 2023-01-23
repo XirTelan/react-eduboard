@@ -21,7 +21,8 @@ import PersistLogin from './auth/PersistLogin';
 import Controll from './page/Controll';
 import NotFound from './page/NotFound';
 import Home from './page/Home';
-import { Roles } from './auth/auth.model';
+import { Roles } from './data/enums';
+import UserEdit from './auth/UserEdit';
 
 function App() {
   return (
@@ -47,7 +48,7 @@ function App() {
                 <Route path="/students/edit/:id" element={<StudentEdit />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/users" element={<UserList />} />
-                <Route path="/users/create" element={<Register />} />
+                <Route path="/users/edit/:id" element={<UserEdit />} />
               </Route>
             </Route>
           </Route>

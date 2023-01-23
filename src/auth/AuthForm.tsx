@@ -6,11 +6,12 @@ import { Link } from 'react-router-dom';
 import Header from '../components/UI/Header';
 import { userRegisterCredentials } from './auth.model';
 
-export default function AuthForm(props: authFormProps) {
+export default function AuthForm(props: AuthFormProps) {
+  const { isEditing } = props;
   return (
     <>
       <Box className="bg-white p-3 m-3 rounded">
-        <Header title="Добавить пользователя" />
+        <Header title={` ${isEditing ? 'Редактировать' : 'Добавить'} пользователя`} />
         <Formik
           initialValues={props.model}
           onSubmit={props.onSubmit}
@@ -18,21 +19,22 @@ export default function AuthForm(props: authFormProps) {
             userName: Yup.string().required('Req'),
             password: Yup.string()
               .required('Req')
-              .matches(/[a-z]+/, 'One lowercase character')
-              .matches(/[A-Z]+/, 'One uppercase character')
-              .matches(/[@$!%*#?&]+/, 'One special character')
-              .matches(/\d+/, 'One number')
-              .min(8, 'Must be exactly 8 digits'),
+              .matches(/[a-z]+/, 'Один прописной символ')
+              .matches(/[A-Z]+/, 'Один заглавный символ')
+              .matches(/[@$!%*#?&]+/, 'Один специальный символ (@$!%*#?&)')
+              .matches(/\d+/, 'Одна цифра')
+              .min(8, 'Минимум 8 символов'),
 
             fio: Yup.string().required('Req')
           })}>
           {(formikProps) => (
-            <Form>
+            <Form onSubmit={formikProps.handleSubmit}>
               <div className="d-flex flex-column gap-3">
                 <TextField fullWidth {...formikProps.getFieldProps('userName')} label="Логин" />
                 <ErrorMessage name="userName" />
                 <TextField fullWidth {...formikProps.getFieldProps('fio')} label="ФИО" />
                 <ErrorMessage name="fio" />
+                {isEditing && <div>Изменить пароль</div>}
                 <TextField
                   fullWidth
                   {...formikProps.getFieldProps('password')}
@@ -61,7 +63,12 @@ export default function AuthForm(props: authFormProps) {
   );
 }
 
-interface authFormProps {
+AuthForm.defaultProps = {
+  isEditing: false
+};
+
+interface AuthFormProps {
   model: userRegisterCredentials;
+  isEditing?: boolean;
   onSubmit(values: userRegisterCredentials, actions: FormikHelpers<userRegisterCredentials>): void;
 }

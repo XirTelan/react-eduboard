@@ -12,7 +12,7 @@ import React, { useEffect, useState } from 'react';
 import useLogout from '../hooks/useLogout';
 import useAuth from '../hooks/useAuth';
 import { dataLinks, mainLinks } from '../data/data';
-import { Roles } from '../auth/auth.model';
+import { Roles } from '../data/enums';
 
 interface SidebarProps {
   isOpen: boolean;

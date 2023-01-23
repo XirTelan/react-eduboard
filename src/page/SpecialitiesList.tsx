@@ -1,7 +1,7 @@
 import CollapseListItem from '../components/UI/CollapseListItem';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Header from '../components/UI/Header';
-import { specialityDTO } from '../types';
+import { SpecialityDTO } from '../data/types';
 import { urlSpecialities } from '../endpoints';
 import IndexEntity from '../components/Entities/IndexEntity';
 
@@ -14,7 +14,7 @@ export default function SpecialitiesList() {
         buttonText="Создать специальность"
         buttonIcon={<PlaylistAddIcon />}
       />
-      <IndexEntity<specialityDTO> urlEntity={urlSpecialities}>
+      <IndexEntity<SpecialityDTO> urlEntity={urlSpecialities}>
         {(entities, deleteEntity) => (
           <>
             {entities &&
