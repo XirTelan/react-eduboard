@@ -13,7 +13,7 @@ import { urlAttendance } from '../endpoints';
 import useAxios from '../hooks/useAxios';
 import { AttendanceCreationDTO } from '../data/types';
 import formatDataToGridRows from '../utils/formatDataToGridRows';
-import { displayErrorToast, displaySuccessToast } from '../utils/swalToast';
+import { showAxiosErrorToast, showSuccessToast } from '../utils/notificationToast';
 
 const columnGroupingModel: GridColumnGroupingModel = [
   {
@@ -95,10 +95,10 @@ export default function Attendance() {
     };
     try {
       await axiosPrivate.post(urlAttendance, formatData);
-      displaySuccessToast();
+      showSuccessToast('Успех');
     } catch (error) {
       setIsDirty(true);
-      displayErrorToast(error);
+      showAxiosErrorToast(error);
     }
   }
 
@@ -116,7 +116,7 @@ export default function Attendance() {
         const data = formatDataToGridRows(response.data);
         setGridData(data);
       } catch (error) {
-        displayErrorToast(error);
+        showAxiosErrorToast(error);
       }
     }
 

@@ -15,13 +15,13 @@ import { Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
-import Swal from 'sweetalert2';
 
 import { authenticationResponse, userCredentials } from './auth.model';
 import { urlAccounts } from '../endpoints';
 import useAuth from '../hooks/useAuth';
 import BgStyle from '../components/UI/BgStyle';
 import './Login.css';
+import { showErrorToast } from '../utils/notificationToast';
 
 export default function Login() {
   const { setAuth, persist, setPersist } = useAuth();
@@ -57,7 +57,7 @@ export default function Login() {
         message: string;
       };
       setIsSubmitting(false);
-      Swal.fire('Ошибка', data.message, 'error');
+      showErrorToast(data.message);
     }
   }
 

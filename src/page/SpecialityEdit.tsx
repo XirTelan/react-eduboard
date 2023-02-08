@@ -7,7 +7,7 @@ import Header from '../components/UI/Header';
 import { urlSpecialities } from '../endpoints';
 import useAxios from '../hooks/useAxios';
 import { SpecialityCreationDTO, SpecialityEditDTO } from '../data/types';
-import { displayErrorToast } from '../utils/swalToast';
+import { showAxiosErrorToast } from '../utils/notificationToast';
 
 export default function SpecialityEdit() {
   const { id } = useParams();
@@ -44,7 +44,7 @@ export default function SpecialityEdit() {
         .put(`${urlSpecialities}/${id}`, speciality)
         .then(() => navigate('/specialities'));
     } catch (error) {
-      displayErrorToast(error);
+      showAxiosErrorToast(error);
     }
   }
 

@@ -17,8 +17,6 @@ import { urlControll, urlDisciplines } from '../../endpoints';
 import { DisciplineDTO, InputData } from '../../data/types';
 import formatDataToGridRows, { formatGridRowsToData } from '../../utils/formatDataToGridRows';
 import StatisticTable from '../StatisticTable';
-import { displayErrorToast, displaySuccessToast, swalLoading } from '../../utils/swalToast';
-import Swal from 'sweetalert2';
 import useAxios from '../../hooks/useAxios';
 
 function CustomToolbar() {
@@ -89,7 +87,7 @@ export default function BaseControll(props: GenControllProps) {
       setRows(data);
       setDataLoaded(true);
     } catch (error) {
-      displayErrorToast(error);
+      console.log(error);
     }
   }
   async function loadStatisticData(typeId: number, groupId: number, year: string, month: number) {
@@ -99,7 +97,7 @@ export default function BaseControll(props: GenControllProps) {
       });
       setStatisticRows(response.data);
     } catch (error) {
-      displayErrorToast(error);
+      console.log(error);
     }
   }
 
@@ -108,21 +106,18 @@ export default function BaseControll(props: GenControllProps) {
       const responce = await axiosPrivate.get(`${urlDisciplines}/group/${groupId}`);
       return responce;
     } catch (error) {
-      displayErrorToast(error);
+      console.log(error);
     }
   }
 
   async function saveGridDataChanges() {
-    swalLoading();
     const result = formatGridRowsToData(typeId, month, year, rows);
     if (result === undefined || result.length === 0) return;
     const formatData = result;
     try {
       await axiosPrivate.post(urlControll, formatData);
-      Swal.close();
-      displaySuccessToast();
     } catch (error) {
-      displayErrorToast(error);
+      console.log(error);
     }
     updateData(typeId, groupId, year, month);
   }

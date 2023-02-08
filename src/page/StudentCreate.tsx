@@ -4,7 +4,7 @@ import Header from '../components/UI/Header';
 import { urlStudents } from '../endpoints';
 import useAxios from '../hooks/useAxios';
 import { StudentCreationDTO } from '../data/types';
-import { displayErrorToast } from '../utils/swalToast';
+import { showAxiosErrorToast } from '../utils/notificationToast';
 
 export default function StudentCreate() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function StudentCreate() {
       await axiosPrivate.post(urlStudents, student);
       navigate('/students');
     } catch (error) {
-      displayErrorToast(error);
+      showAxiosErrorToast(error);
     }
   }
   return (

@@ -6,7 +6,7 @@ import Header from '../components/UI/Header';
 import { urlDisciplines, urlSpecialities } from '../endpoints';
 import useAxios from '../hooks/useAxios';
 import { DisciplineDTO, SpecialityCreationDTO } from '../data/types';
-import { displayErrorToast } from '../utils/swalToast';
+import { showAxiosErrorToast } from '../utils/notificationToast';
 
 export default function SpecialityCreate() {
   const [disciplines, setDisciplines] = useState<DisciplineDTO[]>([]);
@@ -28,7 +28,7 @@ export default function SpecialityCreate() {
       await axiosPrivate.post(urlSpecialities, speciality);
       navigate('/specialities');
     } catch (error) {
-      displayErrorToast(error);
+      showAxiosErrorToast(error);
     }
   }
   return (

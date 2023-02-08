@@ -5,7 +5,6 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { customAlert } from '../../utils/utils';
 
 export default function CollapseListItem(props: CollapleListItemProps) {
   const {
@@ -63,9 +62,7 @@ export default function CollapseListItem(props: CollapleListItemProps) {
           <IconButton color="success" onClick={() => navigate(`edit/${id}`)}>
             <EditIcon />
           </IconButton>
-          <IconButton
-            color="error"
-            onClick={() => customAlert(`Удалить ${displayName}?`, 'Удалить', () => onDelete(id))}>
+          <IconButton color="error" onClick={() => onDelete(id)}>
             <DeleteForeverSharpIcon />
           </IconButton>
         </div>

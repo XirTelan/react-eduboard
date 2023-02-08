@@ -1,8 +1,10 @@
 import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import useToggle from '../hooks/useToggle';
 import Sidebar from './Sidebar';
+
 import BgStyle from './UI/BgStyle';
 export default function Layout() {
   const { isOpen, toggle } = useToggle();
@@ -31,6 +33,7 @@ export default function Layout() {
             </div>
           </BgStyle>
         </Box>
+        <ToastContainer />
       </Box>
     </>
   );

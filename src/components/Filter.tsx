@@ -21,8 +21,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { months } from '../data/data';
 import { urlGroups } from '../endpoints';
 import { formatYearValue } from '../utils/utils';
-import { displayErrorToast } from '../utils/swalToast';
 import useAxios from '../hooks/useAxios';
+import { showAxiosErrorToast } from '../utils/notificationToast';
 
 export default function Filter(props: FilterProps) {
   const [groupsList, setGroupsList] = useState<{ id: number; name: string }[]>([]);
@@ -34,7 +34,7 @@ export default function Filter(props: FilterProps) {
         const response = await axiosPrivate.get(`${urlGroups}/getindexlist`);
         setGroupsList(response.data);
       } catch (error) {
-        displayErrorToast(error);
+        showAxiosErrorToast(error);
       }
     };
     fetchData();

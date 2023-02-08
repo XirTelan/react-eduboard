@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import { urlAccounts } from '../endpoints';
 import useAxios from '../hooks/useAxios';
+import { showErrorToast, showSuccessToast } from '../utils/notificationToast';
 import { authenticationResponse, userRegisterCredentials } from './auth.model';
 import AuthForm from './AuthForm';
 
@@ -11,18 +11,12 @@ export default function Register() {
   const axiosPrivate = useAxios();
   async function register(credentials: userRegisterCredentials) {
     try {
-      await axiosPrivate.post<authenticationResponse>(
-        `${urlAccounts}/register`,
-        credentials
-      );
-      Swal.fire('Success', 'Пользователь успешно создан');
+      await axiosPrivate.post<authenticationResponse>(`${urlAccounts}/register`, credentials);
+      showSuccessToast('Пользователь успешно создан');
       navigate('/users');
     } catch (error) {
       const axiosError = error as AxiosError;
-      Swal.fire(
-        `Ошибка ${axiosError.code}`,
-        `Не удалось создать пользователя ${axiosError.message}`
-      );
+      showErrorToast(axiosError.message);
     }
   }
   return (

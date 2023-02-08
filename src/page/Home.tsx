@@ -49,8 +49,8 @@ export default function Home() {
                   )}
                 </div>
 
-                <div className="d-flex h-100 align-items-center justify-content-center">
-                  <div className="d-flex   h-fit align-items-center ">
+                <div className="d-flex align-items-center justify-content-center">
+                  <div className="d-flex mobile-column h-fit align-items-center ">
                     <div className="d-flex gap-1  flex-column me-1 ">
                       <div className="d-flex gap-1">
                         <FlatButton {...mainLinks[0]} isWide={true} size={flatButtonWidth} />

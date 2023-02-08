@@ -14,13 +14,12 @@ import IndexEntity from '../components/Entities/IndexEntity';
 import Header from '../components/UI/Header';
 import { urlStudents } from '../endpoints';
 import { StudentDTO } from '../data/types';
-import { customAlert } from '../utils/utils';
 import { convertJsonToStudentDTO, excelImport } from '../utils/handleExcel';
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
-import { displayErrorToast, swalLoading, Toast } from '../utils/swalToast';
 import useAxios from '../hooks/useAxios';
+import { showSuccessToast } from '../utils/notificationToast';
 
 export default function StudentsList() {
   const navigate = useNavigate();
@@ -28,13 +27,12 @@ export default function StudentsList() {
 
   async function postStudents(file: File) {
     try {
-      swalLoading();
       const result = await excelImport(file, 'students');
       const students = convertJsonToStudentDTO(result);
       await axiosPrivate.post(`${urlStudents}/excel`, students);
-      await Toast.fire('Успешно', `Добавлено ${students.length - 1} студентов`, 'success'); //TODO
+      showSuccessToast(`Добавлено ${students.length} студентов`);
     } catch (error) {
-      displayErrorToast(error);
+      console.log(error);
     }
   }
   return (
@@ -94,13 +92,7 @@ export default function StudentsList() {
                               onClick={() => navigate(`edit/${student.id}`)}>
                               <EditIcon />
                             </IconButton>
-                            <IconButton
-                              color="error"
-                              onClick={() =>
-                                customAlert(`Удалить ${student.firstName}?`, 'Удалить', () =>
-                                  deleteEntity(student.id)
-                                )
-                              }>
+                            <IconButton color="error" onClick={() => deleteEntity(student.id)}>
                               <DeleteForeverSharpIcon />
                             </IconButton>
                           </div>

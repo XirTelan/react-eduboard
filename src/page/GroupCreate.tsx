@@ -5,7 +5,7 @@ import Header from '../components/UI/Header';
 import { urlGroups } from '../endpoints';
 import useAxios from '../hooks/useAxios';
 import { GroupCreationDTO } from '../data/types';
-import { displayErrorToast } from '../utils/swalToast';
+import { showAxiosErrorToast } from '../utils/notificationToast';
 
 export default function GroupCreate() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function GroupCreate() {
       await axiosPrivate.post(urlGroups, group);
       navigate('/groups');
     } catch (error) {
-      displayErrorToast(error);
+      showAxiosErrorToast(error);
     }
   }
   return (

@@ -10,37 +10,40 @@ import {
   TableHead,
   TableRow
 } from '@mui/material';
-import Swal from 'sweetalert2';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import EditIcon from '@mui/icons-material/Edit';
 import useAxios from '../hooks/useAxios';
 import IndexEntity from '../components/Entities/IndexEntity';
 import Header from '../components/UI/Header';
 import { urlAccounts } from '../endpoints';
-import { displayErrorToast } from '../utils/swalToast';
 import { userDTO, userRoleDTO } from './auth.model';
-import { customAlert } from '../utils/utils';
+import { showErrorToast, showSuccessToast } from '../utils/notificationToast';
+import useToggle from '../hooks/useToggle';
+import { AxiosError } from 'axios';
 
 export default function UserList() {
   const navigate = useNavigate();
   const axiosPrivate = useAxios();
+  const { isOpen, toggle } = useToggle();
 
   async function changeRole(userRole: userRoleDTO) {
     if (userRole.role !== '')
       try {
         const response = await axiosPrivate.post(`${urlAccounts}/role`, userRole);
-        Swal.fire(`${response.data}`);
+        showSuccessToast(`${response.data}`);
       } catch (error) {
-        displayErrorToast(error);
+        const axiosError = error as AxiosError;
+        showErrorToast(axiosError.message);
       }
   }
 
   async function deleteUser(id: string) {
     try {
       const response = await axiosPrivate.delete(`${urlAccounts}/${id}`);
-      Swal.fire(`${response.data}`);
+      showSuccessToast(`${response.data}`);
     } catch (error) {
-      displayErrorToast(error);
+      const axiosError = error as AxiosError;
+      showErrorToast(axiosError.message);
     }
   }
   return (
@@ -124,13 +127,7 @@ export default function UserList() {
                             <IconButton color="success" onClick={() => navigate(`edit/${user.id}`)}>
                               <EditIcon />
                             </IconButton>
-                            <IconButton
-                              color="error"
-                              onClick={() =>
-                                customAlert(`Удалить ${user.fio}?`, 'Удалить', () =>
-                                  deleteUser(user.id)
-                                )
-                              }>
+                            <IconButton color="error" onClick={() => deleteUser(user.id)}>
                               <DeleteForeverSharpIcon />
                             </IconButton>
                           </div>

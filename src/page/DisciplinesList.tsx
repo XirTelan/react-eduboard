@@ -17,13 +17,12 @@ import IndexEntity from '../components/Entities/IndexEntity';
 import { urlDisciplines } from '../endpoints';
 import { DisciplineCreationDTO, DisciplineDTO } from '../data/types';
 import { useNavigate } from 'react-router-dom';
-import { displayErrorToast, displaySuccessToast } from '../utils/swalToast';
 import { useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
-import { customAlert } from '../utils/utils';
 import useAxios from '../hooks/useAxios';
+import { showAxiosErrorToast, showSuccessToast } from '../utils/notificationToast';
 
 export default function DiscplinesList() {
   const [update, setUpdate] = useState(false);
@@ -38,9 +37,9 @@ export default function DiscplinesList() {
     setUpdate(true);
     try {
       await axiosPrivate.post(`${urlDisciplines}`, discipline);
-      displaySuccessToast();
+      showSuccessToast('Успех');
     } catch (error) {
-      displayErrorToast(error);
+      showAxiosErrorToast(error);
     } finally {
       setUpdate(false);
     }
@@ -114,13 +113,7 @@ export default function DiscplinesList() {
                                 onClick={() => navigate(`edit/${discipline.id}`)}>
                                 <EditIcon />
                               </IconButton>
-                              <IconButton
-                                color="error"
-                                onClick={() =>
-                                  customAlert(`Удалить ${discipline.name}?`, 'Удалить', () =>
-                                    deleteEntity(discipline.id)
-                                  )
-                                }>
+                              <IconButton color="error" onClick={() => deleteEntity(discipline.id)}>
                                 <DeleteForeverSharpIcon />
                               </IconButton>
                             </div>

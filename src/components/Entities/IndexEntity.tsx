@@ -1,17 +1,10 @@
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  MenuItem,
-  Select,
-  TextField
-} from '@mui/material';
+import { Box, CircularProgress, IconButton, MenuItem, Select, TextField } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import _debounce from 'lodash/debounce';
 import ClearIcon from '@mui/icons-material/Clear';
 import Pagination from '../UI/Pagination';
-import { displayErrorToast, displaySuccessToast } from '../../utils/swalToast';
 import useAxios from '../../hooks/useAxios';
+import { showAxiosErrorToast, showSuccessToast } from '../../utils/notificationToast';
 
 export default function IndexEntity<T>(props: indexEntityProps<T>) {
   const axiosPrivate = useAxios();
@@ -49,10 +42,9 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
     try {
       await axiosPrivate.delete(`${props.urlEntity}/${id}`);
       fetchData({ url: props.urlEntity, params: { page, recordsPerPage } });
-      displaySuccessToast();
+      showSuccessToast('Успех');
     } catch (error) {
-      console.log('error', error);
-      displayErrorToast(error);
+      showAxiosErrorToast(error);
     }
   }
   return (

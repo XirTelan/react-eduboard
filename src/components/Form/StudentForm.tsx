@@ -5,9 +5,9 @@ import { GroupDTO, StudentCreationDTO } from '../../data/types';
 import { Autocomplete, Box, Button, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { urlGroups } from '../../endpoints';
-import { displayErrorToast } from '../../utils/swalToast';
 import useAxios from '../../hooks/useAxios';
 import * as Yup from 'yup';
+import { showAxiosErrorToast } from '../../utils/notificationToast';
 
 export default function StudentForm(props: studentFormProps) {
   const [groups, setGroups] = useState<GroupDTO[]>([]);
@@ -20,7 +20,7 @@ export default function StudentForm(props: studentFormProps) {
         const response = await axiosPrivate.get(`${urlGroups}/getindexlist`);
         setGroups(response.data);
       } catch (error) {
-        displayErrorToast(error);
+        showAxiosErrorToast(error);
       }
     };
     fetchData();
