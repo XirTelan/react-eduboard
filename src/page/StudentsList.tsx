@@ -19,7 +19,7 @@ import { convertJsonToStudentDTO, excelImport } from '../utils/handleExcel';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 import useAxios from '../hooks/useAxios';
-import { showSuccessToast } from '../utils/notificationToast';
+import { showAlertConfirm, showSuccessToast } from '../utils/notificationToast';
 
 export default function StudentsList() {
   const navigate = useNavigate();
@@ -92,7 +92,15 @@ export default function StudentsList() {
                               onClick={() => navigate(`edit/${student.id}`)}>
                               <EditIcon />
                             </IconButton>
-                            <IconButton color="error" onClick={() => deleteEntity(student.id)}>
+                            <IconButton
+                              color="error"
+                              onClick={() =>
+                                showAlertConfirm(
+                                  `Вы уверены что хотите удалить студента ${student.secondName} ${student.firstName}?`,
+                                  student.id,
+                                  deleteEntity
+                                )
+                              }>
                               <DeleteForeverSharpIcon />
                             </IconButton>
                           </div>

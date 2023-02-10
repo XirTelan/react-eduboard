@@ -1,20 +1,22 @@
 import { AxiosError } from 'axios';
-import { toast } from 'react-toastify';
+import { Confirm } from 'notiflix/build/notiflix-confirm-aio';
+import { Report } from 'notiflix/build/notiflix-report-aio';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-export const showToast = (message: string) => toast(message);
 export const showSuccessToast = (message: string) => {
-  toast.success(message, {
-    position: toast.POSITION.TOP_RIGHT
-  });
+  Notify.success(message);
 };
 export const showErrorToast = (message: string) => {
-  toast.error(message, {
-    position: toast.POSITION.TOP_RIGHT
-  });
+  Report.failure('Произошла ошибка', `${message}`, 'ОК');
 };
 export const showAxiosErrorToast = (error: AxiosError | unknown) => {
   const axiosError = error as AxiosError;
-  toast.error(axiosError.message, {
-    position: toast.POSITION.TOP_RIGHT
+  Report.failure('Произошла ошибка', `${axiosError.message}`, 'ОК');
+};
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const showAlertConfirm = (message: string, id: number, onConfirm: (id: number) => void) => {
+  Confirm.show('Вы уверены?', `${message}`, 'Ok', 'Нет', () => {
+    onConfirm(id);
   });
 };

@@ -50,13 +50,13 @@ export default function Home() {
                 </div>
 
                 <div className="d-flex align-items-center justify-content-center">
-                  <div className="d-flex mobile-column h-fit align-items-center ">
-                    <div className="d-flex gap-1  flex-column me-1 ">
-                      <div className="d-flex gap-1">
+                  <div className="d-flex mobile-column h-fit align-items-center gap-1 ">
+                    <div className="d-flex flex-column gap-1">
+                      <div className="d-flex mobile-column gap-1">
                         <FlatButton {...mainLinks[0]} isWide={true} size={flatButtonWidth} />
                         <FlatButton {...mainLinks[1]} isWide={true} size={flatButtonWidth} />
                       </div>
-                      <div className="d-flex gap-1">
+                      <div className="d-flex mobile-column gap-1">
                         <FlatButton {...mainLinks[2]} size={flatButtonWidth} />
                         <FlatButton {...mainLinks[3]} size={flatButtonWidth} />
                         <FlatButton {...mainLinks[4]} size={flatButtonWidth} />
@@ -64,7 +64,7 @@ export default function Home() {
                     </div>
 
                     <div
-                      className="d-flex justify-content-between gap-1 flex-wrap "
+                      className="d-flex justify-content-center gap-1 flex-wrap "
                       style={{ maxWidth: `${flatButtonWidth * 2 + 0.25}rem` }}>
                       {dataLinks.map((link, indx) => (
                         <FlatButton key={indx} {...link} size={flatButtonWidth} />

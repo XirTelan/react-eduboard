@@ -25,7 +25,7 @@ export default function SpecialitiesList() {
                     key={entity.id}
                     customWidth="50%"
                     displayName={entity.name}
-                    onDelete={deleteEntity}
+                    onDelete={(deleteEntity)}
                     items={entity.disciplines}
                   />
                 );
