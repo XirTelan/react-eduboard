@@ -23,6 +23,7 @@ import NotFound from './page/NotFound';
 import Home from './page/Home';
 import { Roles } from './data/enums';
 import UserEdit from './auth/UserEdit';
+import { FileShare } from './page/FileShare';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
               <Route path="/groups" element={<GroupList />} />
               <Route path="/specialities" element={<SpecialitiesList />} />
               <Route path="/students" element={<StudentsList />} />
+              <Route path="/fileshare" element={<FileShare />} />
               <Route element={<Authorized requiredRoles={[Roles.ADMIN]} />}>
                 <Route path="/groups/create" element={<GroupCreate />} />
                 <Route path="/groups/edit/:id" element={<GroupEdit />} />

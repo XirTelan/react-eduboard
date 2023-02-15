@@ -18,6 +18,7 @@ import { DisciplineDTO, InputData } from '../../data/types';
 import formatDataToGridRows, { formatGridRowsToData } from '../../utils/formatDataToGridRows';
 import StatisticTable from '../StatisticTable';
 import useAxios from '../../hooks/useAxios';
+import { utils, write, writeFile, writeXLSX } from 'xlsx';
 
 function CustomToolbar() {
   return (
@@ -128,6 +129,15 @@ export default function BaseControll(props: GenControllProps) {
 
   return (
     <>
+      <Button
+        onClick={() => {
+          const worksheet = utils.json_to_sheet(rows as any);
+          const workbook = utils.book_new();
+          utils.book_append_sheet(workbook, worksheet, 'Dates');
+          writeFile(workbook, 'test.xlsx');
+        }}>
+        sdfsdf
+      </Button>
       <Box className="bg-white p-3  mx-2 rounded">
         <div className="mb-2 d-flex flex-column justify-content-center text-center">
           {!groupId || groupId === 0 ? (
