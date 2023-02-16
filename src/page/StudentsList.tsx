@@ -38,7 +38,7 @@ export default function StudentsList() {
   return (
     <>
       <Header title="Список студентов" buttonLink="create" buttonText="Добавить студента">
-        <DragDropFile handleFiles={postStudents} />
+        <DragDropFile title="Импорт" handleFiles={postStudents} />
       </Header>
 
       <IndexEntity<StudentDTO> urlEntity={urlStudents}>

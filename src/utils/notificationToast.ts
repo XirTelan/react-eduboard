@@ -11,7 +11,7 @@ export const showErrorToast = (message: string) => {
 };
 export const showAxiosErrorToast = (error: AxiosError | unknown) => {
   const axiosError = error as AxiosError;
-  Report.failure('Произошла ошибка', `${axiosError.message}`, 'ОК');
+  Report.failure('Произошла ошибка', `${axiosError.response?.data}`, 'ОК');
 };
 
 // eslint-disable-next-line @typescript-eslint/ban-types

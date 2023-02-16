@@ -76,7 +76,12 @@ export interface StudentExcelCreationDTO {
   middleName: string;
   groupName: string;
 }
-
+export interface DirectoryInfo {
+  id: number;
+  displayName: string;
+  isFolder: boolean;
+  parentFolderId: number;
+}
 export interface UserViewDTO {
   id: string;
   fio: string;

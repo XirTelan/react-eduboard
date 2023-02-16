@@ -36,8 +36,8 @@ export default function DragDropFile(props: dragDropFileProps) {
       onDragEnter={handleDrag}
       onSubmit={(e) => e.preventDefault()}>
       <Button variant="contained" color="success" component="label">
-        <input hidden accept=".xlsx,.xls" multiple type="file" onChange={handleChange} />
-        <FileUploadIcon /> Импорт
+        <input hidden accept=".xlsx,.xls" type="file" onChange={handleChange} />
+        <FileUploadIcon /> {props.title}
       </Button>
 
       {dragActive && (
@@ -61,5 +61,6 @@ export default function DragDropFile(props: dragDropFileProps) {
 }
 
 type dragDropFileProps = {
+  title: string;
   handleFiles: (e: File) => Promise<any>;
 };
