@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { useState } from 'react';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
+import { FiUpload } from 'react-icons/fi';
 
 export default function DragDropFile(props: dragDropFileProps) {
   const [dragActive, setDragActive] = useState(false);
@@ -37,7 +37,7 @@ export default function DragDropFile(props: dragDropFileProps) {
       onSubmit={(e) => e.preventDefault()}>
       <Button variant="contained" color="success" component="label">
         <input hidden accept=".xlsx,.xls" type="file" onChange={handleChange} />
-        <FileUploadIcon /> {props.title}
+        <FiUpload /> {props.title}
       </Button>
 
       {dragActive && (

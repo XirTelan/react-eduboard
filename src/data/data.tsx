@@ -1,7 +1,7 @@
 import { LinkInfo } from './types';
 import React from 'react';
 import { FaUserGraduate, FaUsers } from 'react-icons/fa';
-import { TfiLayoutListThumbAlt, TfiList } from 'react-icons/tfi';
+import { TfiLayoutListThumbAlt, TfiList, TfiFiles } from 'react-icons/tfi';
 import {
   BsCalendar3,
   BsCalendarRange,
@@ -47,6 +47,11 @@ export const mainLinks: LinkInfo[] = [
     to: '/controll/4',
     title: 'Входной контроль',
     icon: <BsCalendarCheck />
+  },
+  {
+    to: '/fileshare/',
+    title: 'Файлы',
+    icon: <TfiFiles />
   }
 ];
 export const dataLinks: LinkInfo[] = [

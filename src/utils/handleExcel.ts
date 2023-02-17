@@ -1,4 +1,4 @@
-import { read, utils } from 'xlsx';
+import { read, utils, writeFile } from 'xlsx';
 import { StudentExcelCreationDTO } from '../data/types';
 
 export function excelImport(file: File, type: 'any' | 'students' = 'any'): Promise<any> {
@@ -22,8 +22,29 @@ export function excelImport(file: File, type: 'any' | 'students' = 'any'): Promi
   });
 }
 
+export const getDataTemplate = (rows: any) => {
+  const htmlTitles = [...document.getElementsByClassName('MuiDataGrid-columnHeaderTitle')];
+  const titles = htmlTitles.map((elem) => elem.innerHTML).filter((elem) => elem !== '№');
+  const studentsList = rows.map((row: any) => row.title);
+  const worksheet = utils.aoa_to_sheet([titles]);
 
-
+  for (let i = 0; i < studentsList.length; i++) {
+    const cellRef = 'A' + (i + 2);
+    const cellValue = studentsList[i];
+    worksheet[cellRef] = { t: 's', v: cellValue };
+  }
+  if (!worksheet['!cols']) worksheet['!cols'] = [];
+  worksheet['!cols'][0] = { wch: 30 };
+  const range = worksheet['!ref'];
+  const rangeObj = utils.decode_range(range as string);
+  rangeObj.e.r = studentsList.length + 1;
+  rangeObj.e.c = titles.length;
+  const newRange = utils.encode_range(rangeObj);
+  worksheet['!ref'] = newRange;
+  const workbook = utils.book_new();
+  utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+  writeFile(workbook, 'output.xlsx');
+};
 
 export function convertJsonToStudentDTO(value: any): StudentExcelCreationDTO[] {
   const jsonObj = JSON.parse(value);

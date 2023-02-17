@@ -18,7 +18,9 @@ import { DisciplineDTO, InputData } from '../../data/types';
 import formatDataToGridRows, { formatGridRowsToData } from '../../utils/formatDataToGridRows';
 import StatisticTable from '../StatisticTable';
 import useAxios from '../../hooks/useAxios';
-import { utils, write, writeFile, writeXLSX } from 'xlsx';
+import { FiDownload } from 'react-icons/fi';
+import DragDropFile from '../DragDropFile';
+import { excelImport, getDataTemplate } from '../../utils/handleExcel';
 
 function CustomToolbar() {
   return (
@@ -110,6 +112,14 @@ export default function BaseControll(props: GenControllProps) {
       console.log(error);
     }
   }
+  async function importFromExcel(file: File) {
+    try {
+      const result = await excelImport(file);
+      console.log('result', result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function saveGridDataChanges() {
     const result = formatGridRowsToData(typeId, month, year, rows);
@@ -129,15 +139,6 @@ export default function BaseControll(props: GenControllProps) {
 
   return (
     <>
-      <Button
-        onClick={() => {
-          const worksheet = utils.json_to_sheet(rows as any);
-          const workbook = utils.book_new();
-          utils.book_append_sheet(workbook, worksheet, 'Dates');
-          writeFile(workbook, 'test.xlsx');
-        }}>
-        sdfsdf
-      </Button>
       <Box className="bg-white p-3  mx-2 rounded">
         <div className="mb-2 d-flex flex-column justify-content-center text-center">
           {!groupId || groupId === 0 ? (
@@ -149,7 +150,7 @@ export default function BaseControll(props: GenControllProps) {
                   ? 'position-absolute top-0 start-0 z-10 end-0 bottom-0 bg-white p-3 overflow-auto ms-1'
                   : ''
               }`}>
-              <div className="d-flex justify-content-between mb-3">
+              <div className="d-flex align-items-center gap-1 mb-3">
                 <div>
                   <Switch defaultChecked onChange={() => setIsMainView((prevVal) => !prevVal)} />
                   <IconButton
@@ -167,6 +168,16 @@ export default function BaseControll(props: GenControllProps) {
                     saveGridDataChanges();
                   }}>
                   Сохранить
+                </Button>
+                <DragDropFile title="Импорт " handleFiles={importFromExcel} />
+                <Button
+                  color="success"
+                  variant="contained"
+                  onClick={() => {
+                    getDataTemplate(rows);
+                  }}>
+                  <FiDownload />
+                  Шаблон
                 </Button>
               </div>
               <div id="mainDataGrid">

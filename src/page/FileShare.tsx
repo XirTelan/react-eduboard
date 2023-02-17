@@ -1,9 +1,7 @@
-import { Box, Button, Modal } from '@mui/material';
-import { AxiosError } from 'axios';
+import { Box, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { axiosPrivate } from '../api/axios';
 import DragDropFile from '../components/DragDropFile';
-import { UploadFile } from '../components/UI/FileShare/UploadFile';
 import Header from '../components/UI/Header';
 import { Loading } from 'notiflix';
 import { DirectoryInfo } from '../data/types';
@@ -16,7 +14,6 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 export const FileShare = () => {
   const [dir, setDir] = useState<DirectoryInfo[]>([]);
   const [addField, setField] = useState(false);
-  const [files, setFiles] = useState<string[]>([]);
   const [selectedFolder, setSelectedFolder] = useState<DirectoryInfo>();
   const [breadcrumb, setBreadcrumb] = useState<DirectoryInfo[]>([]);
 
@@ -93,13 +90,11 @@ export const FileShare = () => {
       formData.append('isFolder', 'true');
       if (selectedFolder !== undefined)
         formData.append('parentFolderId', selectedFolder.id.toString());
-      console.log('FormData', formData);
       const response = await axiosPrivate.post(`${urlFileshare}`, formData);
 
       showSuccessToast(response.data);
     } catch (error) {
       showAxiosErrorToast(error);
-      console.log(error);
     } finally {
       Loading.remove();
     }
