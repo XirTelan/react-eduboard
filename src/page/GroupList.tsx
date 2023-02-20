@@ -5,6 +5,7 @@ import Header from '../components/UI/Header';
 import { GroupDTO } from '../data/types';
 import { urlGroups } from '../endpoints';
 import IndexEntity from '../components/Entities/IndexEntity';
+import { countCourse } from '../utils/utils';
 
 export default function GroupList() {
   return (
@@ -29,7 +30,9 @@ export default function GroupList() {
                       key={group.id}
                       displayName={group.name}
                       onDelete={deleteEntity}
-                      additionalInfo={group.speciality && group.speciality.name}
+                      additionalInfo={`${countCourse(group.year)} курс ${
+                        group.speciality ? group.speciality.name : ''
+                      } `}
                       items={group.students.map((student) => {
                         return {
                           id: student.id,

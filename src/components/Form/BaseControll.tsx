@@ -121,8 +121,8 @@ export default function BaseControll(props: GenControllProps) {
     }
   }
 
-  async function saveGridDataChanges() {
-    const result = formatGridRowsToData(typeId, month, year, rows);
+  async function saveGridDataChanges(newRow: GridRowModel) {
+    const result = formatGridRowsToData(typeId, month, year, newRow);
     if (result === undefined || result.length === 0) return;
     const formatData = result;
     try {
@@ -134,6 +134,7 @@ export default function BaseControll(props: GenControllProps) {
   }
   const processRowUpdate = (newRow: GridRowModel) => {
     setRows(rows.map((row) => (row.id === newRow.id ? newRow : row)));
+    saveGridDataChanges(newRow);
     return newRow;
   };
 
@@ -161,14 +162,7 @@ export default function BaseControll(props: GenControllProps) {
                     {isFullView ? <FullscreenExitIcon /> : <FullscreenIcon />}
                   </IconButton>
                 </div>
-                <Button
-                  color="success"
-                  variant="contained"
-                  onClick={() => {
-                    saveGridDataChanges();
-                  }}>
-                  Сохранить
-                </Button>
+
                 <DragDropFile title="Импорт " handleFiles={importFromExcel} />
                 <Button
                   color="success"

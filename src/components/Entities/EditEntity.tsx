@@ -10,7 +10,6 @@ export default function EditEntity<TCreation, TRead>(props: editEntityProps<TCre
   const navigate = useNavigate();
   const [entity, setEntity] = useState<TCreation>();
   const axiosPrivate = useAxios();
-
   const { id } = useParams();
 
   async function edit(entityToEdit: TCreation) {

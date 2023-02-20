@@ -1,6 +1,5 @@
 import { Box, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { axiosPrivate } from '../api/axios';
 import DragDropFile from '../components/DragDropFile';
 import Header from '../components/UI/Header';
 import { Loading } from 'notiflix';
@@ -10,14 +9,39 @@ import { showAxiosErrorToast, showSuccessToast } from '../utils/notificationToas
 import FolderIcon from '@mui/icons-material/Folder';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import useAxios from '../hooks/useAxios';
+import { DirectoryObj } from '../components/UI/FileShare/DirectoryObj';
+import { Breadcrumb } from '../components/UI/FileShare/Breadcrumb';
 
 export const FileShare = () => {
   const [dir, setDir] = useState<DirectoryInfo[]>([]);
   const [addField, setField] = useState(false);
   const [selectedFolder, setSelectedFolder] = useState<DirectoryInfo>();
   const [breadcrumb, setBreadcrumb] = useState<DirectoryInfo[]>([]);
+  const axiosPrivate = useAxios();
 
-  const loadData = async (id: number) => {
+  useEffect(() => {
+    console.log('Trigger');
+    console.log('Selected folder', selectedFolder);
+    if (selectedFolder == null || selectedFolder == undefined) {
+      loadRootDirectory();
+      return;
+    }
+    loadDirectoryTree(selectedFolder.id);
+    if (breadcrumb.includes(selectedFolder)) {
+      const indx = breadcrumb.indexOf(selectedFolder);
+      setBreadcrumb((prevVal) => prevVal.filter((dir) => prevVal.indexOf(dir) <= indx));
+    } else {
+      setBreadcrumb((prevVal) => [...prevVal, selectedFolder]);
+    }
+  }, [selectedFolder]);
+
+  const loadRootDirectory = async () => {
+    loadDirectoryTree(0);
+    setBreadcrumb([]);
+  };
+
+  const loadDirectoryTree = async (id: number) => {
     try {
       const response =
         id === 0
@@ -30,10 +54,27 @@ export const FileShare = () => {
     }
   };
 
-  const handleClick = (dir: DirectoryInfo) => {
-    if (!dir.isFolder) return;
+  const downloadFile = async (dir: DirectoryInfo) => {
+    try {
+      const response = await axiosPrivate.get(`${urlFileshare}/download/${dir.id}`, {
+        responseType: 'blob'
+      });
+      console.log('dir', dir);
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(response.data);
+      console.log(url);
+      link.href = url;
+      link.setAttribute('download', dir.systemName);
+      link.click();
+    } catch (error) {
+      console.log(error);
+      showAxiosErrorToast(error);
+    }
+  };
 
-    setSelectedFolder(dir);
+  const handleClick = (dir: DirectoryInfo) => {
+    if (dir.isFolder) setSelectedFolder(dir);
+    else downloadFile(dir);
   };
 
   const backToParentFolder = (folder: DirectoryInfo) => {
@@ -60,26 +101,17 @@ export const FileShare = () => {
       showAxiosErrorToast(error);
     } finally {
       Loading.remove();
-      loadData(selectedFolder === undefined ? 0 : selectedFolder.id);
+      loadDirectoryTree(selectedFolder === undefined ? 0 : selectedFolder.id);
     }
   };
-
-  useEffect(() => {
-    console.log('Trigger');
-    console.log('Selected folder', selectedFolder);
-    if (selectedFolder == null || selectedFolder == undefined) {
-      loadData(0);
-      setBreadcrumb([]);
-      return;
+  const deleteDirectoryObjInfo = async (id: number) => {
+    try {
+      await axiosPrivate.delete(`${urlFileshare}/${id}`);
+      loadRootDirectory();
+    } catch (error) {
+      showAxiosErrorToast(error);
     }
-    loadData(selectedFolder.id);
-    if (breadcrumb.includes(selectedFolder)) {
-      const indx = breadcrumb.indexOf(selectedFolder);
-      setBreadcrumb((prevVal) => prevVal.filter((dir) => prevVal.indexOf(dir) <= indx));
-    } else {
-      setBreadcrumb((prevVal) => [...prevVal, selectedFolder]);
-    }
-  }, [selectedFolder]);
+  };
 
   const createFolder = async (name: string) => {
     Loading.standard();
@@ -98,25 +130,27 @@ export const FileShare = () => {
     } finally {
       Loading.remove();
     }
-    loadData(selectedFolder ? selectedFolder.id : 0);
+    loadDirectoryTree(selectedFolder ? selectedFolder.id : 0);
     Loading.remove();
   };
 
-  const listDir = () => (
+  const showDirectoryTree = () => (
     <>
       {dir.map((dir, indx) => (
-        <button key={indx} onClick={() => handleClick(dir)} className="bg-white p-3 rounded">
-          <div className="d-flex  align-items-center">
-            <div className="me-1">{dir.isFolder ? <FolderIcon /> : <DescriptionIcon />}</div>
-            <span>{dir.displayName}</span>
-          </div>
-        </button>
+        <DirectoryObj
+          key={indx}
+          id={dir.id}
+          displayName={dir.displayName}
+          isFolder={dir.isFolder}
+          onClick={() => handleClick(dir)}
+          handleDelete={deleteDirectoryObjInfo}
+        />
       ))}
     </>
   );
   return (
     <div>
-      <Header title={'FileShare'} />
+      <Header title={'Файлы'} />
       <Box className="bg-white p-3  mx-2 mb-1 rounded">
         <>
           <div className="d-flex gap-1 mb-3">
@@ -140,13 +174,9 @@ export const FileShare = () => {
               </button>
               <div className="mx-1">/</div>
             </div>
-
             {breadcrumb.length > 0 &&
               breadcrumb.map((dir, indx) => (
-                <div key={indx} className="d-flex align-items-center">
-                  <button onClick={() => handleClick(dir)}>{dir.displayName}</button>
-                  <div className="mx-1">/</div>
-                </div>
+                <Breadcrumb key={indx} directoryObj={dir} clickHandler={() => handleClick(dir)} />
               ))}
           </div>
           <div className="d-flex gap-1 flex-column bg-light mt-1 p-4">
@@ -174,7 +204,11 @@ export const FileShare = () => {
                 />
               </div>
             )}
-            {dir.length > 0 ? listDir() : <div>Empty</div>}
+            {dir.length > 0 ? (
+              showDirectoryTree()
+            ) : (
+              <div className="text-center text-muted my-3">Данная папка пуста</div>
+            )}
           </div>
         </>
       </Box>

@@ -31,6 +31,7 @@ export interface DisciplineCreationDTO {
 export interface GroupDTO {
   id: number;
   name: string;
+  year: string;
   speciality: SpecialityDTO;
   person: UserViewDTO;
   students: StudentDTO[];
@@ -79,6 +80,7 @@ export interface StudentExcelCreationDTO {
 export interface DirectoryInfo {
   id: number;
   displayName: string;
+  systemName: string;
   isFolder: boolean;
   parentFolderId: number;
 }

@@ -68,21 +68,23 @@ export default function CollapseListItem(props: CollapleListItemProps) {
         </div>
       </div>
       <Collapse in={isChecked}>
-        <div className="my-2">{children}</div>
+        <div className="bg-light p-3">
+          <div className="my-2 ">{children}</div>
 
-        {items && items.length > 0 ? (
-          <div className="d-flex ">
-            <ul className="list-group d-flex m-3">
-              {items.map((elem, indx) => (
-                <li className="list-group-item d-inline" key={elem.id}>
-                  {indx + 1}-{elem.name}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : (
-          <p>Список пуст</p>
-        )}
+          {items && items.length > 0 ? (
+            <div className="d-flex ">
+              <ul className="list-group d-flex m-3">
+                {items.map((elem, indx) => (
+                  <li className="list-group-item d-inline" key={elem.id}>
+                    {indx + 1}-{elem.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p>Список пуст</p>
+          )}
+        </div>
       </Collapse>
     </li>
   );

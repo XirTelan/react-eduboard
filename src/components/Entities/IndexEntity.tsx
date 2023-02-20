@@ -19,7 +19,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
   useEffect(() => {
     if (query == null || query.trim() === '')
       fetchData({ url: props.urlEntity, params: { page, recordsPerPage } });
-    else debounceFn({ url: `${props.urlEntity}/filter`, params: { page, recordsPerPage, query } });
+    else debounceFn({ url: `${props.urlEntity}/filter`, params: { recordsPerPage, query } });
   }, [page, recordsPerPage, query]);
 
   async function fetchData({ url, params }: fetchDataProps) {
