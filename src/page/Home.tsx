@@ -49,17 +49,13 @@ export default function Home() {
                   )}
                 </div>
 
-                <div className="d-flex ">
-                  <div className="d-flex gap-1 w-fit flex-wrap">
-                    {mainLinks.map((link, indx) => (
-                      <FlatButton {...link} size={flatButtonWidth} key={indx} />
-                    ))}
-                  </div>
-                  <div className="d-flex gap-1 w-fit flex-wrap">
-                    {dataLinks.map((link, indx) => (
-                      <FlatButton key={indx} {...link} size={flatButtonWidth} />
-                    ))}
-                  </div>
+                <div className="d-flex gap-1 mobile-column flex-wrap justify-content-center">
+                  {mainLinks.map((link, indx) => (
+                    <FlatButton {...link} size={flatButtonWidth} key={indx} />
+                  ))}
+                  {dataLinks.map((link, indx) => (
+                    <FlatButton key={indx} {...link} size={flatButtonWidth} />
+                  ))}
                 </div>
               </div>
             </>

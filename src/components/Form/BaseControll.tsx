@@ -155,7 +155,7 @@ export default function BaseControll(props: GenControllProps) {
                 <div>
                   <Switch defaultChecked onChange={() => setIsMainView((prevVal) => !prevVal)} />
                   <IconButton
-                    aria-label="toggle password visibility"
+                    aria-label="toggle full view"
                     onClick={() => setIsFullView((prev) => !prev)}
                     onMouseDown={(e) => e.preventDefault()}
                     edge="end">

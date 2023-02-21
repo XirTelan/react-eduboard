@@ -27,7 +27,7 @@ export default function Layout() {
             flex: '1 1 0'
           }}>
           <BgStyle>
-            <div className="d-flex flex-grow-1 overflow-auto flex-column">
+            <div id="layout" className=" d-flex flex-grow-1 overflow-auto flex-column">
               <Outlet />
             </div>
           </BgStyle>

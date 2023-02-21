@@ -1,4 +1,4 @@
-import { GridRowModel, GridValidRowModel } from '@mui/x-data-grid';
+import { GridRowModel } from '@mui/x-data-grid';
 import { ControllRecordCreationDTO, InputData } from '../data/types';
 
 export default function formatDataToGridRows(data: InputData[]) {

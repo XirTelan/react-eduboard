@@ -7,11 +7,16 @@ export default function FlatButton(props: flatButtonProps) {
 
   const style = isWide
     ? { height: `${size}rem`, flexBasis: '50%' }
-    : { width: `${size}rem`, height: `${size}rem` };
+    : { width: `${size}rem`, height: `${size}rem`, flexShrink: '1' };
 
   return (
-    <button className=" flat-button   rounded" onClick={() => navigate(to)} style={style}>
-      <div className="d-flex flex-column  h-100 align-items-center justify-content-center">
+    <button
+      className=" flat-button   rounded position-relative"
+      onClick={() => navigate(to)}
+      style={style}>
+      <div
+        className="d-flex flex-column  position-absolute  align-items-center justify-content-center"
+        style={{ inset: 0 }}>
         <div className="d-flex p-4 " style={{ fontSize: `${size / 6}rem` }}>
           {icon}
         </div>

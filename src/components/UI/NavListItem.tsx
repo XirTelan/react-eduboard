@@ -17,7 +17,7 @@ export default function NavListItem({ to, title, icon, isOpen, isAnimated }: Nav
           isOpen ? 'ps-1 align-middle' : 'align-middle d-flex justify-content-center'
         }`}>
         {icon}
-        {isOpen && !isAnimated && <span className="px-1 d-none d-sm-inline">{title}</span>}
+        {isOpen && !isAnimated && <span className="px-1 ">{title}</span>}
       </NavLink>
     </li>
   );

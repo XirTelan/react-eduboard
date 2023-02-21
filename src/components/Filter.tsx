@@ -66,8 +66,8 @@ export default function Filter(props: FilterProps) {
                 <CircularProgress />
               ) : (
                 <div className="d-flex align-items-center">
-                  <div className="d-flex  gap-3 align-items-center mobile-column justify-content-center">
-                    <div className="w-50">
+                  <div className="d-flex flex-wrap gap-3 align-items-center mobile-column justify-content-center">
+                    <div>
                       <FormControl fullWidth sx={{ minWidth: 220 }}>
                         <Autocomplete
                           fullWidth
