@@ -1,5 +1,5 @@
 import { read, utils, writeFile } from 'xlsx';
-import { StudentExcelCreationDTO } from '../data/types';
+import { ControlRecord, GradeRecord, StudentExcelCreationDTO } from '../data/types';
 
 export function excelImport(file: File, type: 'any' | 'students' = 'any'): Promise<any> {
   return new Promise((resolve) => {
@@ -21,6 +21,28 @@ export function excelImport(file: File, type: 'any' | 'students' = 'any'): Promi
     };
   });
 }
+export const convertControllRecordXlsxToData = (data: { [k: string]: any }[]) => {
+  const results: ControlRecord[] = [];
+  data.forEach((elem) => {
+    const fullName = elem['ФИО'];
+    console.log('fullname', fullName);
+    const list = Object.entries(elem)
+      .filter(([key, value]) => `${key}` !== 'ФИО')
+      .map(([key, value]) => {
+        const controlRecordExcel: GradeRecord = {
+          disciplineName: key,
+          grade: value
+        };
+        return controlRecordExcel;
+      });
+    const record: ControlRecord = {
+      fullName: fullName,
+      records: list
+    };
+    results.push(record);
+  });
+  return results;
+};
 
 export const getDataTemplate = (rows: any) => {
   const htmlTitles = [...document.getElementsByClassName('MuiDataGrid-columnHeaderTitle')];

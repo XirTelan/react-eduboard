@@ -12,7 +12,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { formatYearValue } from '../../utils/utils';
 import useAxios from '../../hooks/useAxios';
 
-export default function GroupForm(props: groupFormProps) {
+export default function GroupForm(props: GroupFormProps) {
   const axiosPrivate = useAxios();
   const [specialityOptions, setSpecialityOptions] = useState<SpecialityDTO[]>([]);
   const [selectedUser, setSelectedUser] = useState<UserViewDTO | null>(() => {
@@ -144,7 +144,7 @@ export default function GroupForm(props: groupFormProps) {
   );
 }
 
-interface groupFormProps {
+interface GroupFormProps {
   model: GroupCreationDTO;
   selectedSpeciality?: string;
   onSubmit(values: GroupCreationDTO, actions: FormikHelpers<GroupCreationDTO>): void;

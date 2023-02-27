@@ -14,13 +14,17 @@ import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import { Box, Button, CircularProgress, IconButton, Switch } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { urlControll, urlDisciplines } from '../../endpoints';
-import { DisciplineDTO, InputData } from '../../data/types';
+import { DisciplineDTO, ControllRecordImport, InputData } from '../../data/types';
 import formatDataToGridRows, { formatGridRowsToData } from '../../utils/formatDataToGridRows';
 import StatisticTable from '../StatisticTable';
 import useAxios from '../../hooks/useAxios';
 import { FiDownload } from 'react-icons/fi';
 import DragDropFile from '../DragDropFile';
-import { excelImport, getDataTemplate } from '../../utils/handleExcel';
+import {
+  convertControllRecordXlsxToData,
+  excelImport,
+  getDataTemplate
+} from '../../utils/handleExcel';
 
 function CustomToolbar() {
   return (
@@ -115,7 +119,15 @@ export default function BaseControll(props: GenControllProps) {
   async function importFromExcel(file: File) {
     try {
       const result = await excelImport(file);
-      console.log('result', result);
+      const records = convertControllRecordXlsxToData(JSON.parse(result));
+      console.log('result', records);
+      const importData: ControllRecordImport = {
+        ControllTypeId: typeId,
+        StudentRecords: records,
+        Month: month,
+        Year: year
+      };
+      const response = await axiosPrivate.post(`${urlControll}/import`, importData);
     } catch (error) {
       console.log(error);
     }

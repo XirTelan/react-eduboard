@@ -25,7 +25,7 @@ export const months = [
 export const mainLinks: LinkInfo[] = [
   {
     to: '/attendance',
-    title: 'Посещяемость',
+    title: 'Посещаемость ',
     icon: <BsCalendar3 />
   },
   {

@@ -93,3 +93,18 @@ export interface InputData {
   title: string;
   dataGridCells: { id: number; value: string }[];
 }
+
+export type ControlRecord = {
+  fullName: string;
+  records: GradeRecord[];
+};
+export type GradeRecord = {
+  disciplineName: string;
+  grade: string;
+};
+export type ControllRecordImport = {
+  ControllTypeId: number;
+  StudentRecords: ControlRecord[];
+  Month: number;
+  Year: string;
+};
