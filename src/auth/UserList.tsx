@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
+  Button,
   IconButton,
   Paper,
   Table,
@@ -11,6 +12,7 @@ import {
   TableRow
 } from '@mui/material';
 import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
+import { TiDelete } from 'react-icons/ti';
 import EditIcon from '@mui/icons-material/Edit';
 import useAxios from '../hooks/useAxios';
 import IndexEntity from '../components/Entities/IndexEntity';
@@ -18,13 +20,13 @@ import Header from '../components/UI/Header';
 import { urlAccounts } from '../endpoints';
 import { userDTO, userRoleDTO } from './auth.model';
 import { showErrorToast, showSuccessToast } from '../utils/notificationToast';
-import useToggle from '../hooks/useToggle';
 import { AxiosError } from 'axios';
+import { Roles } from '../data/enums';
+import { ContextButton } from '../components/UI/ContextButton';
 
 export default function UserList() {
   const navigate = useNavigate();
   const axiosPrivate = useAxios();
-  const { isOpen, toggle } = useToggle();
 
   async function changeRole(userRole: userRoleDTO) {
     if (userRole.role !== '')
@@ -118,8 +120,37 @@ export default function UserList() {
                                 className="d-flex p-1 align-items-center bg-light
                             rounded">
                                 <div className="mx-3">{role}</div>
+                                {role === Roles.ADMIN && (
+                                  <IconButton
+                                    color="error"
+                                    onClick={() =>
+                                      changeRole({
+                                        userId: user.id,
+                                        role: Roles.ADMIN,
+                                        isDeleteFlag: true
+                                      })
+                                    }>
+                                    <TiDelete />
+                                  </IconButton>
+                                )}
                               </div>
                             ))}
+                            {!user.roles.includes(Roles.ADMIN) && (
+                              <>
+                                <ContextButton>
+                                  <Button
+                                    onClick={() =>
+                                      changeRole({
+                                        userId: user.id,
+                                        role: Roles.ADMIN,
+                                        isDeleteFlag: false
+                                      })
+                                    }>
+                                    Admin
+                                  </Button>
+                                </ContextButton>
+                              </>
+                            )}
                           </div>
                         </TableCell>
                         <TableCell align="left">

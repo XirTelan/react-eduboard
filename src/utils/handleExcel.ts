@@ -27,7 +27,7 @@ export const convertControllRecordXlsxToData = (data: { [k: string]: any }[]) =>
     const fullName = elem['ФИО'];
     console.log('fullname', fullName);
     const list = Object.entries(elem)
-      .filter(([key, value]) => `${key}` !== 'ФИО')
+      .filter(([key]) => `${key}` !== 'ФИО')
       .map(([key, value]) => {
         const controlRecordExcel: GradeRecord = {
           disciplineName: key,

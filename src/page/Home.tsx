@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import BgStyle from '../components/UI/BgStyle';
 import FlatButton from '../components/UI/FlatButton';
 import { dataLinks, mainLinks } from '../data/data';
+import { Roles } from '../data/enums';
 import useAuth from '../hooks/useAuth';
 import useLogout from '../hooks/useLogout';
 import useToggle from '../hooks/useToggle';
@@ -35,7 +36,7 @@ export default function Home() {
                   </div>
                   {isOpen && (
                     <div className="popup d-flex flex-column position-absolute bg-white p-3 fs-6 rounded  ">
-                      {auth.roles.includes('Admin') && (
+                      {auth.roles.includes(Roles.ADMIN) && (
                         <button
                           className="flat-button z-20 p-2 rounded"
                           onClick={() => navigate('/users')}>

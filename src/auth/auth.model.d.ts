@@ -10,6 +10,7 @@ export interface userCredentials {
 export interface userRoleDTO {
   userId: string;
   role: string;
+  isDeleteFlag: boolean = false;
 }
 export interface userDTO {
   id: string;
