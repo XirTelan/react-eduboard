@@ -1,13 +1,15 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Filter from '../components/Filter';
 import BaseControll from '../components/Form/BaseControll';
 import Header from '../components/UI/Header';
 import { urlControllTypes } from '../endpoints';
+import useAxios from '../hooks/useAxios';
 
 export default function Controll() {
   const { id } = useParams();
+  const axiosPrivate = useAxios();
   const navigate = useNavigate();
   const [typeData, setTypeData] = useState<{ id: number; period: string; name: string }>();
 
@@ -25,7 +27,7 @@ export default function Controll() {
     setTypeData(undefined);
     updateParams(0, '', 0);
     try {
-      const response = await axios.get(`${urlControllTypes}/${id}`);
+      const response = await axiosPrivate.get(`${urlControllTypes}/${id}`);
       setTypeData(response.data);
     } catch (error) {
       const axiosError = error as AxiosError;

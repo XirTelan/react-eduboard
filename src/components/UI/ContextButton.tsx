@@ -9,12 +9,17 @@ export const ContextButton = (props: ContextButtonProps) => {
   const { children } = props;
   return (
     <div className="position-relative">
-      <IconButton color="success" onClick={toggle} onBlur={toggle}>
+      <IconButton
+        color="success"
+        onClick={toggle}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget)) toggle();
+        }}>
         <MdAddCircle />
+        {isOpen && (
+          <div className="position-absolute start-100 shadow-sm p-1 rounded top-0">{children}</div>
+        )}
       </IconButton>
-      {isOpen && (
-        <div className="position-absolute start-100 shadow-sm p-1 rounded top-0">{children}</div>
-      )}
     </div>
   );
 };

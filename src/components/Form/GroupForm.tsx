@@ -38,7 +38,7 @@ export default function GroupForm(props: GroupFormProps) {
     }
     async function loadUsers() {
       try {
-        const response = await axiosPrivate.get(`${urlAccounts}/getall`);
+        const response = await axiosPrivate.get(`${urlAccounts}`);
         setUsersOptions(response.data);
       } catch (error) {
         console.log(error);

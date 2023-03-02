@@ -8,7 +8,7 @@ export default function UserEdit() {
   return (
     <EditEntity<userRegisterCredentials, userDTO>
       urlEntity={urlAccounts}
-      urlListPage="/groups"
+      urlListPage="/users"
       entityName="Пользователи">
       {(entity, edit) => (
         <>
