@@ -1,5 +1,13 @@
-# Getting Started with Create React App
-Educational react project 
+# 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[WIP]
+
+Приложение для контроля успеваемости учащихся 
+
+Back-end repo: https://github.com/XirTelan/EduBoardAPI
+
+Built with
+React
+Bootstrap
+MaterialUI
 
